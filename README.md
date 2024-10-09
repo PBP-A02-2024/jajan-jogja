@@ -1,4 +1,6 @@
 # 🍽️🌐 Proyek Tengah Semester A02 : Jajan Jogja 🌐🍽️
+![image](https://github.com/user-attachments/assets/de09764b-1ef5-4555-84be-300f57e64cb8)
+
 
 ## 👥 Anggota Kelompok 👥
 
@@ -79,4 +81,4 @@ Kami akan menggunakan dataset tempat makan dari kaggle sebagai referensi untuk t
 
 ## Link Deployment 🌐
 
-- <a href="">Jajan Jogja</a>
+- <a href="http://farrel-reksa-jajanjogja.pbp.cs.ui.ac.id/">Jajan Jogja</a>
