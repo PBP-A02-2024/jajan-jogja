@@ -49,7 +49,7 @@ Ketika user click salah satu makanan, dia akan dimunculkan dengan sebuah modal y
 Modul ini adalah tampilan ketika user mencari sebuah tempat makan melalui Search Bar. User akan mendapatkan tampilan semua makanan dan tempat makannya yang menyesuaikan dengan query yang diberi.
 
 User akan dapat melakukan filter dengan sebuah menu filter yang ada di samping. User dapat filter untuk mencari hanya tempat makan, makanan atau keduanya. User dapat filter berdasarkan category tempat makan dan
-Search page akan menyimpan search history dari masing masing user dan menampilkannya pada search bar. Nantinya, user
+Search page akan menyimpan search history dari masing masing user dan menampilkannya pada search bar. Nantinya, user dapat menghapus history yang dimiliki melalui search bar yang yang di-focus.
 
 5. **Admin Dashboard 🛠️**
 
@@ -61,7 +61,7 @@ Modul ini adalah tampilan yang spesifik untuk admin. Dia dapat mengakses sebuah 
 
 - Dikerjakan oleh: Vander Gerald Sukandi
 
-User dapat menambahkan review berupa rating 1-5 bintang dan text untuk tiap tempat makan. Reviews ini akan ditampilkan ketika user. Tiap user dapat melihat semua tempat makan yang pernah dia review bersama dengan ratingnya. Dia juga bisa menghapus review yang pernah dia buat. Rating ini akan ditampilkan pada Search Page dan juga ketika membuka page tempat makan.
+User dapat menambahkan *review* berupa *rating* 1-5 bintang dan *text* untuk tiap tempat makan. *Reviews* ini akan ditampilkan ketika *user*. Tiap *user* dapat melihat semua tempat makan yang pernah dia *review* bersama dengan *rating*-nya. Dia juga bisa menghapus *review* yang pernah dia buat. *Rating* ini akan ditampilkan pada *Search Page* dan juga ketika membuka *page* tempat makan.
 
 ## Sumber Dataset 📚
 
@@ -69,7 +69,7 @@ User dapat menambahkan review berupa rating 1-5 bintang dan text untuk tiap temp
 - Tempat Makan : <a href="https://www.kaggle.com/datasets/yudhaislamisulistya/places-to-eat-in-the-jogja-region">Data Wisata Kuliner Kota Yogyakarta</a>
 - Pengolahan Data : <a href="https://docs.google.com/spreadsheets/d/1nmBGsWGykc_NHgWKOtDRBruudQ6bZCeGDsVHLOFWprk/edit?gid=463732332#gid=463732332">Sheets Kelompok A02</a>
 
-Kami akan menggunakan dataset tempat makan dari kaggle sebagai referensi untuk tempat makanan yang ada di Jogja. Sedangkan untuk makanan, kami akan melakukan scraping dari GoFood untuk mendapatkan data mengenai makanan yang ada di tempat makan tersebut.
+Kami akan menggunakan dataset tempat makan dari kaggle sebagai referensi untuk tempat makanan yang ada di Jogja. Sedangkan untuk makanan, kami akan melakukan *crawling* dari GoFood untuk mendapatkan data mengenai makanan yang ada di tempat makan tersebut.
 
 ## Role User 🧑‍🤝‍🧑
 
