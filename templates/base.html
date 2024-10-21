@@ -1,0 +1,34 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jajan Jogja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static "css/globals.css" %}">
+    <link rel="icon" type="image/x-icon" href="{% static "images/favicon.png" %}">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                black: '#0F0401',
+                orange: '#E43D12',
+                darkOrange: '#7C1D05',
+                darkPink : '#D6536D',
+                white: '#EBE9E1',
+                darkYellow: '#C98809',
+                yellow : '#EFB11D',
+                lightPink : '#FFA2B6',
+                grey: '#7A7A7A'
+              }
+            }
+          }
+        }
+    </script>
+    {% block meta %}{% endblock meta %}
+</head>
+<body>
+    {% block content %}{% endblock content %}
+</body>
+</html>
