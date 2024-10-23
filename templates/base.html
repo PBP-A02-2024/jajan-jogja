@@ -48,7 +48,9 @@
     </script>
     {% block meta %}{% endblock meta %}
 </head>
-<body class="w-screen font-JockeyOne">
-    {% block content %}{% endblock content %}
+<body class="w-screen bg-white font-JockeyOne flex justify-center items-center">
+  <div class="w-96 h-96 rounded-full bg-orange opacity-50 blur-2xl absolute -left-[200] -top-[200]"></div>
+  <div class="invisible sm:visible w-96  h-96 rounded-full bg-orange opacity-50 blur-2xl absolute -right-[200] -top-[200]"></div>
+  {% block content %}{% endblock content %}
 </body>
 </html>
