@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "navbar.html"%}
+<div class="pb-64">
+  <div class="grid grid-cols-2 gap-8 px-12 pt-52">
+    {% comment %} Left Side (Restaurant) {% endcomment %}
+    <div class="w-full space-y-4 border-4 border-darkPink rounded-[3rem] p-6 pb-28 shadow-lg">
+      <div class="w-full h-64 bg-[#D9D9D9] rounded-3xl flex justify-center items-center">Gambar</div>
+      <h1 class="font-bold text-lg text-darkOrange">Restoran 1</h1>
+      <p class="font-normal text-sm text-black">Alamat..................</p>
+      <p class="font-normal text-sm text-black">Description............</p>
+      <p class="font-normal text-sm text-black">08.00 - 18.00 WIB</p>
+
+      {% comment %} Reviews {% endcomment %}
+      <div class="flex justify-between items-center p-2 border-2 border-darkPink rounded-3xl">
+        <h1 class="px-2 font-semibold text-xl text-darkPink">Reviews</h1>
+        <div class="flex items-center gap-2 px-2">
+          <p class="font-bold text-xl text-darkPink">4.5/5</p>
+          <div class="w-5 h-5">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative p-8 space-y-4 border-2 border-darkPink rounded-xl">
+        {% comment %} Review Card {% endcomment %}
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-xl text-black">4.5/5</p>
+                <div class="w-5 h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-xl text-black">4.5/5</p>
+                <div class="w-5 h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-xl text-black">4.5/5</p>
+                <div class="w-5 h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-xl text-black">4.5/5</p>
+                <div class="w-5 h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="add-review/"><button class="absolute -bottom-6 right-0 px-3 py-1 rounded-2xl bg-white border-2 border-lightPink text-darkPink text-lg font-semibold">Add Review</button></a>
+      </div>
+    </div>
+    {% comment %} Right Side (Foods) {% endcomment %}
+    <div class="flex flex-col gap-4 items-center"> 
+      <a href="/add-food"><button class="px-6 py-2 border-2 rounded-2xl border-darkYellow text-darkOrange">Add Food</button></a>
+      <div class="grid grid-cols-2 gap-6">
+        {% comment %} Food Card {% endcomment %}
+        <div class="relative flex flex-col justify-between w-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group">
+          <div>
+            <div class="w-full h-32 bg-[#D9D9D9] rounded-3xl flex justify-center items-center">Gambar</div>
+            <div>
+            </div>
+              <h1 class="font-bold text-lg text-darkOrange">Makanan 1</h1>
+              <p class="font-normal text-sm text-grey">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod doloribus, veniam ad delectus labore, expedita numquam tenetur sit eligendi ipsa commodi ullam eveniet rerum officiis voluptas itaque nesciunt, sapiente error?</p>
+            </div>
+          <h3 class="font-semibold text-sm text-darkOrange">Rp100.000</h3>
+          {% comment %} Edit & Delete Button {% endcomment %}
+          <div class="invisible absolute -bottom-4 right-0 flex gap-2 items-center group-hover:visible">
+            <div class="flex justify-center items-center w-10 h-10 rounded-full bg-darkYellow text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></div>
+            <div class="flex justify-center items-center w-10 h-10 rounded-full bg-darkOrange text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></div>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col justify-between w-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group">
+          <div>
+            <div class="w-full h-32 bg-[#D9D9D9] rounded-3xl flex justify-center items-center">Gambar</div>
+            <div>
+            </div>
+              <h1 class="font-bold text-lg text-darkOrange">Makanan 1</h1>
+              <p class="font-normal text-sm text-grey">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod doloribus, veniam ad delectus labore, expedita numquam tenetur sit eligendi ipsa commodi ullam eveniet rerum officiis voluptas itaque nesciunt, sapiente error?</p>
+            </div>
+          <h3 class="font-semibold text-sm text-darkOrange">Rp100.000</h3>
+          {% comment %} Edit & Delete Button {% endcomment %}
+          <div class="invisible absolute -bottom-4 right-0 flex gap-2 items-center group-hover:visible">
+            <div class="flex justify-center items-center w-10 h-10 rounded-full bg-darkYellow text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></div>
+            <div class="flex justify-center items-center w-10 h-10 rounded-full bg-darkOrange text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></div>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col justify-between w-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group">
+          <div>
+            <div class="w-full h-32 bg-[#D9D9D9] rounded-3xl flex justify-center items-center">Gambar</div>
+            <div>
+            </div>
+              <h1 class="font-bold text-lg text-darkOrange">Makanan 1</h1>
+              <p class="font-normal text-sm text-grey">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod doloribus, veniam ad delectus labore, expedita numquam tenetur sit eligendi ipsa commodi ullam eveniet rerum officiis voluptas itaque nesciunt, sapiente error?</p>
+            </div>
+          <h3 class="font-semibold text-sm text-darkOrange">Rp100.000</h3>
+          {% comment %} Edit & Delete Button {% endcomment %}
+          <div class="invisible absolute -bottom-4 right-0 flex gap-2 items-center group-hover:visible">
+            <div class="flex justify-center items-center w-10 h-10 rounded-full bg-darkYellow text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></div>
+            <div class="flex justify-center items-center w-10 h-10 rounded-full bg-darkOrange text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
