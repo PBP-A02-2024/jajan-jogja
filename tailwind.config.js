@@ -13,6 +13,23 @@ export const theme = {
             lightPink: '#FFA2B6',
             grey: '#7A7A7A'
         },
+        fontFamily:{
+            JockeyOne: ['"Jockey One"'],
+        },
+        keyframes: {
+            slideDown :{
+                'from' : {transform : 'translateY(-100%)'},
+                'to' : {transform : 'translateY(0%)'}
+            },
+            slideUp :{
+                'from' : {transform : 'translateY(0%)'},
+                'to' : {transform : 'translateY(-110%)'}
+            }
+        },
+        animation:{
+            slideDown : 'slideDown 1s ease-in-out',
+            slideUp : 'slideUp 1s ease-in-out',
+        }
     }
 
 }
