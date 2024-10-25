@@ -7,35 +7,36 @@
 <div class="flex flex-col justify-center items-center my-28 w-screen">
     <div id="default-carousel" class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[425px] relative" data-carousel="slide">
         <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[381px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
-            <!-- Item 1 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static 'images/geprek_bensu.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Keju Bensu</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Bensu</div>
-            </div>
-            <!-- Item 2 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static 'images/sate_klatak.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak Spesial</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak</div>
-            </div>
-            <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static 'images/bakpia_pathok.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
-            </div>
+            {% if makanan.count == 0 %}
+                <p class="text-center">No images available</p>
+            {% elif makanan.count == 1 %}
+                <div>
+                    <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
+                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
+                </div>
+            {% else %}
+                {% for item in makanan %}
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
+                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
 
-        <!-- right arrow -->
-        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
-            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
-        </button>    
+        {% if makanan.count > 1 %}
+            <!-- right arrow -->
+            <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
+                <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
+            </button>    
 
-        <!-- left arrow -->
-        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
-            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
-        </button>
+            <!-- left arrow -->
+            <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
+                <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
+            </button>
+        {% endif %}
     </div>
     
     <!-- See More Button -->

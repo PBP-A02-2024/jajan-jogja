@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse
-from zoya.models import TempatKuliner, CommunityForum
+from zoya.models import TempatKuliner, CommunityForum, Makanan
 from zoya.forms import CommunityForumForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
@@ -10,9 +10,11 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 
 def show_main(request):
+    makanan = Makanan.objects.all()
 
+    context = {'makanan': makanan}
 
-    return render(request, 'landing.html')
+    return render(request, 'landing.html', context)
 
 def show_json_tempat(request):
     # data = TempatKuliner.objects.filter(user=request.user)
