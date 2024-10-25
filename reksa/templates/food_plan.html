@@ -5,19 +5,19 @@
 <div class="flex flex-col mt-24 sm:mt-32">
     <h1 class="text-4xl text-darkYellow text-center mb-4">Jajan Malioboro</h1>
     <div class="flex justify-end gap-2 mr-8 mb-4">
-        <button class="bg-darkYellow text-white px-4 py-2 rounded-lg hover:bg-orange-500">
+        <button class="bg-darkYellow text-white px-4 py-2 rounded-lg hover:bg-orange-500 shadow-lg">
             Edit
         </button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 shadow-lg">
             Delete
         </button>
     </div>
 </div>
-<div class="flex flex-col gap-36">
+<div class="flex flex-col gap-4">
     {% for restaurant in restaurants %}
         <div class="bg-white p-4 rounded-xl shadow-md border-4 border-darkYellow w-10/12 mx-auto">
             <div class="mb-4">
-                <div class="text-lg sm:text-2xl font-semibold text-darkOrange">
+                <div class="text-xl sm:text-2xl font-semibold text-darkOrange">
                     Restoran Bu Jajan
                 </div>
                 <div class="text-sm sm:text-lg text-gray-600">
@@ -36,10 +36,28 @@
                             <p class="text-lg sm:text-xl font-bold text-darkOrange mt-2">Rp. 100.000</p>
                         </div>
                     </div>
+                    
                     {% endfor %}
                 </div>
             </div>
         </div>
+            {% if not forloop.last %}
+            <div class="flex flex-col justify-center items-center">
+                <div class="w-8 h-8 bg-darkYellow rounded-full flex justify-center items-center">
+                </div>
+               <!-- Dashed line and text -->
+            <div class="relative flex flex-col items-center">
+                <!-- Dashed line -->
+                <div class="h-40 border-l-2 border-dashed border-gray-400"></div>
+                <!-- Distance text in the middle of the dashed line using absolute positioning -->
+                <div class="text-2xl  absolute top-1/2 transform -translate-y-1/2 bg-white px-2 text-gray-600">
+                    20km
+                </div>
+            </div>
+                <div class="w-8 h-8 bg-darkYellow rounded-full flex justify-center items-center">
+                </div>
+            </div>
+            {% endif %}
     {% endfor %}
 </div>
 

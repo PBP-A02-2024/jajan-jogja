@@ -5,12 +5,11 @@
 
 <div class="flex flex-col items-center justify-start mt-24 sm:mt-32">
     <h1 class="text-4xl text-darkYellow text-center mb-4">Food Plans</h1>
-    <!-- Your card content here -->
 </div>
 
 
 <div class="flex justify-center pb-24">
-    <div class="overflow-x-auto"> <!-- Added this wrapper div -->
+    <div class="overflow-x-auto">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-4 max-w-full">
             {% for item in items %}
                 <div class="w-48 h-48 sm:w-72 sm:h-72 bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center text-center border-4 border-darkYellow">
