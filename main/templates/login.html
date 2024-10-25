@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "navbar.html" with page="login"%}
+<main class="w-full flex flex-col items-center gap-6 sm:pt-28 bg-white h-full justify-center">
+    <section class="z-10">
+      <h1 class="text-center text-4xl sm:text-5xl">Welcome Back!!!</h1>
+      <p class="text-center text-lg sm:text-xl">Please enter login details below!</p>
+    </section>
+    <section class="w-[80%]  bg-white border-2 border-darkOrange rounded-[2rem] flex flex-col px-5 pb-4 pt-5 justify-center max-w-80 z-10">
+      <form class="flex flex-col gap-7 px-4" method="POST" action="">
+        {% csrf_token %}
+        <div class="rounded-md shadow-sm flex flex-col gap-3">
+          <div>
+            <label for="username" class="ml-3 text-xl">Username</label>
+            <input id="username" name="username" type="text" required class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
+            border-darkOrange
+            focus:outline-none
+            focus:border-darkYellow  sm:text-sm text-lg" placeholder="Username">
+          </div>
+          <div>
+            <label for="password" class="ml-3 text-xl">Password</label>
+            <div>
+              <input id="password" name="password" type="password" required class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
+            border-darkOrange focus:outline-none focus:border-darkYellow  sm:text-sm text-lg" placeholder="Password">
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <a href="{% url "main:show_main" %}" class="w-full h-10 border-2 border-yellow text-darkYellow rounded-2xl text-lg flex justify-center items-center">
+            Back
+          </a>
+          <a href="" class="w-full h-10">
+            <button type="submit" class="w-full h-10 border-2 border-yellow bg-yellow text-white rounded-2xl text-lg">
+              Sign in
+            </button>
+          </a>
+        </div>
+      </form>
+      <div>
+        <p class="text-center">Don't have an account yet? <a href="{% url "main:register" %}" class="text-orange">sign up here</a></p>
+      </div>
+    </section>
+    <div class="absolute w-[350px] h-[350px] rounded-full opacity-[0.6] bg-orange blur-[98.27586364746094px] z-0"></div>
+</main>
+{% endblock content %}
