@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'reksa',
+    'nabeel',
+    'zoya',
 ]
 
 MIDDLEWARE = [

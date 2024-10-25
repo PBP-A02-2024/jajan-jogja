@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "navbar.html" with page="login"%}
+<main class="w-full flex flex-col items-center gap-6 sm:pt-28 bg-white h-full justify-center">
+    <style>
+        form input{
+            width: 100%;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            border-radius: 0.75rem;
+            border: 2px solid #7c1d05;
+            background-color: white;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+          }
+          
+          form input:focus {
+            outline: none;
+            border: 2px solid #c98809;
+          }
+    </style>
+    <section class="z-10">
+      <h1 class="text-center text-4xl sm:text-5xl">Create an Account</h1>
+      <p class="text-center text-lg sm:text-xl">Please enter account details below!</p>
+    </section>
+    <section class="w-[80%] bg-white border-2 border-darkOrange rounded-[2rem] flex flex-col px-5 pb-4 pt-5 justify-center max-w-80 z-10">
+      {% comment %} <form class="flex flex-col gap-7" method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" name="remember" value="true">
+        <div class="rounded-md shadow-sm flex flex-col gap-3">
+            <div>
+                <label for="id_username" class="ml-3 text-xl">Username</label>
+                <input id="id_username" name="username" type="text" required class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
+                border-darkOrange focus:outline-none focus:border-darkYellow sm:text-sm text-lg h-" placeholder="Username">
+            </div>
+            <div>
+                <label for="id_password1" class="ml-3 text-xl">Password</label>
+                <input id="id_password1" name="password1" type="password" required class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
+                border-darkOrange focus:outline-none focus:border-darkYellow  sm:text-sm text-lg" placeholder="Password">
+            </div>
+            <div>
+                <label for="id_password2" class="ml-3 text-xl">Password</label>
+                <input id="id_password2" name="password2" type="password" required class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
+                border-darkOrange focus:outline-none focus:border-darkYellow  sm:text-sm text-lg" placeholder="Password">
+            </div>
+            <div>
+                <label for="id_email" class="ml-3 text-xl">Email</label>
+                <input id="id_email" name="email" type="email" required class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
+                border-darkOrange focus:outline-none focus:border-darkYellow  sm:text-sm text-lg" placeholder="Email">
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <a href="{% url "main:show_main" %}" class="w-full h-10 border-2 border-yellow text-darkYellow rounded-2xl text-lg flex justify-center items-center">
+                Back
+            </a>
+            <a href="" class="w-full h-10">
+                <button type="submit" class="w-full h-10 border-2 border-yellow bg-yellow text-white rounded-2xl text-lg">
+                    Register
+                </button>
+            </a>
+        </div>
+      </form> {% endcomment %}
+      <form class="space-y-5 px-4" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="remember" value="true">
+        <div class="rounded-md shadow-sm flex flex-col gap-1">
+          {% for field in form %}
+            <div class="{% if not forloop.first %}{% endif %}">
+              <label for="{{ field.id_for_label }}" class="ml-3 text-xl">
+                {{ field.label }}
+              </label>
+              <div class="relative">
+                {{ field }}
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  {% if field.errors %}
+                    <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  {% endif %}
+                </div>
+              </div>
+              {% if field.errors %}
+                {% for error in field.errors %}
+                  <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="flex gap-2">
+            <a href="{% url "zoya:show_main" %}" class="w-full h-10 border-2 border-yellow text-darkYellow rounded-2xl text-lg flex justify-center items-center">
+                Back
+            </a>
+            <a href="" class="w-full h-10">
+                <button type="submit" class="w-full h-10 border-2 border-yellow bg-yellow text-white rounded-2xl text-lg">
+                    Register
+                </button>
+            </a>
+        </div>
+      </form> 
+      <div>
+        <p class="text-center">Already have an account yet? <a href="{% url "main:login_user" %}" class="text-orange">sign in here</a></p>
+      </div>
+    </section>
+    <div class="absolute w-[350px] h-[350px] rounded-full opacity-[0.6] bg-orange blur-[98.27586364746094px] z-0"></div>
+</main>
+{% endblock content %}

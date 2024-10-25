@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% include 'navbar.html' %}
+<div class="flex flex-col justify-center items-center my-28 w-screen">
+    <div id="default-carousel" class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[425px] relative" data-carousel="slide">
+        <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[381px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
+            <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{% static 'images/geprek_bensu.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Keju Bensu</div>
+                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Bensu</div>
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{% static 'images/sate_klatak.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak Spesial</div>
+                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak</div>
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{% static 'images/bakpia_pathok.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
+                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
+            </div>
+        </div>
+
+        <!-- right arrow -->
+        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
+            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
+        </button>    
+
+        <!-- left arrow -->
+        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
+            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
+        </button>
+    </div>
+    
+    <!-- See More Button -->
+    <a href="#options" class="w-[200px] h-[65px] z-[800] bg-[#ebe9e1] rounded-[158px] -translate-y-[80px] border-l-8 border-r-8 border-[#c98809] hover:shadow-lg">
+        <div class="text-center text-[#7c1d04] text-[34px] lg:text-[px] font-normal font-['Jockey One'] leading-[69.25px]">See More!</div>
+    </a>
+
+    <!-- Search Bar -->
+    <form class="w-[65vw] h-[68px] relative -translate-y-[70px]">   
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-6 h-6 text-darkYellow dark:text-darkYellow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+            <input type="search" id="default-search" class="block w-full h-[60px] ps-10 text-[15px] md:text-[27px] text-darkOrange border-darkOrange rounded-[25px] border-4 bg-white focus:ring-darkYellow focus:border-darkYellow dark:bg-white dark:border-darkYellow dark:placeholder-[#7a7a7a] dark:text-darkOrange dark:focus:ring-darkYellow dark:focus:border-darkYellow" placeholder="Search Mockups, Logos..." required />
+            <button type="submit" class="text-white rounded-[15px] absolute end-2.5 bottom-2.5 bg-darkOrange hover:bg-orange focus:ring-4 focus:outline-none focus:ring-orange font-medium text-[20px] px-3 py-1 dark:bg-darkOrange dark:hover:bg-orange dark:focus:ring-orange">Search</button>
+        </div>
+    </form>
+    
+    <!-- Options -->
+    <div id="options" class="justify-center flex gap-4 -translate-y-[70px]">
+        <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
+            Traditional
+        </div>
+        <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
+            Traditional
+        </div>
+        <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
+            Traditional
+        </div>
+    </div>
+
+    <div id="looking" class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
+    
+    <!-- Category Button -->
+
+    <div class="relative inline-block"> 
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-[#7a7a7a] bg-[#ebe9e1]/70 border-4 border-[#c88709] hover:bg-[#ebe9e1]/70 leading-tight focus:ring-4 focus:outline-none font-['Jockey One'] rounded-[10px] text-[25px] md:text-[32px] px-3 py-1 text-center inline-flex items-center dark:bg-[#ebe9e1]/70 dark:hover:bg-[#ebe9e1]/90 dark:focus:ring-0" type="button">Pick a Category <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+        </button>
+        
+        <!-- Dropdown menu -->
+        <div id="dropdown" class="z-10 hidden bg-white rounded-lg shadow w-full dark:bg-black">
+            <ul class="py-2 text-[20px] text-black dark:text-white flex flex-col text-center w-full" aria-labelledby="dropdownDefaultButton">
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white">Traditional</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white">Traditional</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white">Traditional</a>
+            </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tempat_kuliner_cards"></div>
+
+    <div class="my-28 w-screen flex flex-col items-center">
+        <div class="w-[80vw] lg:w-[55vw] xl:w-[45vw]">
+            <h2 class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One'] text-center mb-8">Community Forum</h2>
+    
+            <!-- Forum Discussion Section -->
+            <div class="bg-[#f3f3f3] border-4 border-[#c88709] rounded-[20px] p-6 mb-6">
+                <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Discussion</h3>
+                <div id="forum_posts" class="space-y-4">
+                    <!-- Example post -->
+                    <div class="bg-white border-l-4 border-[#c88709] p-4 rounded-[10px]">
+                        <p class="text-[18px] text-darkYellow font-semibold">Jane Doe</p>
+                        <p class="text-[15px] text-[#7a7a7a]">I tried the "Geprek Bensu" recently, and the crispy chicken was amazing! The sambal was very spicy, just the way I like it.</p>
+                        <span class="text-[12px] text-[#c88709]">Posted on October 21, 2024</span>
+                    </div>
+                    <!-- More posts can be added dynamically here -->
+                </div>
+            </div>
+    
+            <!-- New Post Form -->
+            <div class="bg-[#ebe9e1] border-4 border-[#c88709] rounded-[20px] p-6">
+                <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Share Your Experience</h3>
+                <form id="new_post_form" class="flex flex-col space-y-4">
+                    <input type="text" id="username" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" placeholder="Your Name" required>
+                    <textarea id="user_comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
+                    <button type="button" onclick="addPost()" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Include Flowbite JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+<script>
+    function addPost() {
+        const username = document.getElementById('username').value;
+        const userComment = document.getElementById('user_comment').value;
+        const forumPosts = document.getElementById('forum_posts');
+
+        if (username && userComment) {
+            // Create a new post element
+            const newPost = document.createElement('div');
+            newPost.classList.add('bg-white', 'border-l-4', 'border-[#c88709]', 'p-4', 'rounded-[10px]', 'mb-4');
+
+            // Add post content
+            newPost.innerHTML = `
+                <p class="text-[18px] text-darkYellow font-semibold">${username}</p>
+                <p class="text-[15px] text-[#7a7a7a]">${userComment}</p>
+                <span class="text-[12px] text-[#c88709]">Posted just now</span>
+            `;
+
+            // Append the new post to the forum
+            forumPosts.appendChild(newPost);
+
+            // Clear form fields
+            document.getElementById('username').value = '';
+            document.getElementById('user_comment').value = '';
+        } else {
+            alert('Please fill in all fields.');
+        }
+    }
+    
+    async function getTempatKuliner(){
+        return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
+    }
+
+    async function refreshTempatKuliner() {
+        document.getElementById("tempat_kuliner_cards").innerHTML = "";
+        document.getElementById("tempat_kuliner_cards").className = "";
+        // const tempatKuliner = await getTempatKuliner();
+        const tempatKuliner = [
+            {
+                "fields": {
+                    "nama": "Geprek Bensu",
+                    "description": "Enak parah, ayamnya crispy dan sambalnya pedas mantap!",
+                    "alamat": "Jl. Sudirman No. 123, Yogyakarta",
+                    "longitude": "110.3749",
+                    "latitude": "-7.7972",
+                    "jamBuka": "2024-10-22 10:00:00",
+                    "jamTutup": "2024-10-22 22:00:00",
+                    "rating": 4.9,
+                    "foto": "images/geprek_bensu.jpg",
+                    "variasi": "Ayam Geprek, Tahu Crispy"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Sate Klatak Pak Pong",
+                    "description": "Sate kambing dengan bumbu khas, disajikan dengan tusukan besi.",
+                    "alamat": "Jl. Imogiri Timur, Bantul, Yogyakarta",
+                    "longitude": "110.3755",
+                    "latitude": "-7.8924",
+                    "jamBuka": "2024-10-22 12:00:00",
+                    "jamTutup": "2024-10-22 21:00:00",
+                    "rating": 4,
+                    "foto": "images/sate_klatak.jpg",
+                    "variasi": "Sate Klatak, Gulai Kambing"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            }
+        ];
+
+        let htmlString = "";
+        let classNameString = "";
+
+        if (tempatKuliner.length === 0) {
+            classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+            htmlString = `
+                <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                    <p class="text-center text-grey mt-4 font-semibold">Nothing to see here...</p>
+                </div>
+            `;
+        }
+        else {
+            classNameString = "py-3 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
+            tempatKuliner.forEach((item) => {
+                // const nama = DOMPurify.sanitize(item.fields.nama);
+                // const description = DOMPurify.sanitize(item.fields.description);
+                // const alamat = DOMPurify.sanitize(item.fields.alamat);
+                // const longitude = DOMPurify.sanitize(item.fields.longitude);
+                // const latitude = DOMPurify.sanitize(item.fields.latitude);
+                console.log(item.fields.foto)
+                htmlString += `
+                <div class="w-[325px] h-[325px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3">
+                    <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[255px] h-[172px] left-[35px] top-[35px] absolute rounded-[40px]"/>
+                    <div class="w-[255px] left-[30px] top-[209px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
+                    <div class="w-[173px] h-[58px] left-[30px] top-[242px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.alamat}</div>
+                    <div class="w-[83.14px] left-[180px] top-[261px] absolute text-right text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
+                </div>
+                `;
+            });
+        }
+        document.getElementById("tempat_kuliner_cards").className = classNameString;
+        document.getElementById("tempat_kuliner_cards").innerHTML = htmlString;
+    }
+refreshTempatKuliner();
+</script>
+
+{% endblock content %}

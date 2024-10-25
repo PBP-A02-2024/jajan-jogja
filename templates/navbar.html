@@ -3,41 +3,53 @@
 {% comment %} change all the href with your url {% endcomment %}
 
 {% comment %} Desktop Navbar  {% endcomment %}
-<nav class="z-[999] fixed top-0 invisible sm:visible w-full h-28 px-12 py-4">
-    <div class="w-full h-full flex justify-between items-center bg-white rounded-full shadow-md px-12 py-2">
+<nav class=" fixed top-0 invisible sm:visible w-full h-28 px-12 py-4 z-[999]">
+    <div class="w-full h-full flex justify-between items-center bg-white rounded-full drop-shadow-[0px_4px_50px_rgba(15,4,1,0.20)] px-12 py-2">
         <img src="{% static "images/logo.png" %}" alt="" class="mt-2 h-10 w-auto">
+        {% if user.username %}
         <div class="relative w-40 h-full border-2 border-darkYellow rounded-full flex justify-around items-center px-5 py-1 shadow-md">
             <div class="w-9 h-7 justify-between flex flex-col cursor-pointer" onclick="menuSlide();">
                 <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
                 <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
                 <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
             </div>
-            <a href="#">
+            <a href="{% url "zoya:show_main" %}">
                 <div class="h-11 w-11 rounded-full bg-darkOrange">
                     {% comment %} Profile User {% endcomment %}
                 </div>
             </a>
-            <div class="w-28 h-40 absolute top-0 translate-y-[4.5rem] overflow-hidden py-2">
+            <div class="hidden w-28 h-40 absolute top-0 translate-y-[4.5rem] overflow-hidden py-2" id="box-menu">
                 <div class="w-full h-full flex flex-col justify-evenly items-center rounded-2xl border-2 border-darkYellow text-lg shadow-md bg-white hidden" id="menu">
-                    <a href="#">Home</a>
-                    <a href="#">Search</a>
-                    <a href="#">Food Plans</a>
+                    <a href="{% url "zoya:show_main" %}">Home</a>
+                    <a href="{% url "nabeel:search_page" %}">Search</a>
+                    <a href="{% url "reksa:food_plans_list" %}">Food Plans</a>
                 </div>
             </div>
         </div>
+        {% else %}
+        {% if not page == 'login' and not page == 'register'  %}
+        <div class="w-52 h-full flex justify-between items-center">
+            <a class="w-24 h-12 flex justify-center items-center border-2 border-darkOrange bg-darkOrange text-white rounded-full" href="{% url "main:login_user" %}">Log In</a>
+            <a class="w-24 h-12 flex justify-center items-center border-2 border-darkOrange text-darkOrange rounded-full" href="{% url "main:register" %}">Sign Up</a>
+        </div>
+        {% endif %}
+        {% endif %}
     </div>
     <script>
         const menu = document.querySelector('#menu');
+        const boxMenu = document.querySelector('#box-menu');
         let open = false;
         function menuSlide(){
             if(!open){
                 menu.classList.remove('-translate-y-[110%]');
                 menu.classList.remove('hidden');
+                boxMenu.classList.remove('hidden');
                 menu.classList.add('animate-slideDown');
                 setTimeout(()=>{menu.classList.remove('animate-slideDown')}, 1000);
             }else{
                 menu.classList.add('animate-slideUp');
-                setTimeout(()=>{menu.classList.remove('animate-slideUp'); menu.classList.add('-translate-y-[110%]');}, 1000);
+                
+                setTimeout(()=>{menu.classList.remove('animate-slideUp'); menu.classList.add('-translate-y-[110%]');boxMenu.classList.add('hidden');}, 1000);
             }
             open = !open;
         }
@@ -45,52 +57,63 @@
 </nav>
 
 {% comment %} Mobile Navbar {% endcomment %}
-<nav class="fixed bottom-0 visible sm:invisible w-full h-[5.5rem] bg-white flex justify-evenly items-center py-4 font-">
-    
-    <a href="#"> 
-        <div class="flex flex-col justify-center items-center text-grey" onclick="clickAction('home');">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="home-icon">
-                <path d="M9.75037 10.5001C11.9424 8.30808 14.3907 6.62859 16.0467 5.61142C17.2536 4.87009 18.7472 4.87009 19.9541 5.61142C21.6101 6.62859 24.0583 8.30808 26.2504 10.5001C31.0029 15.2527 30.7504 18.0001 30.7504 22.5001C30.7504 24.6148 30.5847 26.3983 30.4092 27.6948C30.2244 29.059 29.0346 30.0001 27.658 30.0001H25.5004C23.8435 30.0001 22.5004 28.657 22.5004 27.0001V24.0001C22.5004 22.8066 22.0263 21.662 21.1824 20.8181C20.3384 19.9742 19.1939 19.5001 18.0004 19.5001C16.8069 19.5001 15.6623 19.9742 14.8184 20.8181C13.9745 21.662 13.5004 22.8066 13.5004 24.0001V27.0001C13.5004 28.657 12.1572 30.0001 10.5004 30.0001H8.34271C6.9661 30.0001 5.77635 29.059 5.5916 27.6948C5.41601 26.3983 5.25038 24.6148 5.25038 22.5001C5.25038 18.0001 4.99778 15.2527 9.75037 10.5001Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p id="home-text">Home</p>       
-        </div>
-    </a>
-    <a href="#">
-        <div class="flex flex-col justify-center items-center text-grey" onclick="clickAction('search');">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="search-icon">
-                <path d="M30 30L23.7049 23.705M27 15.75C27 9.5368 21.9632 4.5 15.75 4.5C9.5368 4.5 4.5 9.5368 4.5 15.75C4.5 21.9632 9.5368 27 15.75 27C21.9632 27 27 21.9632 27 15.75Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p id="search-text">Search</p>  
-        </div>
-    </a>
-    <a href="#">
-        <div class="flex flex-col justify-center items-center text-grey" onclick="clickAction('food');">
-            <svg width="29" height="34" viewBox="0 0 29 34" fill="none" xmlns="http://www.w3.org/2000/svg" id="food-icon">
-                <path d="M7.4625 32.7501C6.77626 32.7501 6.1181 32.4775 5.63285 31.9922C5.1476 31.507 4.875 30.8488 4.875 30.1626L6 16.1001H9.0375L10.1625 30.1626C10.1628 30.5121 10.0924 30.858 9.95535 31.1795C9.81834 31.501 9.61762 31.7914 9.3653 32.0332C9.11299 32.275 8.8143 32.4632 8.48727 32.5864C8.16024 32.7096 7.81165 32.7653 7.4625 32.7501Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7.4625 16.1C10.7555 16.1 13.425 12.7757 13.425 8.67501C13.425 4.57429 10.7555 1.25 7.4625 1.25C4.16951 1.25 1.5 4.57429 1.5 8.67501C1.5 12.7757 4.16951 16.1 7.4625 16.1Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M23.1002 32.7498C22.4139 32.7498 21.7558 32.4772 21.2705 31.992C20.7853 31.5067 20.5127 30.8486 20.5127 30.1624L21.6377 16.0999H24.6752L25.8002 30.1624C25.8005 30.5118 25.7301 30.8577 25.593 31.1792C25.456 31.5007 25.2553 31.7911 25.003 32.0329C24.7507 32.2747 24.452 32.4629 24.125 32.5861C23.7979 32.7094 23.4493 32.765 23.1002 32.7498Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M28.1623 11.0374C28.1329 12.3903 27.5747 13.6778 26.6074 14.6241C25.64 15.5704 24.3405 16.1002 22.9873 16.0999C21.6446 16.0999 20.357 15.5665 19.4076 14.6171C18.4582 13.6677 17.9248 12.38 17.9248 11.0374H28.1623Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M17.9248 1.69995V11.0375" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22.9873 1.69995V10.8125" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M28.1621 1.69995V11.0375" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p id="food-text">Food Plans</p>            
-        </div>
-    </a>
-    <a href="#">
-        <div class="flex flex-col justify-center items-center text-grey" onclick="clickAction('profile');">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="profile-icon">
-                <path d="M26.25 31.5002H9.75C7.67893 31.5002 6 29.8212 6 27.7502C6 21.629 15 21.7502 18 21.7502C21 21.7502 30 21.629 30 27.7502C30 29.8212 28.3211 31.5002 26.25 31.5002Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M18 16.5C21.3137 16.5 24 13.8137 24 10.5C24 7.18629 21.3137 4.5 18 4.5C14.6863 4.5 12 7.18629 12 10.5C12 13.8137 14.6863 16.5 18 16.5Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p id="profile-text">Profile</p>
-        </div>
-    </a>
-    <div class="visible sm:invisible fixed top-0 w-full h-16 p-4 flex justify-center items-center bg-white">
+<nav class="fixed w-full flex justify-evenly items-center z-[999]">
+    {% if user.username %}
+    <div class="fixed bottom-0 visible sm:invisible w-full h-[5.5rem] bg-white flex justify-evenly items-center py-4 z-[999] drop-shadow-[0px_4px_15px_rgba(15,4,1,0.20)]">
+        <a href="{% url "zoya:show_main" %}"> 
+            <div class="flex flex-col justify-center items-center text-grey">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="home-icon">
+                    <path d="M9.75037 10.5001C11.9424 8.30808 14.3907 6.62859 16.0467 5.61142C17.2536 4.87009 18.7472 4.87009 19.9541 5.61142C21.6101 6.62859 24.0583 8.30808 26.2504 10.5001C31.0029 15.2527 30.7504 18.0001 30.7504 22.5001C30.7504 24.6148 30.5847 26.3983 30.4092 27.6948C30.2244 29.059 29.0346 30.0001 27.658 30.0001H25.5004C23.8435 30.0001 22.5004 28.657 22.5004 27.0001V24.0001C22.5004 22.8066 22.0263 21.662 21.1824 20.8181C20.3384 19.9742 19.1939 19.5001 18.0004 19.5001C16.8069 19.5001 15.6623 19.9742 14.8184 20.8181C13.9745 21.662 13.5004 22.8066 13.5004 24.0001V27.0001C13.5004 28.657 12.1572 30.0001 10.5004 30.0001H8.34271C6.9661 30.0001 5.77635 29.059 5.5916 27.6948C5.41601 26.3983 5.25038 24.6148 5.25038 22.5001C5.25038 18.0001 4.99778 15.2527 9.75037 10.5001Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p id="home-text">Home</p>       
+            </div>
+        </a>
+        <a href="{% url "nabeel:search_page" %}">
+            <div class="flex flex-col justify-center items-center text-grey">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="search-icon">
+                    <path d="M30 30L23.7049 23.705M27 15.75C27 9.5368 21.9632 4.5 15.75 4.5C9.5368 4.5 4.5 9.5368 4.5 15.75C4.5 21.9632 9.5368 27 15.75 27C21.9632 27 27 21.9632 27 15.75Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p id="search-text">Search</p>  
+            </div>
+        </a>
+        <a href="{% url "reksa:food_plans_list" %}">
+            <div class="flex flex-col justify-center items-center text-grey">
+                <svg width="29" height="34" viewBox="0 0 29 34" fill="none" xmlns="http://www.w3.org/2000/svg" id="food-icon">
+                    <path d="M7.4625 32.7501C6.77626 32.7501 6.1181 32.4775 5.63285 31.9922C5.1476 31.507 4.875 30.8488 4.875 30.1626L6 16.1001H9.0375L10.1625 30.1626C10.1628 30.5121 10.0924 30.858 9.95535 31.1795C9.81834 31.501 9.61762 31.7914 9.3653 32.0332C9.11299 32.275 8.8143 32.4632 8.48727 32.5864C8.16024 32.7096 7.81165 32.7653 7.4625 32.7501Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7.4625 16.1C10.7555 16.1 13.425 12.7757 13.425 8.67501C13.425 4.57429 10.7555 1.25 7.4625 1.25C4.16951 1.25 1.5 4.57429 1.5 8.67501C1.5 12.7757 4.16951 16.1 7.4625 16.1Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M23.1002 32.7498C22.4139 32.7498 21.7558 32.4772 21.2705 31.992C20.7853 31.5067 20.5127 30.8486 20.5127 30.1624L21.6377 16.0999H24.6752L25.8002 30.1624C25.8005 30.5118 25.7301 30.8577 25.593 31.1792C25.456 31.5007 25.2553 31.7911 25.003 32.0329C24.7507 32.2747 24.452 32.4629 24.125 32.5861C23.7979 32.7094 23.4493 32.765 23.1002 32.7498Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M28.1623 11.0374C28.1329 12.3903 27.5747 13.6778 26.6074 14.6241C25.64 15.5704 24.3405 16.1002 22.9873 16.0999C21.6446 16.0999 20.357 15.5665 19.4076 14.6171C18.4582 13.6677 17.9248 12.38 17.9248 11.0374H28.1623Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.9248 1.69995V11.0375" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22.9873 1.69995V10.8125" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M28.1621 1.69995V11.0375" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p id="food-text">Food Plans</p>            
+            </div>
+        </a>
+        <a href="#">
+            <div class="flex flex-col justify-center items-center text-grey">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="profile-icon">
+                    <path d="M26.25 31.5002H9.75C7.67893 31.5002 6 29.8212 6 27.7502C6 21.629 15 21.7502 18 21.7502C21 21.7502 30 21.629 30 27.7502C30 29.8212 28.3211 31.5002 26.25 31.5002Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 16.5C21.3137 16.5 24 13.8137 24 10.5C24 7.18629 21.3137 4.5 18 4.5C14.6863 4.5 12 7.18629 12 10.5C12 13.8137 14.6863 16.5 18 16.5Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p id="profile-text">Profile</p>
+            </div>
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="visible sm:invisible fixed top-0 w-full h-16 p-4 flex justify-center items-center bg-white drop-shadow-[0px_4px_50px_rgba(15,4,1,0.20)]">
         <img src="{% static "images/logo.png" %}" alt="" class="h-full w-auto">
+        {% if not user.username and not page == 'login' and not page == 'register' %}
+        <a href="{% url "main:login_user" %}" class="absolute right-3">
+            <svg width="35" height="35" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                <path d="M52.5 15L65.625 15C77.0915 15 76.875 30 76.875 45C76.875 60 77.0915 75 65.625 75H52.5M56.25 45L11.25 45M56.25 45L41.25 60M56.25 45L41.25 30" stroke="#7C1D05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>            
+        </a>
+        {% endif %}
     </div>
     <script>
-        let page = '{{ state }}';
+        let page = '{{ page }}';
         const homeIcon = document.querySelector('#home-icon');
         const homeStroke = homeIcon.querySelectorAll('path');
         const homeText = document.querySelector('#home-text');
@@ -105,69 +128,6 @@
         const profileText = document.querySelector('#profile-text');
         initialState();
 
-        function clickAction(newPage){
-            switch(page){
-                case 'home':
-                    homeIcon.style.fill = 'none';
-                    homeText.style.color = '#7A7A7A';
-                    homeStroke.forEach(path => {
-                        path.style.stroke =  '#7A7A7A';
-                    });
-                    break;
-                case 'search':
-                    searchIcon.style.fill = 'none';
-                    searchText.style.color = '#7A7A7A';
-                    searchStroke.forEach(path => {
-                        path.style.stroke =  '#7A7A7A';
-                    });
-                    break;
-                case 'food':
-                    foodIcon.style.fill = 'none';
-                    foodText.style.color = '#7A7A7A';
-                    foodStroke.forEach(path => {
-                        path.style.stroke =  '#7A7A7A';
-                    });
-                    break;
-                case 'profile':
-                    profileIcon.style.fill = 'none';
-                    profileText.style.color = '#7A7A7A';
-                    profileStroke.forEach(path => {
-                        path.style.stroke =  '#7A7A7A';
-                    });
-                    break;
-            }
-            page = newPage;
-            switch(page){
-                case 'home':
-                    homeIcon.style.fill = '#C98809';
-                    homeText.style.color = '#C98809';
-                    homeStroke.forEach(path => {
-                        path.style.stroke =  '#C98809';
-                    });
-                    break;
-                case 'search':
-                    searchIcon.style.fill = '#C98809';
-                    searchText.style.color = '#C98809';
-                    searchStroke.forEach(path => {
-                        path.style.stroke =  '#C98809';
-                    });
-                    break;
-                case 'food':
-                    foodIcon.style.fill = '#C98809';
-                    foodText.style.color = '#C98809';
-                    foodStroke.forEach(path => {
-                        path.style.stroke =  '#C98809';
-                    });
-                    break;
-                case 'profile':
-                    profileIcon.style.fill = '#C98809';
-                    profileText.style.color = '#C98809';
-                    profileStroke.forEach(path => {
-                        path.style.stroke =  '#C98809';
-                    });
-                    break;
-            }
-        }
         function initialState(){
             switch(page){
                 case 'home':
