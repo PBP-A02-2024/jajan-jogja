@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jajan Jogja</title>
+    <base href="./" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static "css/globals.css" %}">
     <link rel="icon" type="image/x-icon" href="{% static "images/favicon.png" %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
           theme: {
@@ -48,7 +49,7 @@
     </script>
     {% block meta %}{% endblock meta %}
 </head>
-<body class="w-screen font-JockeyOne">
+<body class="w-screen font-JockeyOne flex justify-center items-center">
     {% block content %}{% endblock content %}
 </body>
 </html>

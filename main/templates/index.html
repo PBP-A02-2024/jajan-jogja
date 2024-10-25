@@ -1,5 +1,4 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "navbar.html"%}
-
+{% include "navbar.html" with page="home" user=user%}
 {% endblock content %}
