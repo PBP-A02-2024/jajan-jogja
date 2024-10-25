@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div id="looking" class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
+    <div class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
     
     <!-- Category Button -->
 
@@ -96,68 +96,81 @@
         </div>
     </div>
 
+    <!-- Cards Tempat -->
     <div id="tempat_kuliner_cards"></div>
 
+    <!-- Community Forum -->
     <div class="my-28 w-screen flex flex-col items-center">
         <div class="w-[80vw] lg:w-[55vw] xl:w-[45vw]">
             <h2 class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One'] text-center mb-8">Community Forum</h2>
-    
-            <!-- Forum Discussion Section -->
-            <div class="bg-[#f3f3f3] border-4 border-[#c88709] rounded-[20px] p-6 mb-6">
-                <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Discussion</h3>
-                <div id="forum_posts" class="space-y-4">
-                    <!-- Example post -->
-                    <div class="bg-white border-l-4 border-[#c88709] p-4 rounded-[10px]">
-                        <p class="text-[18px] text-darkYellow font-semibold">Jane Doe</p>
-                        <p class="text-[15px] text-[#7a7a7a]">I tried the "Geprek Bensu" recently, and the crispy chicken was amazing! The sambal was very spicy, just the way I like it.</p>
-                        <span class="text-[12px] text-[#c88709]">Posted on October 21, 2024</span>
-                    </div>
-                    <!-- More posts can be added dynamically here -->
-                </div>
-            </div>
-    
+            
             <!-- New Post Form -->
-            <div class="bg-[#ebe9e1] border-4 border-[#c88709] rounded-[20px] p-6">
+            <div class="bg-[#ebe9e1] border-4 border-[#c88709] rounded-[20px] p-6 mb-6">
                 <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Share Your Experience</h3>
-                <form id="new_post_form" class="flex flex-col space-y-4">
-                    <input type="text" id="username" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" placeholder="Your Name" required>
-                    <textarea id="user_comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
-                    <button type="button" onclick="addPost()" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
+                <form id="new_post_forum" class="flex flex-col space-y-4">
+                    <textarea id="user_comment" name="comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
+                    <button id="submitForumEntry" type="button" form="new_post_forum" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
                 </form>
             </div>
+
+            <!-- Forum Discussion Section -->
+            <div class="bg-[#f3f3f3] border-4 border-[#c88709] rounded-[20px] p-6">
+                <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Discussion</h3>
+                <div id="forum_posts" class="space-y-4"></div>
+            </div>
+            
         </div>
     </div>
-
 </div>
 
 <!-- Include Flowbite JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 <script>
-    function addPost() {
-        const username = document.getElementById('username').value;
-        const userComment = document.getElementById('user_comment').value;
-        const forumPosts = document.getElementById('forum_posts');
+    function addForum() {
+        fetch("{% url 'zoya:add_forum_entry_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#new_post_forum')),
+        })
+        .then(response => refreshCommunityForum())
 
-        if (username && userComment) {
-            // Create a new post element
-            const newPost = document.createElement('div');
-            newPost.classList.add('bg-white', 'border-l-4', 'border-[#c88709]', 'p-4', 'rounded-[10px]', 'mb-4');
+        document.getElementById("new_post_forum").reset(); 
+        document.querySelector("[data-modal-toggle='crudModal']").click();
 
-            // Add post content
-            newPost.innerHTML = `
-                <p class="text-[18px] text-darkYellow font-semibold">${username}</p>
-                <p class="text-[15px] text-[#7a7a7a]">${userComment}</p>
-                <span class="text-[12px] text-[#c88709]">Posted just now</span>
-            `;
+        return false;
+    }
 
-            // Append the new post to the forum
-            forumPosts.appendChild(newPost);
+    document.getElementById("submitForumEntry").onclick = addForum
 
-            // Clear form fields
-            document.getElementById('username').value = '';
-            document.getElementById('user_comment').value = '';
+    async function editForumEntry(forumId) {
+        const newComment = prompt("Enter your new comment:");
+
+        if (newComment !== null && newComment.trim() !== "") {
+            const formData = new FormData();
+            formData.append("comment", newComment);
+
+            const response = await fetch(`/edit-forum/${forumId}/`, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert("Comment edited successfully.");
+                refreshCommunityForum(); // Refresh the forum after editing
+            } else {
+                alert("Failed to edit the comment.");
+            }
+        }
+    }
+
+    async function deleteForumEntry(forumId) {
+        const response = await fetch(`/delete-forum/${forumId}/`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            refreshCommunityForum();
         } else {
-            alert('Please fill in all fields.');
+            alert("Failed to delete the comment.");
         }
     }
     
@@ -289,7 +302,6 @@
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
                 // const longitude = DOMPurify.sanitize(item.fields.longitude);
                 // const latitude = DOMPurify.sanitize(item.fields.latitude);
-                console.log(item.fields.foto)
                 htmlString += `
                 <div class="w-[325px] h-[325px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3">
                     <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[255px] h-[172px] left-[35px] top-[35px] absolute rounded-[40px]"/>
@@ -304,6 +316,72 @@
         document.getElementById("tempat_kuliner_cards").innerHTML = htmlString;
     }
 refreshTempatKuliner();
+
+    async function getUserById(userId) {
+        const response = await fetch(`/get-user/${userId}/`);
+        return await response.json();
+    }
+
+    async function getCurrentUserId() {
+        const response = await fetch("/get-current-user-id/");
+        const data = await response.json();
+        return data.user_id;
+    }
+
+    async function getCommunityForum(){
+        return fetch("{% url 'zoya:show_json_forum' %}").then((res) => res.json())
+    }
+
+    async function refreshCommunityForum() {
+        document.getElementById("forum_posts").innerHTML = "";
+        const communityForum = await getCommunityForum();
+
+        const currentUserId = await getCurrentUserId();
+
+        let htmlString = "";
+
+        if (communityForum.length === 0) {
+            htmlString = `
+                Nothing to see here...
+            `;
+        } else {
+            for (const item of communityForum) {
+                // const comment = DOMPurify.sanitize(item.fields.comment);
+                // const time = DOMPurify.sanitize(item.fields.time);
+
+                const user = await getUserById(item.fields.user);
+                const isCurrentUser = String(currentUserId) === String(item.fields.user);
+
+                // const username = DOMPurify.sanitize(user.username);
+
+                const actionButtons = isCurrentUser
+                    ? `
+                    <button onclick="editForumEntry(${item.pk})" class="text-blue-500 hover:text-blue-700">Edit</button>
+                    <button onclick="deleteForumEntry(${item.pk})" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
+                    `
+                    : "";
+
+
+                console.log("Current User ID:", currentUserId);
+                console.log("Post User ID:", item.fields.user);
+                console.log("Is Current User:", isCurrentUser);
+                htmlString += `
+                <div class="bg-white border-l-4 border-[#c88709] p-4 rounded-[10px]">
+                    <p class="text-[18px] text-darkYellow font-semibold">${user.username}</p>
+                    <p class="text-[15px] text-[#7a7a7a]">${item.fields.comment}</p>
+                    <span class="text-[12px] text-[#c88709]">Posted on ${item.fields.time}</span>
+                    <div class="mt-2">
+                        ${actionButtons}
+                    </div>
+                </div>
+                `;
+            }
+        }
+
+        document.getElementById("forum_posts").innerHTML = htmlString;
+    }
+
+refreshCommunityForum();
 </script>
 
 {% endblock content %}
