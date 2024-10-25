@@ -4,27 +4,43 @@
 
 {% include 'navbar.html' %}
 <div class="flex flex-col justify-center items-center my-28 w-screen">
-    <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[425px] relative">
-        <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[381px] left-0 top-0 absolute bg-[#7a7a7a] rounded-[50px] border-4 border-darkYellow"></div>
-
-        <!-- right arrow -->
-        <div class="w-[41px] h-[60px] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]">
-            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
-        </div>    
-
-        <!-- left arrow -->
-        <div class="w-[41px] h-[60px] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]">
-            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
+    <div id="default-carousel" class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[425px] relative" data-carousel="slide">
+        <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[381px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
+            <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{% static 'images/geprek_bensu.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Keju Bensu</div>
+                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Bensu</div>
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{% static 'images/sate_klatak.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak Spesial</div>
+                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak</div>
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{% static 'images/bakpia_pathok.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
+                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
+            </div>
         </div>
 
-        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight">Bebek Goreng</div>
-        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight">Resto Bu Sum</div>
+        <!-- right arrow -->
+        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
+            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
+        </button>    
+
+        <!-- left arrow -->
+        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
+            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
+        </button>
     </div>
     
     <!-- See More Button -->
-    <div class="w-[200px] h-[65px] bg-[#ebe9e1] rounded-[158px] -translate-y-[80px] border-l-8 border-r-8 border-[#c98809]">
-        <div class="text-center text-[#7c1d04] text-[34px] lg:text-[px] font-normal font-['Jockey One'] leading-[69.25px]">see more!</div>
-    </div>
+    <a href="#options" class="w-[200px] h-[65px] z-[800] bg-[#ebe9e1] rounded-[158px] -translate-y-[80px] border-l-8 border-r-8 border-[#c98809] hover:shadow-lg">
+        <div class="text-center text-[#7c1d04] text-[34px] lg:text-[px] font-normal font-['Jockey One'] leading-[69.25px]">See More!</div>
+    </a>
 
     <!-- Search Bar -->
     <form class="w-[65vw] h-[68px] relative -translate-y-[70px]">   
@@ -36,12 +52,12 @@
                 </svg>
             </div>
             <input type="search" id="default-search" class="block w-full h-[60px] ps-10 text-[15px] md:text-[27px] text-darkOrange border-darkOrange rounded-[25px] border-4 bg-white focus:ring-darkYellow focus:border-darkYellow dark:bg-white dark:border-darkYellow dark:placeholder-[#7a7a7a] dark:text-darkOrange dark:focus:ring-darkYellow dark:focus:border-darkYellow" placeholder="Search Mockups, Logos..." required />
-            <button type="submit" class="text-white rounded-[15px] absolute end-2.5 bottom-2.5 bg-darkOrange hover:bg-darkOrange focus:ring-4 focus:outline-none focus:ring-orange font-medium text-[20px] px-3 py-1 dark:bg-darkOrange dark:hover:bg-darkOrange dark:focus:ring-orange">Search</button>
+            <button type="submit" class="text-white rounded-[15px] absolute end-2.5 bottom-2.5 bg-darkOrange hover:bg-orange focus:ring-4 focus:outline-none focus:ring-orange font-medium text-[20px] px-3 py-1 dark:bg-darkOrange dark:hover:bg-orange dark:focus:ring-orange">Search</button>
         </div>
     </form>
     
     <!-- Options -->
-    <div class="justify-center flex gap-4 -translate-y-[70px]">
+    <div id="options" class="justify-center flex gap-4 -translate-y-[70px]">
         <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
             Traditional
         </div>
@@ -53,7 +69,7 @@
         </div>
     </div>
 
-    <div class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
+    <div id="looking" class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
     
     <!-- Category Button -->
 
@@ -105,7 +121,7 @@
                 <form id="new_post_form" class="flex flex-col space-y-4">
                     <input type="text" id="username" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" placeholder="Your Name" required>
                     <textarea id="user_comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
-                    <button type="button" onclick="addPost()" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px]">Post</button>
+                    <button type="button" onclick="addPost()" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
                 </form>
             </div>
         </div>
@@ -265,21 +281,20 @@
             `;
         }
         else {
-            classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-1"
+            classNameString = "py-3 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
             tempatKuliner.forEach((item) => {
                 // const nama = DOMPurify.sanitize(item.fields.nama);
                 // const description = DOMPurify.sanitize(item.fields.description);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
                 // const longitude = DOMPurify.sanitize(item.fields.longitude);
                 // const latitude = DOMPurify.sanitize(item.fields.latitude);
+                console.log(item.fields.foto)
                 htmlString += `
-                <div>
-                    <div class="w-[325px] h-[325px] relative">
-                        <img src="{% static '${item.fields.foto}' %}" alt="${item.fields.nama}" class="w-[255px] h-[172px] left-[35px] top-[35px] absolute rounded-[40px]"/>
-                        <div class="w-[255px] left-[30px] top-[209px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
-                        <div class="w-[173px] h-[58px] left-[30px] top-[242px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.alamat}</div>
-                        <div class="w-[83.14px] left-[180px] top-[261px] absolute text-right text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
-                    </div>
+                <div class="w-[325px] h-[325px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3">
+                    <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[255px] h-[172px] left-[35px] top-[35px] absolute rounded-[40px]"/>
+                    <div class="w-[255px] left-[30px] top-[209px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
+                    <div class="w-[173px] h-[58px] left-[30px] top-[242px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.alamat}</div>
+                    <div class="w-[83.14px] left-[180px] top-[261px] absolute text-right text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
                 </div>
                 `;
             });
