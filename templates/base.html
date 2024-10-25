@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jajan Jogja</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static "css/globals.css" %}">
     <link rel="icon" type="image/x-icon" href="{% static "images/favicon.png" %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="{% static "css/globals.css" %}">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
     <script>
@@ -48,7 +48,7 @@
     </script>
     {% block meta %}{% endblock meta %}
 </head>
-<body class="w-screen bg-white font-JockeyOne flex justify-center items-center">
+<body class="w-screen overflow-x-hidden bg-white font-JockeyOne flex justify-center items-center">
   <div class="w-96 h-96 rounded-full bg-orange opacity-50 blur-2xl absolute -left-[200] -top-[200]"></div>
   <div class="invisible sm:visible w-96  h-96 rounded-full bg-orange opacity-50 blur-2xl absolute -right-[200] -top-[200]"></div>
   {% block content %}{% endblock content %}
