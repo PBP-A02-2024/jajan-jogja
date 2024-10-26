@@ -21,8 +21,7 @@ class TempatKuliner(models.Model):
     jamTutup = models.DateTimeField()
     rating = models.IntegerField()
     foto_link = models.TextField(default="https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg")
-    variasi = models.CharField(max_length=255, default="")
-
+    variasi = models.ManyToManyField('Variasi', related_name='tempat_kuliner_set')
     def __str__(self):
         return self.nama
 
@@ -32,7 +31,13 @@ class Makanan(models.Model):
     description = models.TextField()  
     harga = models.IntegerField()
     foto_link = models.TextField(default="https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg")
-    tempat_kuliner = models.ForeignKey(TempatKuliner, on_delete=models.CASCADE, related_name='makanan', null=True)
+
+    def __str__(self):
+        return self.nama
+    
+
+class Variasi(models.Model):
+    nama = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nama

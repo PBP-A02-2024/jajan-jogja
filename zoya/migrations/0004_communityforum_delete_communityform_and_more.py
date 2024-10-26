@@ -9,7 +9,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('zoya', '0003_makanan_tempat_kuliner_tempatkuliner_variasi'),
+    ('zoya', '0002_alter_makanan_foto_link_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
