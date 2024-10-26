@@ -1,37 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "navbar.html"%}
-<div class="pb-64">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 lg:px-12 pt-52">
-      <!-- Left Side (Restaurant) -->
-      <div class="space-y-4 border-4 border-darkPink rounded-[3rem] p-6 pb-28 shadow-lg">
-        <div class="w-full h-64 bg-[#D9D9D9] rounded-3xl flex justify-center items-center">
-          {% if tempat_kuliner.foto_link %}
-          <img src="{{ tempat_kuliner.foto_link }}" alt="{{ tempat_kuliner.nama }}" class="object-cover h-full w-full rounded-3xl"/>
-          {% else %}
-          <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image Available" class="object-cover h-full w-full rounded-3xl"/>
-          {% endif %}
-        </div>
-        <h1 class="font-bold text-4xl text-darkOrange">{{ tempat_kuliner.nama }}</h1>
-        <p class="font-normal text-sm text-black">{{ tempat_kuliner.alamat }}</p>
-        <p class="font-normal text-sm text-black">{{ tempat_kuliner.description }}</p>
-        <p class="font-normal text-sm text-black">Open : {{ tempat_kuliner.jamBuka|date:"H:i" }} - {{ tempat_kuliner.jamTutup|date:"H:i" }} WIB</p>
 
-        <div class="flex justify-between items-center p-2 border-2 border-darkPink rounded-3xl">
+<div class="pb-64">
+  <div class="grid grid-cols-1 lg:grid-cols-2 max-w-full lg:max-w-[1280px] mx-auto gap-8 px-8 lg:px-12 pt-52">
+    <div class="space-y-4">
+      <div class="w-full border-4 border-darkPink rounded-[3rem] p-6 pb-28 shadow-lg">
+        {% if restoran.foto_link %}
+        <img src="{{ restoran.foto_link }}" alt="{{ restoran.nama }}" class="object-cover h-128 w-128 rounded-3xl"/>
+        {% else %}
+        <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image Available" class="object-cover h-128 w-128 rounded-3xl"/>
+        {% endif %}
+        <h1 class="font-bold text-4xl text-darkOrange mb-4">{{ restoran.nama }}</h1>
+        <p class="font-normal text-sm text-black">{{ restoran.alamat }}</p>
+        <p class="font-normal text-sm text-black">{{ restoran.description }}</p>
+        <p class="font-normal text-sm text-black mb-4">Open: {{ restoran.jamBuka|date:"H:i" }} - {{ restoran.jamTutup|date:"H:i" }} WIB</p>
+        <div class="flex justify-between items-center p-2 gap-2 border-2 border-darkPink rounded-3xl mb-4">
           <h1 class="px-2 font-semibold text-xl text-darkPink">Reviews</h1>
           <div class="flex items-center gap-2 px-2">
-            <p class="font-bold text-xl text-darkPink">{{ tempat_kuliner.rating|default:"N/A" }}/5</p>
+            <p class="font-bold text-xl text-darkPink">{{ restoran.rating|default:"N/A" }}/5</p>
             <div class="w-5 h-5">
-              <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+              <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1">
+                <defs><style>.cls-1{fill:#ffd401;}</style></defs>
+                <title>star-symbol</title>
+                <path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/>
+              </svg>
             </div>
           </div>
         </div>
+
         <div class="relative p-8 space-y-4 border-2 border-darkPink rounded-xl">
           {% comment %} Review Card {% endcomment %}
-        <div id="reviews-container" class="space-y-4">
-        </div>
+          <div id="reviews-container" class="space-y-4">
+          </div>
           {% if not has_reviewed %}
-          <a href="{% url 'reviews:create_review' tempat_kuliner.id %}">
+          <a href="{% url 'reviews:create_review' restoran.id %}">
             <button class="absolute -bottom-6 right-0 px-3 py-1 rounded-2xl bg-white border-2 border-lightPink text-darkPink text-lg font-semibold">
               Add Review
             </button>
@@ -39,20 +42,23 @@
           {% else %}
           <p class="absolute -bottom-6 right-0 text-xs text-grey">You have already reviewed this place.</p>
           {% endif %}
+        </div>
       </div>
-      </div>
+    </div>
 
-      <!-- Right Side (Foods) -->
-      <div id="makanan_cards" onclick="showModal()"></div>
+    <div>
+      <div id="makanan_cards" onclick="showModal()">
+      </div>
     </div>
   </div>
+</div>
 
 {% comment %} EDIT REVIEW MODAL {% endcomment %}
 <div id="editReviewModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
   <div class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 p-8">
     <!-- Modal header -->
     <div class="flex items-center justify-between border-b pb-4 mb-4">
-      <h2 class="text-2xl font-semibold text-gray-800">Edit Your Review for {{tempat_kuliner.nama}}</h2>
+      <h2 class="text-2xl font-semibold text-gray-800">Edit Your Review for {{restoran.nama}}</h2>
       <button type="button" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1.5" id="closeEditModal">
         <svg width="24" height="24" fill="currentColor">
           <path d="M6 18L18 6M6 6l12 12"></path>
@@ -84,46 +90,40 @@
   </div>
 </div>
 
-
-  {% comment %} MODAL {% endcomment %}
-    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
-      <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between p-4 border-b rounded-t">
-          <h3 class="text-xl font-semibold text-3xl text-black">
-            Add to itineraries
-          </h3>
-          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="cancelModal">
-            <svg width="40" height="40" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.6777 19.0918L54.4473 55.8614" stroke="#7C1D05" stroke-width="10" stroke-linecap="round"/>
-              <path d="M18.3848 55.1543L55.1543 18.3847" stroke="#7C1D05" stroke-width="10" stroke-linecap="round"/>
-              </svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-6">
-          <form id="productEntryForm">
-            <div class="mb-4 flex items-center gap-4">
-              <input type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-10 h-10 appearance-none border-2 border-black rounded-xl bg-transparent checked:bg-yellow  focus:outline-none focus:ring-2 focus:ring-darkPink">
-              <label for="" class="font-bold text-2xl text-black">Itinerary 1</label>
-            </div>
-          </form>
-        </div>
-        <div class="flex justify-end p-4 border-t">
-          <button
-            type="submit"
-            id="submitMoodEntry"
-            form="productEntryForm"
-            class="bg-yellow hover:bg-yellow/90 text-white text-lg font-semibold py-2 px-4 rounded-lg">
-            Save
-          </button>
-        </div>
-      </div>
+<!-- MODAL -->
+<div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-700 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+  <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform duration-300 ease-out">
+    <!-- Modal header -->
+    <div class="flex items-center justify-between p-4 border-b rounded-t">
+      <h3 class="text-xl font-semibold lg:text-3xl text-black">
+        Add to itineraries
+      </h3>
+      <button type="button" class="text-darkOrange bg-transparent hover:bg-darkOrange/10 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="cancelModal">
+        <svg width="40" height="40" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.6777 19.0918L54.4473 55.8614" stroke="#7C1D05" stroke-width="10" stroke-linecap="round"/>
+          <path d="M18.3848 55.1543L55.1543 18.3847" stroke="#7C1D05" stroke-width="10" stroke-linecap="round"/>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+    <div class="px-6 py-4 space-y-6">
+      <form id="productEntryForm">
+        <div id="food_plan_cards"></div>
+      </form>
+    </div>
+    <div class="flex justify-end p-4 border-t">
+      <button
+              type="submit"
+              id="saveItinerary"
+              form="productEntryForm"
+              class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
+        Save
+      </button>
+    </div>
   </div>
 </div>
 
 <script>
-  // Function to show the modal
   function showModal() {
     const modal = document.getElementById('crudModal');
     const modalContent = document.getElementById('crudModalContent');
@@ -135,7 +135,6 @@
     }, 50);
   }
 
-  // Function to hide the modal
   function hideModal() {
     const modal = document.getElementById('crudModal');
     const modalContent = document.getElementById('crudModalContent');
@@ -147,8 +146,6 @@
       modal.classList.add('hidden');
     }, 150);
   }
-
-  // Function to fetch reviews
   async function fetchReviews(restaurantId) {
     try {
       const response = await fetch(`/review/get-reviews/${restaurantId}/`);
@@ -161,7 +158,6 @@
     }
   }
 
-  // Function to render reviews
   function renderReviews(reviews) {
     const container = document.getElementById("reviews-container");
     container.innerHTML = ""; // Clear existing content
@@ -176,21 +172,21 @@
       const reviewHtml = `
         <div>
           <div class="p-4 rounded-xl bg-lightPink/30">
-            <p class="text-sm lg:text-sm">${review.comment}</p>
+            <p class="text-xs lg:text-xs">${review.comment}</p>
           </div>
           <div class="flex justify-between">
             <h3 class="font-semibold text-darkOrange text-sm lg:text-xl">${review.user}</h3>
             <div>
-              <h3 class="font-normal text-grey text-sm lg:text-base">on ${new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</h3>
+              <h3 class="font-normal text-grey text-sm lg:text-sm">on ${new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</h3>
               <div class="flex justify-end items-center gap-2 px-2">
                 <p class="font-bold text-sm lg:text-xl text-black">${review.rating}/5</p>
- <div class="w-4 h-4 lg:w-5 lg:h-5">
+                <div class="w-4 h-4 lg:w-5 lg:h-5">
                   <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
                 </div>
                 ${
               isOwner
                       ? `<button class="edit-review-button text-blue-600 text-sm" data-review-id="${review.id}" data-comment="${review.comment}" data-rating="${review.rating}">Edit</button>
-                       <button class="delete-review-button text-red-500 text-sm" data-review-id="${review.id}">Delete</button>`
+                     <button class="delete-review-button text-red-500 text-sm" data-review-id="${review.id}">Delete</button>`
                       : ''
       }
               </div>
@@ -201,45 +197,6 @@
     });
   }
 
-  // Function to refresh food items
-  async function refreshMakanan(tempatKulinerId) {
-    const container = document.getElementById("makanan_cards");
-    container.innerHTML = ""; // Clear existing content
-    container.className = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6"; // Set the grid layout
-
-    try {
-      const response = await fetch(`get_makanan_json/${tempatKulinerId}/`);
-      if (!response.ok) throw new Error("Failed to fetch food items.");
-
-      const semua_makanan = await response.json();
-
-      if (semua_makanan.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 text-center">No food items available.</p>';
-        return;
-      }
-
-      semua_makanan.forEach(makanan => {
-        const { nama, description, harga, foto_link } = makanan.fields;
-        const fotoUrl = foto_link || "https://example.com/default-image.jpg";
-
-        const makananHtml = `
-          <div onclick="showModal()" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-3xl p-6 shadow-lg group hover:shadow-lg">
-            <div>
-              <img src="${fotoUrl}" alt="${nama}" class="w-full h-32 object-cover bg-gray-200 rounded-3xl" />
-              <h1 class="font-bold text-lg text-darkOrange">${nama}</h1>
-              <p class="font-normal text-sm text-grey">${description}</p>
-            </div>
-            <h3 class="font-semibold text-sm text-darkOrange">Rp${harga}</h3>
-          </div>`;
-        container.insertAdjacentHTML("beforeend", makananHtml);
-      });
-    } catch (error) {
-      console.error("Error loading food items:", error);
-      container.innerHTML = '<p class="text-red-500 text-center">Error loading food items. Please try again later.</p>';
-    }
-  }
-
-  // Function to delete a review
   async function deleteReview(reviewId) {
     try {
       const response = await fetch(`/review/delete/${reviewId}/`, {
@@ -254,7 +211,7 @@
 
       if (data.success) {
         alert(data.message);
-        fetchReviews("{{ tempat_kuliner.id }}"); // Reload the reviews list
+        fetchReviews("{{ restoran.id }}"); // Reload the reviews list
       } else {
         alert("Failed to delete review. Please try again.");
       }
@@ -263,8 +220,6 @@
       alert("An error occurred. Please try again.");
     }
   }
-
-  // Function to show the edit review modal and pre-fill data
   function showEditModal(reviewId, currentComment, currentRating) {
     const editReviewModal = document.getElementById("editReviewModal");
     const editComment = document.getElementById("editComment");
@@ -278,7 +233,6 @@
     editReviewModal.classList.remove("hidden");
   }
 
-  // Function to highlight stars in the rating
   function highlightStars(rating) {
     const stars = document.querySelectorAll("#edit-star-rating label");
     stars.forEach(star => {
@@ -291,15 +245,69 @@
   let selectedRating = 0;
   let reviewIdToEdit = null;
 
-  // Event listener for DOMContentLoaded
+  async function getFoodPlan(){
+    return fetch("{% url 'marco:get_food_plans_json' %}").then((res) => res.json())
+  }
+  async function getMakanan(){
+    return fetch("{% url 'marco:get_makanan_json' tempatKulinerId=restoran.id %}").then((res) => res.json())
+  }
+
+  async function refreshFoodPlan(){
+    document.getElementById("food_plan_cards").innerHTML = "";
+    document.getElementById("food_plan_cards").className = "";
+    const food_plans = await getFoodPlan();
+    let htmlString = "";
+    let classNameString = "";
+
+    classNameString = "flex flex-col gap-4";
+
+    food_plans.forEach((plan) => {
+      htmlString += `
+        <div class="flex items-center gap-4">
+          <input type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-5 h-5 lg:w-10 lg:h-10 appearance-none border-2 border-black rounded-lg lg:rounded-xl bg-transparent checked:bg-yellow  focus:outline-none focus:ring-1  lg:focus:ring-2 focus:ring-darkPink">
+          <label for="" class="font-bold text-lg lg:text-2xl text-black">${plan.fields.nama}</label>
+        </div>
+      `
+    })
+
+    document.getElementById("food_plan_cards").className = classNameString;
+    document.getElementById("food_plan_cards").innerHTML = htmlString;
+  }
+
+  async function refreshMakanan() {
+    document.getElementById("makanan_cards").innerHTML = "";
+    document.getElementById("makanan_cards").className = "";
+    const semua_makanan = await getMakanan();
+    let htmlString = "";
+    let classNameString = "";
+
+    classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
+
+    semua_makanan.forEach((makanan) => {
+      htmlString += `
+      <div onclick="showModal()" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
+        <div>
+          <img src="${makanan.fields.foto_link}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
+          <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
+          <p class="font-normal text-sm text-grey">${makanan.fields.description}</p>
+        </div>
+        <h3 class="font-semibold text-sm text-darkOrange">Rp${makanan.fields.harga}</h3>
+      </div>
+      `
+    })
+
+    document.getElementById("makanan_cards").className = classNameString;
+    document.getElementById("makanan_cards").innerHTML = htmlString;
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
-    const restaurantId = "{{ tempat_kuliner.id }}";
+    const restaurantId = "{{ restoran.id }}";
     fetchReviews(restaurantId);
-    refreshMakanan(restaurantId);
+    refreshMakanan();
+    refreshFoodPlan();
 
     const reviewsContainer = document.getElementById("reviews-container");
 
-    // Event delegation for review buttons
     reviewsContainer.addEventListener("click", function(event) {
       if (event.target.classList.contains("delete-review-button")) {
         const reviewId = event.target.getAttribute("data-review-id");
@@ -314,7 +322,6 @@
       }
     });
 
-    // Close the edit modal
     const closeEditModal = document.getElementById("closeEditModal");
     if (closeEditModal) {
       closeEditModal.addEventListener("click", function() {
@@ -323,7 +330,6 @@
       });
     }
 
-    // Star rating interactions
     const stars = document.querySelectorAll("#edit-star-rating label");
     stars.forEach(star => {
       star.addEventListener("mouseover", function() {
@@ -341,13 +347,11 @@
       });
     });
 
-    // Hide modal when cancel button is clicked
     const cancelModal = document.getElementById("cancelModal");
     if (cancelModal) {
       cancelModal.addEventListener("click", hideModal);
     }
 
-    // Submit edited review
     const editReviewForm = document.getElementById("editReviewForm");
     if (editReviewForm) {
       editReviewForm.addEventListener("submit", async function(event) {
@@ -382,6 +386,7 @@
           alert("An error occurred. Please try again.");
         }
       });
+      const editReviewModal = document.getElementById("editReviewModal");
       editReviewModal.addEventListener("click", function(event) {
         if (event.target === editReviewModal) {
           editReviewModal.classList.add("hidden");
@@ -392,5 +397,6 @@
 </script>
 
 {% endblock content %}
+
 
 
