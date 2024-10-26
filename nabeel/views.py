@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from zoya.models import Makanan, TempatKuliner
+from zoya.models import Makanan, TempatKuliner, Variasi
 
 from nabeel.models import Search
 # import dari punya marco
@@ -30,11 +30,14 @@ def search_page(request):
 
 @csrf_exempt
 def search_by_keyword(request, keyword):
-    list_resto = TempatKuliner.objects.filter(nama__contains=keyword) | TempatKuliner.objects.filter(variasi__contains=keyword) #filter lebih general
+    list_resto = TempatKuliner.objects.filter(nama__contains=keyword) #filter lebih general
+    list_variasi = Variasi.objects.all()
     context = {
         'user':request.user,
         'search_history':Search.objects.filter(user=request.user).order_by('-created_at'),
-        'list_resto' : list_resto
+        'list_resto' : list_resto,
+        'keyword' : keyword,
+        'list_variasi' : list_variasi
     }
     if(request.method == "POST"):
         content = strip_tags(request.POST.get("content"))
@@ -66,3 +69,9 @@ def edit_search_history(request, id):
         data.content = content
         data.save()
     return HttpResponse(b"EDITED", status=200)
+
+def show_tempat_kuliner_by_category(request, keyword, id):
+    data = TempatKuliner.objects.filter(nama__contains=keyword)
+    variasi = Variasi.objects.get(pk=id)
+    data = data.filter(variasi=variasi)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
