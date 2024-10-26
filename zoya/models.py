@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 import uuid
 
 class CommunityForm(models.Model):
@@ -14,9 +15,14 @@ class TempatKuliner(models.Model):
     latitude = models.CharField(max_length=255)
     jamBuka = models.DateTimeField()
     jamTutup = models.DateTimeField()
-    rating = models.IntegerField()
+    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True, default=None)
     foto = models.ImageField()
     variasi = models.CharField(max_length=255, default="")
+
+    def update_rating(self):
+        result = self.reviews.aggregate(average=Avg('rating'))
+        self.rating = Decimal(result['average']) if result['average'] is not None else None
+        self.save()
 
 class Makanan(models.Model):
     nama = models.CharField(max_length=255)

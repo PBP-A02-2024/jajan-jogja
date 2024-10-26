@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="flex flex-col justify-center items-center my-28 w-screen">
+
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+<script>
+    function addPost() {
+        const username = document.getElementById('username').value;
+        const userComment = document.getElementById('user_comment').value;
+        const forumPosts = document.getElementById('forum_posts');
+
+        if (username && userComment) {
+            // Create a new post element
+            const newPost = document.createElement('div');
+            newPost.classList.add('bg-white', 'border-l-4', 'border-[#c88709]', 'p-4', 'rounded-[10px]', 'mb-4');
+
+            // Add post content
+            newPost.innerHTML = `
+                <p class="text-[18px] text-darkYellow font-semibold">${username}</p>
+                <p class="text-[15px] text-[#7a7a7a]">${userComment}</p>
+                <span class="text-[12px] text-[#c88709]">Posted just now</span>
+            `;
+
+            // Append the new post to the forum
+            forumPosts.appendChild(newPost);
+
+            // Clear form fields
+            document.getElementById('username').value = '';
+            document.getElementById('user_comment').value = '';
+        } else {
+            alert('Please fill in all fields.');
+        }
+    }
+
+    async function getTempatKuliner(){
+        return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
+    }
+
+    async function refreshTempatKuliner() {
+        document.getElementById("tempat_kuliner_cards").innerHTML = "";
+        document.getElementById("tempat_kuliner_cards").className = "";
+        // const tempatKuliner = await getTempatKuliner();
+        const tempatKuliner = [
+            {
+                "fields": {
+                    "nama": "Geprek Bensu",
+                    "description": "Enak parah, ayamnya crispy dan sambalnya pedas mantap!",
+                    "alamat": "Jl. Sudirman No. 123, Yogyakarta",
+                    "longitude": "110.3749",
+                    "latitude": "-7.7972",
+                    "jamBuka": "2024-10-22 10:00:00",
+                    "jamTutup": "2024-10-22 22:00:00",
+                    "rating": 4.9,
+                    "foto": "images/geprek_bensu.jpg",
+                    "variasi": "Ayam Geprek, Tahu Crispy"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Sate Klatak Pak Pong",
+                    "description": "Sate kambing dengan bumbu khas, disajikan dengan tusukan besi.",
+                    "alamat": "Jl. Imogiri Timur, Bantul, Yogyakarta",
+                    "longitude": "110.3755",
+                    "latitude": "-7.8924",
+                    "jamBuka": "2024-10-22 12:00:00",
+                    "jamTutup": "2024-10-22 21:00:00",
+                    "rating": 4,
+                    "foto": "images/sate_klatak.jpg",
+                    "variasi": "Sate Klatak, Gulai Kambing"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            },
+            {
+                "fields": {
+                    "nama": "Bakpia Pathok 25",
+                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
+                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
+                    "longitude": "110.3607",
+                    "latitude": "-7.7823",
+                    "jamBuka": "2024-10-22 08:00:00",
+                    "jamTutup": "2024-10-22 20:00:00",
+                    "rating": 4.6,
+                    "foto": "images/bakpia_pathok.jpg",
+                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                }
+            }
+        ];
+
+        let htmlString = "";
+        let classNameString = "";
+
+        if (tempatKuliner.length === 0) {
+            classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+            htmlString = `
+                <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                    <p class="text-center text-grey mt-4 font-semibold">Nothing to see here...</p>
+                </div>
+            `;
+        }
+        else {
+            classNameString = "py-3 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
+            tempatKuliner.forEach((item) => {
+                // const nama = DOMPurify.sanitize(item.fields.nama);
+                // const description = DOMPurify.sanitize(item.fields.description);
+                // const alamat = DOMPurify.sanitize(item.fields.alamat);
+                // const longitude = DOMPurify.sanitize(item.fields.longitude);
+                // const latitude = DOMPurify.sanitize(item.fields.latitude);
+                console.log(item.fields.foto)
+                htmlString += `
+                <div class="w-[325px] h-[325px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3">
+                    <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[255px] h-[172px] left-[35px] top-[35px] absolute rounded-[40px]"/>
+                    <div class="w-[255px] left-[30px] top-[209px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
+                    <div class="w-[173px] h-[58px] left-[30px] top-[242px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.alamat}</div>
+                    <div class="w-[83.14px] left-[180px] top-[261px] absolute text-right text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
+                </div>
+                `;
+            });
+        }
+        document.getElementById("tempat_kuliner_cards").className = classNameString;
+        document.getElementById("tempat_kuliner_cards").innerHTML = htmlString;
+    }
+    refreshTempatKuliner();
+</script>
+
+{% endblock content %}
