@@ -63,6 +63,8 @@ def edit_forum_entry(request, id):
 def add_forum_entry_ajax(request):
     comment = strip_tags(request.POST.get("comment"))
     user = request.user
+    if not user.is_authenticated:
+        return JsonResponse({'error': 'User not authenticated'}, status=403)  # Forbidden
 
     new_forum = CommunityForum(
         comment=comment,

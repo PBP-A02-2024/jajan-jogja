@@ -31,7 +31,7 @@
                 <p class="text-center">No images available</p>
             {% elif makanan.count == 1 %}
                 {% for item in makanan %}
-                    <a href="#">
+                    <a href="restaurant/{{ item.pk }}">
                         <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
                         <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
                         <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
@@ -39,7 +39,7 @@
                 {% endfor %}
             {% else %}
                 {% for item in makanan %}
-                    <a href="#" class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <a href="restaurant/{{ item.pk }}" class="hidden duration-700 ease-in-out" data-carousel-item>
                         <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
                         <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
                         <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
@@ -113,6 +113,8 @@
                     refreshCommunityForum(); // Refresh the forum posts after a successful response
                     form.reset(); // Reset the form after successful submission
                     document.querySelector("[data-modal-toggle='crudModal']").click();
+                } else if (response.status === 403) {
+                    alert('You must be logged in to add a forum entry. Please log in and try again.'); // Provide feedback to the user
                 } else {
                     // Handle error response if needed
                     console.error('Error:', response.statusText);
@@ -169,9 +171,8 @@
                 // const nama = DOMPurify.sanitize(item.fields.nama);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
                 
-                // a href blom disambung
                 htmlString += `
-                <a href="#" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
+                <a href="restaurant/${item.pk}" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
                     <img src="${item.fields.foto_link}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
                     <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
                     <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.alamat}</div>

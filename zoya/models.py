@@ -28,6 +28,7 @@ class TempatKuliner(models.Model):
         return self.nama
 
 class Makanan(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tempat_kuliner = models.ForeignKey(TempatKuliner, on_delete=models.CASCADE, related_name='makanan', null=True)
     nama = models.CharField(max_length=255)
     description = models.TextField()  
