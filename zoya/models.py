@@ -21,7 +21,6 @@ class TempatKuliner(models.Model):
     jamTutup = models.DateTimeField()
     rating = models.IntegerField()
     foto = models.ImageField()
-    variasi = models.CharField(max_length=255, default="")
 
     def __str__(self):
         return self.nama
@@ -32,6 +31,13 @@ class Makanan(models.Model):
     description = models.TextField()  
     harga = models.IntegerField()
     foto = models.ImageField()
+
+    def __str__(self):
+        return self.nama
+
+class Variasi(models.Model):
+    tempat_kuliner = models.ForeignKey(TempatKuliner, on_delete=models.CASCADE, related_name='variasi', null=True)
+    nama = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nama

@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse
-from zoya.models import TempatKuliner, CommunityForum, Makanan
+from zoya.models import TempatKuliner, CommunityForum, Makanan, Variasi
 from zoya.forms import CommunityForumForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
@@ -11,8 +11,12 @@ from django.http import JsonResponse
 
 def show_main(request):
     makanan = Makanan.objects.all()
+    variasi = Variasi.objects.all()
 
-    context = {'makanan': makanan}
+    context = {
+        'makanan': makanan,
+        'variasi': variasi,
+    }
 
     return render(request, 'landing.html', context)
 
