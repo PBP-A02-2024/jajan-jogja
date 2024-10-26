@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main',
     'nabeel',
     'zoya',
+    'marco'
 ]
 
 MIDDLEWARE = [
