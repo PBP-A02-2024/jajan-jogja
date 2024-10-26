@@ -18,11 +18,11 @@ class TempatKuliner(models.Model):
     alamat = models.CharField(max_length=255)  
     longitude = models.CharField(max_length=255)
     latitude = models.CharField(max_length=255)
-    jamBuka = models.DateTimeField()
-    jamTutup = models.DateTimeField()
+    jamBuka = models.TimeField()
+    jamTutup = models.TimeField()
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True, default=None)
-    foto = models.ImageField()
-    variasi = models.CharField(max_length=255, default="")
+    foto_link = models.TextField(default="https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg")
+    variasi = models.ManyToManyField('Variasi', related_name='tempat_kuliner_set')
 
     def update_rating(self):
         result = self.reviews.aggregate(average=Avg('rating'))
@@ -38,7 +38,14 @@ class Makanan(models.Model):
     nama = models.CharField(max_length=255)
     description = models.TextField()  
     harga = models.IntegerField()
-    foto = models.ImageField()
+    foto_link = models.TextField(default="https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg")
+
+    def __str__(self):
+        return self.nama
+    
+
+class Variasi(models.Model):
+    nama = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.nama
