@@ -1,3 +1,5 @@
+from django.urls import path, include
+from main.views import show_main
 from django.urls import path
 from main.views import login_user, logout_user, show_main, register
 

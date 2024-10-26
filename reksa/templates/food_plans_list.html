@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "navbar.html" with page="food"%}
+
+
+<div class="flex flex-col items-center justify-start mt-24 sm:mt-32">
+    <h1 class="text-4xl text-darkYellow text-center mb-4">Food Plans</h1>
+</div>
+
+
+<div class="flex justify-center pb-24">
+    <div class="overflow-x-auto gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {% if food_plans %}
+            {% for food_plan in food_plans %}
+                <a href="{% url "reksa:food_plan_detail_view" food_plan.id %}" class="w-48 h-48 sm:w-72 sm:h-72 bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center text-center border-4 border-darkYellow">
+                    <p class="sm:text-3xl text-lg font-semibold text-darkOrange">{{ food_plan.nama }}</p>
+                    <p class="sm:text-xl text-lg text-gray-500 mt-2 flex items-center">{{ food_plan.jarak }}km</p>
+                    <p class="sm:text-xl text-lg text-gray-500 mt-2 flex items-center">{{ food_plan.id }}</p>
+                </a>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+        <a href="{% url "reksa:food_plan_create" %}" class="w-48 h-48 sm:w-72 sm:h-72 bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center text-center border-4 border-darkYellow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                <rect x="38" width="20" height="96" rx="10" fill="#C98809"/>
+                <rect y="58" width="20" height="96" rx="10" transform="rotate(-90 0 58)" fill="#C98809"/>
+                </svg>
+            <div class="sm:text-3xl text-lg font-semibold text-darkOrange">Create New Food Plan</div>
+        </a>
+    </div>
+</div>
+
+{% endblock content %}

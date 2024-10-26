@@ -11,16 +11,18 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('zoya', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Search',
+            name='FoodPlan',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('content', models.CharField(max_length=255)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('nama', models.CharField(max_length=255)),
+                ('makanan', models.ManyToManyField(to='zoya.makanan')),
+                ('tempat_kuliner', models.ManyToManyField(to='zoya.tempatkuliner')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

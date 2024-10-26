@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'reksa',
     'nabeel',
     'zoya',
+    'marco'
 ]
 
 MIDDLEWARE = [
