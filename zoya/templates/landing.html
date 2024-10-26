@@ -30,11 +30,13 @@
             {% if makanan.count == 0 %}
                 <p class="text-center">No images available</p>
             {% elif makanan.count == 1 %}
-                <a href="#">
-                    <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                {% for item in makanan %}
+                    <a href="#">
+                        <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
                         <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
                         <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
-                </a>
+                    </a>
+                {% endfor %}
             {% else %}
                 {% for item in makanan %}
                     <a href="#" class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -44,6 +46,8 @@
                     </a>
                 {% endfor %}
             {% endif %}
+
+            <img src="{% static 'images/elemen_jogja.png' %}" class="absolute object-cover top-0 w-full h-full">
         </div>
 
         {% if makanan.count > 1 %}
