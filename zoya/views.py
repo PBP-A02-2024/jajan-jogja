@@ -46,19 +46,17 @@ def delete_forum_entry(request, id):
             return HttpResponse(status=404)  # Not found
     return HttpResponse(status=403)  # Forbidden
 
-@csrf_exempt
-@require_http_methods(["POST"])
 def edit_forum_entry(request, id):
-    if request.user.is_authenticated:
-        try:
-            forum_entry = CommunityForum.objects.get(pk=id, user=request.user)
-            new_comment = request.POST.get("comment", "")
-            forum_entry.comment = strip_tags(new_comment)  # Sanitize the input
-            forum_entry.save()
-            return HttpResponse(status=200)  # OK
-        except CommunityForum.DoesNotExist:
-            return HttpResponse(status=404)  # Not found
-    return HttpResponse(status=403)  # Forbidden
+    mood = CommunityForum.objects.get(pk = id)
+
+    form = CommunityForumForm(request.POST or None, instance=mood)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('zoya:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_forum.html", context)
 
 @csrf_exempt
 @require_POST
