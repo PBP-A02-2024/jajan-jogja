@@ -16,8 +16,7 @@ def get_makanan_json(request, tempatKulinerId):
     semua_makanan = tempat_kuliner.makanan.all()
     return HttpResponse(serializers.serialize("json", semua_makanan), content_type="application/json")
 
-# @login_required(login_url='main:login')
+@login_required(login_url='main:login')
 def get_food_plans_json(request):
-    print(request.user)
     data = FoodPlan.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
