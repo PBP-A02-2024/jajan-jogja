@@ -31,16 +31,16 @@
                 <p class="text-center">No images available</p>
             {% elif makanan.count == 1 %}
                 <div>
-                    <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
-                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
-                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
+                    <img src="{{ makanan.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{ makanan.nama }}">
+                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{ makanan.nama }}</div>
+                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{ makanan.tempat_kuliner.nama }}</div>
                 </div>
             {% else %}
                 {% for item in makanan %}
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
-                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
-                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
+                        <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{ item.nama }}">
+                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{ item.nama }}</div>
+                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{ item.tempat_kuliner.nama }}</div>
                     </div>
                 {% endfor %}
             {% endif %}
