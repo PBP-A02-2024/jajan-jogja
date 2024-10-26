@@ -3,38 +3,60 @@
 {% block content %}
 
 {% include 'navbar.html' %}
+
+<style>
+    @keyframes pulse {
+    0%, 100% {
+        transform: scale(1); /* Start and end at original size */
+    }
+    50% {
+        transform: scale(1.04); /* Scale up slightly */
+    }
+    }
+
+    /* Apply the animation on hover */
+    .pulsating {
+        transition: transform 0.5s ease, opacity 0.3s ease; /* Smooth transition for transform and opacity */
+    }
+
+    .pulsating:hover {
+        animation: pulse 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Start pulsing on hover */
+    }
+</style>
+
 <div class="flex flex-col justify-center items-center my-28 w-screen">
     <div id="default-carousel" class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[425px] relative" data-carousel="slide">
         <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[381px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
-            <!-- Item 1 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static 'images/geprek_bensu.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Keju Bensu</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Geprek Bensu</div>
-            </div>
-            <!-- Item 2 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static 'images/sate_klatak.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak Spesial</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Sate Klatak</div>
-            </div>
-            <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static 'images/bakpia_pathok.jpg' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">Bakpia Pathok</div>
-            </div>
+            {% if makanan.count == 0 %}
+                <p class="text-center">No images available</p>
+            {% elif makanan.count == 1 %}
+                <div>
+                    <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
+                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
+                </div>
+            {% else %}
+                {% for item in makanan %}
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                        <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
+                        <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
 
-        <!-- right arrow -->
-        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
-            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
-        </button>    
+        {% if makanan.count > 1 %}
+            <!-- right arrow -->
+            <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
+                <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
+            </button>    
 
-        <!-- left arrow -->
-        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
-            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
-        </button>
+            <!-- left arrow -->
+            <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
+                <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
+            </button>
+        {% endif %}
     </div>
     
     <!-- See More Button -->
@@ -57,19 +79,19 @@
     </form>
     
     <!-- Options -->
-    <div id="options" class="justify-center flex gap-4 -translate-y-[70px]">
-        <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
-            Traditional
+    <div id="options">
+        {% if makanan.count != 0 %}
+        <div class="justify-center flex gap-4 -translate-y-[70px]">
+            {% for item in variasi %}
+                <a href="#" class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
+                    {{item.nama}}
+                </a>
+            {% endfor %}
         </div>
-        <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
-            Traditional
-        </div>
-        <div class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
-            Traditional
-        </div>
+        {% endif %}
     </div>
 
-    <div id="looking" class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
+    <div class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
     
     <!-- Category Button -->
 
@@ -79,84 +101,115 @@
             </svg>
         </button>
         
-        <!-- Dropdown menu -->
+        <!-- Dropdown Menu -->
         <div id="dropdown" class="z-10 hidden bg-white rounded-lg shadow w-full dark:bg-black">
             <ul class="py-2 text-[20px] text-black dark:text-white flex flex-col text-center w-full" aria-labelledby="dropdownDefaultButton">
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white">Traditional</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white">Traditional</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white">Traditional</a>
-            </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white" onclick="filterTempatKuliner('All')">All</a>
+                </li>
+                {% if variasi.count != 0 %}
+                    {% for item in variasi %}
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white" onclick="filterTempatKuliner('{{ item.nama }}')">{{ item.nama }}</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
+
     </div>
 
+    <!-- Cards Tempat -->
     <div id="tempat_kuliner_cards"></div>
 
+    <!-- Community Forum -->
     <div class="my-28 w-screen flex flex-col items-center">
         <div class="w-[80vw] lg:w-[55vw] xl:w-[45vw]">
             <h2 class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One'] text-center mb-8">Community Forum</h2>
-    
-            <!-- Forum Discussion Section -->
-            <div class="bg-[#f3f3f3] border-4 border-[#c88709] rounded-[20px] p-6 mb-6">
-                <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Discussion</h3>
-                <div id="forum_posts" class="space-y-4">
-                    <!-- Example post -->
-                    <div class="bg-white border-l-4 border-[#c88709] p-4 rounded-[10px]">
-                        <p class="text-[18px] text-darkYellow font-semibold">Jane Doe</p>
-                        <p class="text-[15px] text-[#7a7a7a]">I tried the "Geprek Bensu" recently, and the crispy chicken was amazing! The sambal was very spicy, just the way I like it.</p>
-                        <span class="text-[12px] text-[#c88709]">Posted on October 21, 2024</span>
-                    </div>
-                    <!-- More posts can be added dynamically here -->
-                </div>
-            </div>
-    
+            
             <!-- New Post Form -->
-            <div class="bg-[#ebe9e1] border-4 border-[#c88709] rounded-[20px] p-6">
+            <div class="bg-[#ebe9e1] border-4 border-[#c88709] rounded-[20px] p-6 mb-6">
                 <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Share Your Experience</h3>
-                <form id="new_post_form" class="flex flex-col space-y-4">
-                    <input type="text" id="username" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" placeholder="Your Name" required>
-                    <textarea id="user_comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
-                    <button type="button" onclick="addPost()" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
+                <form id="new_post_forum" class="flex flex-col space-y-4">
+                    <textarea id="user_comment" name="comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
+                    <button id="submitForumEntry" type="it" form="new_post_forum" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
                 </form>
+            </div>
+
+            <!-- Forum Discussion Section -->
+            <div class="bg-[#f3f3f3] border-4 border-[#c88709] rounded-[20px] p-6">
+                <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Discussion</h3>
+                <div id="forum_posts" class="space-y-4"></div>
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Include Flowbite JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 <script>
-    function addPost() {
-        const username = document.getElementById('username').value;
-        const userComment = document.getElementById('user_comment').value;
-        const forumPosts = document.getElementById('forum_posts');
-
-        if (username && userComment) {
-            // Create a new post element
-            const newPost = document.createElement('div');
-            newPost.classList.add('bg-white', 'border-l-4', 'border-[#c88709]', 'p-4', 'rounded-[10px]', 'mb-4');
-
-            // Add post content
-            newPost.innerHTML = `
-                <p class="text-[18px] text-darkYellow font-semibold">${username}</p>
-                <p class="text-[15px] text-[#7a7a7a]">${userComment}</p>
-                <span class="text-[12px] text-[#c88709]">Posted just now</span>
-            `;
-
-            // Append the new post to the forum
-            forumPosts.appendChild(newPost);
-
-            // Clear form fields
-            document.getElementById('username').value = '';
-            document.getElementById('user_comment').value = '';
+    function addForum() {
+        const form = document.getElementById('new_post_forum');
+        
+        // Check if the form is valid before proceeding
+        if (form.checkValidity()) { 
+            fetch("{% url 'zoya:add_forum_entry_ajax' %}", {
+                method: "POST",
+                body: new FormData(form),
+            })
+            .then(response => {
+                if (response.ok) {
+                    refreshCommunityForum(); // Refresh the forum posts after a successful response
+                    form.reset(); // Reset the form after successful submission
+                    document.querySelector("[data-modal-toggle='crudModal']").click();
+                } else {
+                    // Handle error response if needed
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
         } else {
-            alert('Please fill in all fields.');
+            // Trigger validation messages
+            form.reportValidity(); // This shows the browser's validation messages
+        }
+        
+        return false; // Prevent default form submission
+    }
+
+    document.getElementById("submitForumEntry").onclick = addForum
+
+    async function editForumEntry(forumId) {
+        const newComment = prompt("Enter your new comment:");
+
+        if (newComment !== null && newComment.trim() !== "") {
+            const formData = new FormData();
+            formData.append("comment", newComment);
+
+            const response = await fetch(`/edit-forum/${forumId}/`, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert("Comment edited successfully.");
+                refreshCommunityForum(); // Refresh the forum after editing
+            } else {
+                alert("Failed to edit the comment.");
+            }
+        }
+    }
+
+    async function deleteForumEntry(forumId) {
+        const response = await fetch(`/delete-forum/${forumId}/`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            refreshCommunityForum();
+        } else {
+            alert("Failed to delete the comment.");
         }
     }
     
@@ -164,7 +217,7 @@
         return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
     }
 
-    async function refreshTempatKuliner() {
+    async function refreshTempatKuliner(filterCategory = "") {
         document.getElementById("tempat_kuliner_cards").innerHTML = "";
         document.getElementById("tempat_kuliner_cards").className = "";
         // const tempatKuliner = await getTempatKuliner();
@@ -173,14 +226,13 @@
                 "fields": {
                     "nama": "Geprek Bensu",
                     "description": "Enak parah, ayamnya crispy dan sambalnya pedas mantap!",
-                    "alamat": "Jl. Sudirman No. 123, Yogyakarta",
+                    "alamat": "Jl. Sudirman No. 123, Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta",
                     "longitude": "110.3749",
                     "latitude": "-7.7972",
                     "jamBuka": "2024-10-22 10:00:00",
                     "jamTutup": "2024-10-22 22:00:00",
                     "rating": 4.9,
-                    "foto": "images/geprek_bensu.jpg",
-                    "variasi": "Ayam Geprek, Tahu Crispy"
+                    "foto": "images/geprek_bensu.jpg"
                 }
             },
             {
@@ -193,8 +245,7 @@
                     "jamBuka": "2024-10-22 12:00:00",
                     "jamTutup": "2024-10-22 21:00:00",
                     "rating": 4,
-                    "foto": "images/sate_klatak.jpg",
-                    "variasi": "Sate Klatak, Gulai Kambing"
+                    "foto": "images/sate_klatak.jpg"
                 }
             },
             {
@@ -207,8 +258,7 @@
                     "jamBuka": "2024-10-22 08:00:00",
                     "jamTutup": "2024-10-22 20:00:00",
                     "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg",
-                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                    "foto": "images/bakpia_pathok.jpg"
                 }
             },
             {
@@ -221,8 +271,7 @@
                     "jamBuka": "2024-10-22 08:00:00",
                     "jamTutup": "2024-10-22 20:00:00",
                     "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg",
-                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                    "foto": "images/bakpia_pathok.jpg"
                 }
             },
             {
@@ -235,8 +284,7 @@
                     "jamBuka": "2024-10-22 08:00:00",
                     "jamTutup": "2024-10-22 20:00:00",
                     "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg",
-                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                    "foto": "images/bakpia_pathok.jpg"
                 }
             },
             {
@@ -249,8 +297,7 @@
                     "jamBuka": "2024-10-22 08:00:00",
                     "jamTutup": "2024-10-22 20:00:00",
                     "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg",
-                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                    "foto": "images/bakpia_pathok.jpg"
                 }
             },
             {
@@ -263,16 +310,23 @@
                     "jamBuka": "2024-10-22 08:00:00",
                     "jamTutup": "2024-10-22 20:00:00",
                     "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg",
-                    "variasi": "Bakpia Kacang Hijau, Bakpia Coklat"
+                    "foto": "images/bakpia_pathok.jpg"
                 }
             }
         ];
 
+        let filteredTempatKuliner = tempatKuliner;
+
+        if (filterCategory) {
+            filteredTempatKuliner = tempatKuliner.filter(item => 
+                item.fields.variasi && item.fields.variasi.includes(filterCategory)
+            );
+        }
+
         let htmlString = "";
         let classNameString = "";
 
-        if (tempatKuliner.length === 0) {
+        if (filteredTempatKuliner.length === 0) {
             classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
             htmlString = `
                 <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
@@ -281,28 +335,104 @@
             `;
         }
         else {
-            classNameString = "py-3 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
-            tempatKuliner.forEach((item) => {
+            classNameString = "py-3 gap-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
+            filteredTempatKuliner.forEach((item) => {
                 // const nama = DOMPurify.sanitize(item.fields.nama);
                 // const description = DOMPurify.sanitize(item.fields.description);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
                 // const longitude = DOMPurify.sanitize(item.fields.longitude);
                 // const latitude = DOMPurify.sanitize(item.fields.latitude);
-                console.log(item.fields.foto)
+                // a href blom disambung
                 htmlString += `
-                <div class="w-[325px] h-[325px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3">
-                    <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[255px] h-[172px] left-[35px] top-[35px] absolute rounded-[40px]"/>
-                    <div class="w-[255px] left-[30px] top-[209px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
-                    <div class="w-[173px] h-[58px] left-[30px] top-[242px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.alamat}</div>
-                    <div class="w-[83.14px] left-[180px] top-[261px] absolute text-right text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
-                </div>
+                <a href="#" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-lg hover:scale-102 pulsating">
+                    <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
+                    <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
+                    <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.alamat}</div>
+                    <div class="w-[83.14px] left-[30px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
+                </a>
                 `;
             });
         }
         document.getElementById("tempat_kuliner_cards").className = classNameString;
         document.getElementById("tempat_kuliner_cards").innerHTML = htmlString;
     }
+
 refreshTempatKuliner();
+
+    document.querySelectorAll('#dropdown a').forEach(item => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
+            const selectedCategory = event.target.textContent.trim();
+
+            refreshTempatKuliner(selectedCategory);
+        });
+    });
+
+    async function getUserById(userId) {
+        const response = await fetch(`/get-user/${userId}/`);
+        return await response.json();
+    }
+
+    async function getCurrentUserId() {
+        const response = await fetch("/get-current-user-id/");
+        const data = await response.json();
+        return data.user_id;
+    }
+
+    async function getCommunityForum(){
+        return fetch("{% url 'zoya:show_json_forum' %}").then((res) => res.json())
+    }
+
+    async function refreshCommunityForum() {
+        document.getElementById("forum_posts").innerHTML = "";
+        const communityForum = await getCommunityForum();
+
+        const currentUserId = await getCurrentUserId();
+
+        let htmlString = "";
+
+        if (communityForum.length === 0) {
+            htmlString = `
+                Nothing to see here...
+            `;
+        } else {
+            for (const item of communityForum) {
+                // const comment = DOMPurify.sanitize(item.fields.comment);
+                // const time = DOMPurify.sanitize(item.fields.time);
+
+                const user = await getUserById(item.fields.user);
+                const isCurrentUser = String(currentUserId) === String(item.fields.user);
+
+                // const username = DOMPurify.sanitize(user.username);
+
+                const actionButtons = isCurrentUser
+                    ? `
+                    <button onclick="editForumEntry(${item.pk})" class="text-blue-500 hover:text-blue-700">Edit</button>
+                    <button onclick="deleteForumEntry(${item.pk})" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
+                    `
+                    : "";
+
+
+                console.log("Current User ID:", currentUserId);
+                console.log("Post User ID:", item.fields.user);
+                console.log("Is Current User:", isCurrentUser);
+                htmlString += `
+                <div class="bg-white border-l-4 border-[#c88709] p-4 rounded-[10px]">
+                    <p class="text-[18px] text-darkYellow font-semibold">${user.username}</p>
+                    <p class="text-[15px] text-[#7a7a7a]">${item.fields.comment}</p>
+                    <span class="text-[12px] text-[#c88709]">Posted on ${item.fields.time}</span>
+                    <div class="mt-2">
+                        ${actionButtons}
+                    </div>
+                </div>
+                `;
+            }
+        }
+
+        document.getElementById("forum_posts").innerHTML = htmlString;
+    }
+
+refreshCommunityForum();
 </script>
 
 {% endblock content %}
