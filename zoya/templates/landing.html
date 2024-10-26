@@ -7,117 +7,68 @@
 <style>
     @keyframes pulse {
         0%, 100% {
-            transform: scale(1); /* Start and end at original size */
+            transform: scale(1);
         }
         50% {
-            transform: scale(1.04); /* Scale up slightly */
+            transform: scale(1.04);
         }
     }
 
-    /* Apply the animation on hover */
     .pulsating {
-        transition: transform 0.5s ease, opacity 0.3s ease; /* Smooth transition for transform and opacity */
+        transition: transform 0.5s ease, opacity 0.3s ease;
     }
 
     .pulsating:hover {
-        animation: pulse 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Start pulsing on hover */
+        animation: pulse 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 </style>
 
 <div class="flex flex-col justify-center items-center my-28 w-screen">
-    <div id="default-carousel" class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[425px] relative" data-carousel="slide">
-        <div class="lg:w-[55vw] xl:w-[45vw] w-[80vw] h-[381px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
+    <!-- Carousel -->
+    <div id="default-carousel" class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[525px] relative" data-carousel="slide">
+        <div class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[481px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
             {% if makanan.count == 0 %}
             <p class="text-center">No images available</p>
             {% elif makanan.count == 1 %}
-            <div>
-                <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
-            </div>
+            {% for item in makanan %}
+            <a href="#">
+                <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
+                <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
+            </a>
+            {% endfor %}
             {% else %}
             {% for item in makanan %}
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{% static '{{ item.foto }}' %}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
-                <div class="left-[50px] top-[257px] lg:top-[237px] absolute text-[#c98809] text-[27px] lg:text-5xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.nama}}</div>
-                <div class="left-[54px] top-[293px] absolute text-[#7c1d04] text-[22px] lg:text-3xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{item.tempat_kuliner.nama}}</div>
-            </div>
+            <a href="#" class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
+                <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
+                <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
+            </a>
             {% endfor %}
             {% endif %}
+
+            <img src="{% static 'images/elemen_jogja.png' %}" class="absolute object-cover top-0 w-full h-full">
         </div>
 
         {% if makanan.count > 1 %}
         <!-- right arrow -->
-        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
+        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[214px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
             <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
         </button>
 
         <!-- left arrow -->
-        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[164px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
+        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[214px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
             <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
         </button>
         {% endif %}
     </div>
 
     <!-- See More Button -->
-    <a href="#options" class="w-[200px] h-[65px] z-[800] bg-[#ebe9e1] rounded-[158px] -translate-y-[80px] border-l-8 border-r-8 border-[#c98809] hover:shadow-lg">
+    <a href="#seemore" id="seemore" class="w-[200px] h-[65px] z-[800] bg-[#ebe9e1] rounded-[158px] -translate-y-[80px] border-l-8 border-r-8 border-[#c98809] hover:shadow-lg hover:scale-105">
         <div class="text-center text-[#7c1d04] text-[34px] lg:text-[px] font-normal font-['Jockey One'] leading-[69.25px]">See More!</div>
     </a>
 
-    <!-- Search Bar -->
-    <form class="w-[65vw] h-[68px] relative -translate-y-[70px]">
-        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-6 h-6 text-darkYellow dark:text-darkYellow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-            </div>
-            <input type="search" id="default-search" class="block w-full h-[60px] ps-10 text-[15px] md:text-[27px] text-darkOrange border-darkOrange rounded-[25px] border-4 bg-white focus:ring-darkYellow focus:border-darkYellow dark:bg-white dark:border-darkYellow dark:placeholder-[#7a7a7a] dark:text-darkOrange dark:focus:ring-darkYellow dark:focus:border-darkYellow" placeholder="Search Mockups, Logos..." required />
-            <button type="submit" class="text-white rounded-[15px] absolute end-2.5 bottom-2.5 bg-darkOrange hover:bg-orange focus:ring-4 focus:outline-none focus:ring-orange font-medium text-[20px] px-3 py-1 dark:bg-darkOrange dark:hover:bg-orange dark:focus:ring-orange">Search</button>
-        </div>
-    </form>
-
-    <!-- Options -->
-    <div id="options">
-        {% if makanan.count != 0 %}
-        <div class="justify-center flex gap-4 -translate-y-[70px]">
-            {% for item in variasi %}
-            <a href="#" class="text-[#7a7a7a] px-3 py-1 md:px-4 text-[15px] md:text-[28px] font-['Jockey One'] leading-tight w-full h-full bg-[#ebe9e1]/70 rounded-[10px] border-4 border-[#c88709] flex items-center justify-center">
-                {{item.nama}}
-            </a>
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
-
     <div class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
-
-    <!-- Category Button -->
-
-    <div class="relative inline-block">
-        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-[#7a7a7a] bg-[#ebe9e1]/70 border-4 border-[#c88709] hover:bg-[#ebe9e1]/70 leading-tight focus:ring-4 focus:outline-none font-['Jockey One'] rounded-[10px] text-[25px] md:text-[32px] px-3 py-1 text-center inline-flex items-center dark:bg-[#ebe9e1]/70 dark:hover:bg-[#ebe9e1]/90 dark:focus:ring-0" type="button">Pick a Category <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-        </svg>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <div id="dropdown" class="z-10 hidden bg-white rounded-lg shadow w-full dark:bg-black">
-            <ul class="py-2 text-[20px] text-black dark:text-white flex flex-col text-center w-full" aria-labelledby="dropdownDefaultButton">
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white" onclick="filterTempatKuliner('All')">All</a>
-                </li>
-                {% if variasi.count != 0 %}
-                {% for item in variasi %}
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-grey dark:hover:bg-grey dark:hover:text-white" onclick="filterTempatKuliner('{{ item.nama }}')">{{ item.nama }}</a>
-                </li>
-                {% endfor %}
-                {% endif %}
-            </ul>
-        </div>
-
-    </div>
 
     <!-- Cards Tempat -->
     <div id="tempat_kuliner_cards"></div>
@@ -132,7 +83,7 @@
                 <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Share Your Experience</h3>
                 <form id="new_post_forum" class="flex flex-col space-y-4">
                     <textarea id="user_comment" name="comment" class="border-2 border-darkYellow p-2 rounded-[10px] text-[15px] text-[#7a7a7a]" rows="4" placeholder="Write your comment..." required></textarea>
-                    <button id="submitForumEntry" type="it" form="new_post_forum" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
+                    <button id="submitForumEntry" type="submit" form="new_post_forum" class="bg-darkOrange text-white text-[18px] py-2 rounded-[10px] hover:bg-orange">Post</button>
                 </form>
             </div>
 
@@ -180,27 +131,6 @@
 
     document.getElementById("submitForumEntry").onclick = addForum
 
-    async function editForumEntry(forumId) {
-        const newComment = prompt("Enter your new comment:");
-
-        if (newComment !== null && newComment.trim() !== "") {
-            const formData = new FormData();
-            formData.append("comment", newComment);
-
-            const response = await fetch(`/edit-forum/${forumId}/`, {
-                method: "POST",
-                body: formData,
-            });
-
-            if (response.ok) {
-                alert("Comment edited successfully.");
-                refreshCommunityForum(); // Refresh the forum after editing
-            } else {
-                alert("Failed to edit the comment.");
-            }
-        }
-    }
-
     async function deleteForumEntry(forumId) {
         const response = await fetch(`/delete-forum/${forumId}/`, {
             method: "DELETE",
@@ -217,116 +147,15 @@
         return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
     }
 
-    async function refreshTempatKuliner(filterCategory = "") {
+    async function refreshTempatKuliner() {
         document.getElementById("tempat_kuliner_cards").innerHTML = "";
         document.getElementById("tempat_kuliner_cards").className = "";
-        // const tempatKuliner = await getTempatKuliner();
-        const tempatKuliner = [
-            {
-                "fields": {
-                    "nama": "Geprek Bensu",
-                    "description": "Enak parah, ayamnya crispy dan sambalnya pedas mantap!",
-                    "alamat": "Jl. Sudirman No. 123, Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta Yogyakarta",
-                    "longitude": "110.3749",
-                    "latitude": "-7.7972",
-                    "jamBuka": "2024-10-22 10:00:00",
-                    "jamTutup": "2024-10-22 22:00:00",
-                    "rating": 4.9,
-                    "foto": "images/geprek_bensu.jpg"
-                }
-            },
-            {
-                "fields": {
-                    "nama": "Sate Klatak Pak Pong",
-                    "description": "Sate kambing dengan bumbu khas, disajikan dengan tusukan besi.",
-                    "alamat": "Jl. Imogiri Timur, Bantul, Yogyakarta",
-                    "longitude": "110.3755",
-                    "latitude": "-7.8924",
-                    "jamBuka": "2024-10-22 12:00:00",
-                    "jamTutup": "2024-10-22 21:00:00",
-                    "rating": 4,
-                    "foto": "images/sate_klatak.jpg"
-                }
-            },
-            {
-                "fields": {
-                    "nama": "Bakpia Pathok 25",
-                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
-                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
-                    "longitude": "110.3607",
-                    "latitude": "-7.7823",
-                    "jamBuka": "2024-10-22 08:00:00",
-                    "jamTutup": "2024-10-22 20:00:00",
-                    "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg"
-                }
-            },
-            {
-                "fields": {
-                    "nama": "Bakpia Pathok 25",
-                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
-                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
-                    "longitude": "110.3607",
-                    "latitude": "-7.7823",
-                    "jamBuka": "2024-10-22 08:00:00",
-                    "jamTutup": "2024-10-22 20:00:00",
-                    "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg"
-                }
-            },
-            {
-                "fields": {
-                    "nama": "Bakpia Pathok 25",
-                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
-                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
-                    "longitude": "110.3607",
-                    "latitude": "-7.7823",
-                    "jamBuka": "2024-10-22 08:00:00",
-                    "jamTutup": "2024-10-22 20:00:00",
-                    "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg"
-                }
-            },
-            {
-                "fields": {
-                    "nama": "Bakpia Pathok 25",
-                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
-                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
-                    "longitude": "110.3607",
-                    "latitude": "-7.7823",
-                    "jamBuka": "2024-10-22 08:00:00",
-                    "jamTutup": "2024-10-22 20:00:00",
-                    "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg"
-                }
-            },
-            {
-                "fields": {
-                    "nama": "Bakpia Pathok 25",
-                    "description": "Oleh-oleh khas Yogyakarta dengan berbagai rasa bakpia.",
-                    "alamat": "Jl. AIP II KS Tubun No. 75, Yogyakarta",
-                    "longitude": "110.3607",
-                    "latitude": "-7.7823",
-                    "jamBuka": "2024-10-22 08:00:00",
-                    "jamTutup": "2024-10-22 20:00:00",
-                    "rating": 4.6,
-                    "foto": "images/bakpia_pathok.jpg"
-                }
-            }
-        ];
-
-        let filteredTempatKuliner = tempatKuliner;
-
-        if (filterCategory) {
-            filteredTempatKuliner = tempatKuliner.filter(item =>
-                item.fields.variasi && item.fields.variasi.includes(filterCategory)
-            );
-        }
+        const tempatKuliner = await getTempatKuliner();
 
         let htmlString = "";
         let classNameString = "";
 
-        if (filteredTempatKuliner.length === 0) {
+        if (tempatKuliner.length === 0) {
             classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
             htmlString = `
                 <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
@@ -336,19 +165,20 @@
         }
         else {
             classNameString = "py-3 gap-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
-            filteredTempatKuliner.forEach((item) => {
+            tempatKuliner.forEach((item) => {
                 // const nama = DOMPurify.sanitize(item.fields.nama);
-                // const description = DOMPurify.sanitize(item.fields.description);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
-                // const longitude = DOMPurify.sanitize(item.fields.longitude);
-                // const latitude = DOMPurify.sanitize(item.fields.latitude);
+
                 // a href blom disambung
                 htmlString += `
-                <a href="#" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-lg hover:scale-102 pulsating">
-                    <img src="static/${item.fields.foto}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
+                <a href="#" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
+                    <img src="${item.fields.foto_link}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
                     <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
                     <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.alamat}</div>
-                    <div class="w-[83.14px] left-[30px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
+                    <div class="w-[83.14px] left-[55px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
+                    <svg class="left-[30px] top-[259px] absolute" width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
+                    </svg>
                 </a>
                 `;
             });
@@ -358,15 +188,6 @@
     }
 
     refreshTempatKuliner();
-
-    document.querySelectorAll('#dropdown a').forEach(item => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
-            const selectedCategory = event.target.textContent.trim();
-
-            refreshTempatKuliner(selectedCategory);
-        });
-    });
 
     async function getUserById(userId) {
         const response = await fetch(`/get-user/${userId}/`);
@@ -407,8 +228,8 @@
 
                 const actionButtons = isCurrentUser
                     ? `
-                    <button onclick="editForumEntry(${item.pk})" class="text-blue-500 hover:text-blue-700">Edit</button>
-                    <button onclick="deleteForumEntry(${item.pk})" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
+                    <a href="edit-forum/${item.pk}/" class="text-blue-500 hover:text-blue-700">Edit</a>
+                    <button onclick="deleteForumEntry('${item.pk}')" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
                     `
                     : "";
 
