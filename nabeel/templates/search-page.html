@@ -5,11 +5,15 @@
 {% block content %}
 {% include "navbar.html" with page="search" username=name %}
 <main class="pt-[5rem] sm:pt-32 w-full h-full flex flex-col gap-5 bg-white">
-    <section class="w-full px-5 flex flex-col  justify-center items-center">
-        <h1 class="text-3xl text-darkOrange text-center">Discover Jogja's Best Eats</h1>
-        <p class="text-lg text-center text-darkOrange">Quickly search foods by name, category, or keyword.</p>
-    </section>
-    <section class="absolute w-full px-5 flex justify-center items-center z-10 top-[10rem] sm:top-[13rem] ">
+    <div class="fixed h-80 w-[16rem] bg-orange blur-[98.27586364746094px] opacity-[0.6] border-full top-0 right-0 translate-x-2/3 -translate-y-2/3 sm:h-96 sm:w-[21rem]"></div>
+    <div class="fixed h-80 w-[16rem] bg-orange blur-[98.27586364746094px] opacity-[0.6] border-full top-0 left-0 -translate-x-2/3 -translate-y-2/3 sm:h-96 sm:w-[21rem]"></div>
+    <div class="fixed h-80 w-[16rem] bg-orange blur-[98.27586364746094px] opacity-[0.6] border-full bottom-0 right-0 translate-x-2/3 translate-y-2/3 sm:h-96 sm:w-[21rem]"></div>
+    <div class="fixed h-80 w-[16rem] bg-orange blur-[98.27586364746094px] opacity-[0.6] border-full bottom-0 left-0 -translate-x-2/3 translate-y-2/3 sm:h-96 sm:w-[21rem]"></div>
+    <section class="absolute w-full px-5 flex flex-col justify-center items-center z-10 gap-3">
+        <div>
+            <h1 class="text-3xl text-darkOrange text-center">Discover Jogja's Best Eats</h1>
+            <p class="text-lg text-center text-darkOrange">Quickly search resto by name, category, or keyword.</p>
+        </div>
         <div class="relative w-[90%] justify-center items-center h-10 max-w-[38rem] rounded-2xl border-2 shadow-md bg-white z-10" id="search-bar" >
             <form method="POST" class="w-full h-10 flex justify-center items-center" autocomplete="off">
                 <input id="content" name="content" class="pb-1 w-full rounded-full bg-white outline-none px-12 caret-darkOrange text-xl placeholder:text-grey" placeholder="Search" type="text" onclick="searchBarClick('input');">
@@ -25,27 +29,50 @@
                         <path d="M19 5L4.99998 19M5.00001 5L19 19" stroke="#7C1D05" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                        
                 </div>
-                {% comment %} loop search item {% endcomment %}
             </div>
         </div>
     </section>
-    <section class="mt-[4rem] w-full h- grid px-5 grid-cols-[repeat(2,1fr)] gap-5 overflow-scroll sm:px-12 sm:grid-cols-[repeat(3,1fr)] md:grid-cols-[repeat(5,1fr)]">
+    <section class="relative mt-[10rem] w-full grid px-5 grid-cols-[repeat(2,1fr)] gap-5 overflow-scroll sm:px-12 sm:grid-cols-[repeat(3,1fr)] md:grid-cols-[repeat(5,1fr)]">
         {% comment %} looping makanan (AJAX) {% endcomment %}
+        {% for resto in  list_resto %}
         <div class="relative w-auto h-48 rounded-3xl bg-white border-2 border-darkPink flex flex-col p-3 gap-2 sm:h-52 md:h-60 shadow-md">
             <div class="w-full h-24 bg-[#D9D9D9] rounded-2xl relative sm:h-28 md:h-36">
+                <img src="" alt="">
                 <div class="absolute bottom-2 right-2 flex gap-1">
-                    <p>{{ rating }}4.9/5</p>
+                    <p>{{ resto.rating }}</p>
                     <svg width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
                     </svg>
                 </div>
             </div>
             <div class="flex flex-col px-1">
-                <h1 class="text-darkOrange text-lg">{{ nama }} nama tempat</h1>
-                <p class="text-grey w-2/3 truncate">alamat tempat makan</p>
+                <h1 class="text-darkOrange text-lg">{{ resto.nama }}</h1>
+                <p class="text-grey w-2/3 truncate">{{ resto.alamat }}</p>
             </div> 
         </div>
+        {% endfor %}
     </section>
+    {% comment %} modal for edit {% endcomment %}
+    <div class="fixed w-full flex justify-center items-center z-10 hidden" id="editModal">
+        <div class="relative h-[17.5rem] max-w-96 bg-white rounded-3xl border-2 border-darkYellow px-7 pt-5 pb-7 gap-5 flex flex-col shadow-lg">
+            <h1 class="text-2xl">Edit Search History</h1>
+            <form class="relative flex justify-center items-start flex-col w-full gap-2" id="edit-search-history" autocomplete="off">
+                <div class="w-full">
+                    <label for="" class="text-xl ml-2">Content</label>
+                    <input type="text" class="w-full p-1 px-3 border-2 shadow-sm rounded-xl bg-white focus:border-2 
+            border-darkOrange focus:outline-none focus:border-darkYellow" id="content-data" name="content">
+                </div>
+                <div class="w-full">
+                    <label for="" class="text-xl ml-2">Created At</label>
+                    <input type="text" class="w-full rounded-xl p-1 px-3 focus:outline-none bg-[#b8b6afb2] cursor-default shadow-sm" id="created-at-data" name="created_at" readonly>
+                </div>
+                <div class="absolute -bottom-14 right-0 flex justify-center items-center gap-2">
+                    <div class="p-1 px-3 sm:px-5 border-2 border-orange rounded-xl text-lg sm:text-xl bg-orange text-white cursor-pointer" onclick="document.querySelector('#editModal').classList.add('hidden')">Back</div>
+                    <button type="submit" class="p-1 px-3 sm:px-5 border-2 border-yellow rounded-xl text-lg sm:text-xl bg-yellow text-white">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script>
         let state = false;
         const searchHistory = document.querySelector('#search-history');
@@ -54,6 +81,10 @@
         const submitButton = document.querySelector('#submit-button');
         const searchItem = document.querySelector('#search-item')
         const content = document.querySelector('#content');
+        const editModal = document.querySelector('#editModal');
+        const contentData = document.querySelector('#content-data');
+        const createdAtData = document.querySelector('#created-at-data');
+        const editSearchHistoryElem = document.querySelector('#edit-search-history');
 
         main.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
@@ -84,6 +115,7 @@
                 searchHistory.classList.remove('pb-2');
                 searchBar.style.height = '2.5rem';
                 searchBar.classList.remove('border-darkOrange');
+                content.value = "";
                 state = false;  
             }
         }
@@ -97,17 +129,19 @@
             let htmlString = "";
             searchs.forEach((item) => {
                 const content = DOMPurify.sanitize(item.fields.content);
+                let date = new Date(item.fields.created_at);
+                date = date.toLocaleString('id-ID', { timeZoneName : 'short'});
                 htmlString += `<div class="flex justify-between border-b-[1px] border-y-darkPink group cursor-default" id="search-item">
-                    <p onclick="selectData('${content}');">${content}</p>
-                    <div class="invisible group-hover:visible flex justify-center items-center gap-3">
-                        <p class="text-grey text-sm">${item.fields.created_at}</p>
-                        <div class="flex justify-center items-center gap-1">
-                            <div onclick="deleteSearchHistory('${item.pk}');">
+                    <p onclick="selectData('${content}');" class="w-[60%]">${content}</p>
+                    <div class="sm:invisible group-hover:visible flex justify-center items-center gap-3">
+                        <p class="text-grey text-[10px] truncate sm:text-sm">${date}</p>
+                        <div class="flex justify-center items-center gap-2 sm:flex">
+                            <div onclick="deleteSearchHistory('${item.pk}');" class="cursor-pointer">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M14 9.5C14 9.5 14.5 10.5 14.5 12.5C14.5 14.5 14 15.5 14 15.5M10 9.5C10 9.5 9.5 10.5 9.5 12.5C9.5 14.5 10 15.5 10 15.5M5.99999 6C5.99999 11.8587 4.63107 20 12 20C19.3689 20 18 11.8587 18 6M4 6H20M15 6V5C15 3.22496 13.3627 3 12 3C10.6373 3 9 3.22496 9 5V6" stroke="#7C1D05" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>                                
                             </div>
-                            <div href="">
+                            <div onclick="editSearchHistory('${item.pk}');" class="cursor-pointer">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="#c98809" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>    
@@ -128,6 +162,40 @@
                     </svg>                        
                 </div>`
             showSearchHistory();
+        }
+        async function getSearchHistoryById(id){
+            return fetch(`/search/show-search-history/${id}`).then((res) => res.json());
+        }
+        async function editSearchHistory(id){
+            editModal.classList.remove('hidden');
+            const data = await getSearchHistoryById(id);
+            data.forEach((item)=>{
+                contentData.value = item.fields.content;
+                let date = new Date(item.fields.created_at);
+                date = date.toLocaleString('id-ID', { timeZoneName : 'short'});
+                createdAtData.value = date;
+            });
+            editSearchHistoryElem.onsubmit = async (e)=>{
+                e.preventDefault();
+                await editSearchHistoryAJAX(id, contentData.value);
+                editModal.classList.add('hidden');
+                searchHistory.innerHTML = `<div class="absolute right-3 top-[0.42rem]" onclick="searchBarClick('x');">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 5L4.99998 19M5.00001 5L19 19" stroke="#7C1D05" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                        
+                </div>`
+                await showSearchHistory();
+            }
+            
+        }
+        async function editSearchHistoryAJAX(id, content){
+            return fetch(`/search/edit/${id}`, {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:`content=${content}`,
+            });
         }
         
         showSearchHistory();

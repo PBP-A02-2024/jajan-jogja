@@ -31,5 +31,4 @@ export const theme = {
             slideUp : 'slideUp 1s ease-in-out',
         }
     }
-
 }
