@@ -19,9 +19,10 @@ class TempatKuliner(models.Model):
     latitude = models.CharField(max_length=255)
     jamBuka = models.TimeField()
     jamTutup = models.TimeField()
-    rating = models.IntegerField()
+    rating = models.DecimalField(max_digits=3, decimal_places=2)
     foto_link = models.TextField(default="https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg")
     variasi = models.ManyToManyField('Variasi', related_name='tempat_kuliner_set')
+
     def __str__(self):
         return self.nama
 
