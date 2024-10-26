@@ -2,6 +2,8 @@ from django.db import models
 from decimal import Decimal
 import uuid
 from django.contrib.auth.models import User
+from django.db.models import Avg
+
 
 class CommunityForum(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
