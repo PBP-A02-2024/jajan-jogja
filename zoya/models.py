@@ -1,13 +1,18 @@
 from django.db import models
 from decimal import Decimal
 import uuid
+from django.contrib.auth.models import User
 
-class CommunityForm(models.Model):
-    nama = models.CharField(max_length=255)
+class CommunityForum(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateField(auto_now_add=True)
     comment = models.TextField()
 
+    def __str__(self):
+        return self.comment
+
 class TempatKuliner(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nama = models.CharField(max_length=255)
     description = models.TextField()
     alamat = models.CharField(max_length=255)  
@@ -24,9 +29,16 @@ class TempatKuliner(models.Model):
         self.rating = Decimal(result['average']) if result['average'] is not None else None
         self.save()
 
+    def __str__(self):
+        return self.nama
+
+
 class Makanan(models.Model):
+    tempat_kuliner = models.ForeignKey(TempatKuliner, on_delete=models.CASCADE, related_name='makanan', null=True)
     nama = models.CharField(max_length=255)
     description = models.TextField()  
     harga = models.IntegerField()
     foto = models.ImageField()
-    tempat_kuliner = models.ForeignKey(TempatKuliner, on_delete=models.CASCADE, related_name='makanan', null=True)
+
+    def __str__(self):
+        return self.nama
