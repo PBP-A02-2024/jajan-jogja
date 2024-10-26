@@ -12,12 +12,11 @@
           <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image Available" class="object-cover h-full w-full rounded-3xl"/>
           {% endif %}
         </div>
-        <h1 class="font-bold text-lg text-darkOrange">{{ tempat_kuliner.nama }}</h1>
+        <h1 class="font-bold text-4xl text-darkOrange">{{ tempat_kuliner.nama }}</h1>
         <p class="font-normal text-sm text-black">{{ tempat_kuliner.alamat }}</p>
         <p class="font-normal text-sm text-black">{{ tempat_kuliner.description }}</p>
-        <p class="font-normal text-sm text-black">{{ tempat_kuliner.jamBuka|date:"H:i" }} - {{ tempat_kuliner.jamTutup|date:"H:i" }} WIB</p>
+        <p class="font-normal text-sm text-black">Open : {{ tempat_kuliner.jamBuka|date:"H:i" }} - {{ tempat_kuliner.jamTutup|date:"H:i" }} WIB</p>
 
-        <!-- Reviews Section -->
         <div class="flex justify-between items-center p-2 border-2 border-darkPink rounded-3xl">
           <h1 class="px-2 font-semibold text-xl text-darkPink">Reviews</h1>
           <div class="flex items-center gap-2 px-2">
@@ -30,7 +29,6 @@
         <div class="relative p-8 space-y-4 border-2 border-darkPink rounded-xl">
           {% comment %} Review Card {% endcomment %}
         <div id="reviews-container" class="space-y-4">
-          <!-- AJAX-loaded reviews will be displayed here -->
         </div>
           {% if not has_reviewed %}
           <a href="{% url 'reviews:create_review' tempat_kuliner.id %}">
@@ -49,6 +47,43 @@
     </div>
   </div>
 
+{% comment %} EDIT REVIEW MODAL {% endcomment %}
+<div id="editReviewModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 p-8">
+    <!-- Modal header -->
+    <div class="flex items-center justify-between border-b pb-4 mb-4">
+      <h2 class="text-2xl font-semibold text-gray-800">Edit Your Review for {{tempat_kuliner.nama}}</h2>
+      <button type="button" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1.5" id="closeEditModal">
+        <svg width="24" height="24" fill="currentColor">
+          <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <form id="editReviewForm" method="POST" class="space-y-6">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-lg font-medium text-gray-700 mb-2">Rating</label>
+        <div class="flex items-center" id="edit-star-rating">
+          {% for i in "12345" %}
+          <input type="radio" name="rating" id="edit-star{{ forloop.counter }}" value="{{ forloop.counter }}" class="hidden">
+          <label for="edit-star{{ forloop.counter }}" data-value="{{ forloop.counter }}" class="cursor-pointer text-gray-300 text-3xl">&#9733;</label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Comment Section -->
+      <div>
+        <label for="editComment" class="block text-lg font-medium text-gray-700 mb-2"> Comment</label>
+        <textarea name="comment" id="editComment" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-darkPink" placeholder="Edit your experience..."></textarea>
+      </div>
+
+      <button type="submit" class="w-full py-2 px-4 text-white bg-darkPink rounded-lg hover:bg-darkPink/90">Save Changes</button>
+    </form>
+  </div>
+</div>
+
 
   {% comment %} MODAL {% endcomment %}
     <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
@@ -66,7 +101,6 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <!-- Modal body -->
         <div class="px-6 py-4 space-y-6">
           <form id="productEntryForm">
             <div class="mb-4 flex items-center gap-4">
@@ -75,7 +109,6 @@
             </div>
           </form>
         </div>
-        <!-- Modal footer -->
         <div class="flex justify-end p-4 border-t">
           <button
             type="submit"
@@ -90,6 +123,7 @@
 </div>
 
 <script>
+  // Function to show the modal
   function showModal() {
     const modal = document.getElementById('crudModal');
     const modalContent = document.getElementById('crudModalContent');
@@ -99,8 +133,9 @@
       modalContent.classList.remove('opacity-0', 'scale-95');
       modalContent.classList.add('opacity-100', 'scale-100');
     }, 50);
-}
+  }
 
+  // Function to hide the modal
   function hideModal() {
     const modal = document.getElementById('crudModal');
     const modalContent = document.getElementById('crudModalContent');
@@ -111,8 +146,9 @@
     setTimeout(() => {
       modal.classList.add('hidden');
     }, 150);
-}
+  }
 
+  // Function to fetch reviews
   async function fetchReviews(restaurantId) {
     try {
       const response = await fetch(`/review/get-reviews/${restaurantId}/`);
@@ -125,6 +161,7 @@
     }
   }
 
+  // Function to render reviews
   function renderReviews(reviews) {
     const container = document.getElementById("reviews-container");
     container.innerHTML = ""; // Clear existing content
@@ -133,39 +170,46 @@
       container.innerHTML = '<p class="text-gray-500 text-center">No reviews yet.</p>';
       return;
     }
+
     reviews.forEach(review => {
+      const isOwner = review.user === "{{ request.user.username }}";
       const reviewHtml = `
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p class="text-sm lg:text-sm">${review.comment}</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-darkOrange text-sm lg:text-xl">${review.user}</h3>
             <div>
-                <div class="p-4 rounded-xl bg-lightPink/30">
-                    <p class="text-sm lg:text-base">${review.comment}</p>
-                </div>
-                <div class="flex justify-between">
-                    <h3 class="font-semibold text-black text-sm lg:text-xl">${review.user}</h3>
-                    <div>
-                        <h3 class="font-normal text-grey text-sm lg:text-base">on ${new Date(review.created_at).toLocaleDateString()}</h3>
-                        <div class="flex justify-end items-center gap-2 px-2">
-                            <p class="font-bold text-sm lg:text-xl text-black">${review.rating}/5</p>
-                              <div class="w-4 h-4 lg:w-5 lg:h-5">
+              <h3 class="font-normal text-grey text-sm lg:text-base">on ${new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-sm lg:text-xl text-black">${review.rating}/5</p>
+ <div class="w-4 h-4 lg:w-5 lg:h-5">
                   <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
                 </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
+                ${
+              isOwner
+                      ? `<button class="edit-review-button text-blue-600 text-sm" data-review-id="${review.id}" data-comment="${review.comment}" data-rating="${review.rating}">Edit</button>
+                       <button class="delete-review-button text-red-500 text-sm" data-review-id="${review.id}">Delete</button>`
+                      : ''
+      }
+              </div>
+            </div>
+          </div>
+        </div>`;
       container.insertAdjacentHTML("beforeend", reviewHtml);
     });
   }
 
-
+  // Function to refresh food items
   async function refreshMakanan(tempatKulinerId) {
     const container = document.getElementById("makanan_cards");
-    container.innerHTML = "";  // Clear existing content
-    container.className = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";  // Set the grid layout
+    container.innerHTML = ""; // Clear existing content
+    container.className = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6"; // Set the grid layout
 
     try {
-      // Fetch makanan data from Django endpoint
       const response = await fetch(`get_makanan_json/${tempatKulinerId}/`);
-      if (!response.ok) throw new Error("Failed to fetch makanan data.");
+      if (!response.ok) throw new Error("Failed to fetch food items.");
 
       const semua_makanan = await response.json();
 
@@ -174,38 +218,179 @@
         return;
       }
 
-      semua_makanan.forEach((makanan) => {
+      semua_makanan.forEach(makanan => {
         const { nama, description, harga, foto_link } = makanan.fields;
-        const fotoUrl = foto_link || "https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg";  // some random link
+        const fotoUrl = foto_link || "https://example.com/default-image.jpg";
 
         const makananHtml = `
-        <div onclick=showModal() class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
-          <div>
-            <img src="${fotoUrl}" alt="${nama}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
-            <h1 class="font-bold text-lg text-darkOrange">${nama}</h1>
-            <p class="font-normal text-sm text-grey">${description}</p>
-          </div>
-          <h3 class="font-semibold text-sm text-darkOrange">Rp${harga}</h3>
-        </div>
-      `;
+          <div onclick="showModal()" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-3xl p-6 shadow-lg group hover:shadow-lg">
+            <div>
+              <img src="${fotoUrl}" alt="${nama}" class="w-full h-32 object-cover bg-gray-200 rounded-3xl" />
+              <h1 class="font-bold text-lg text-darkOrange">${nama}</h1>
+              <p class="font-normal text-sm text-grey">${description}</p>
+            </div>
+            <h3 class="font-semibold text-sm text-darkOrange">Rp${harga}</h3>
+          </div>`;
         container.insertAdjacentHTML("beforeend", makananHtml);
       });
     } catch (error) {
-      console.error("Error loading makanan:", error);
+      console.error("Error loading food items:", error);
       container.innerHTML = '<p class="text-red-500 text-center">Error loading food items. Please try again later.</p>';
     }
   }
 
+  // Function to delete a review
+  async function deleteReview(reviewId) {
+    try {
+      const response = await fetch(`/review/delete/${reviewId}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      });
 
-document.addEventListener("DOMContentLoaded", function() {
-  const restaurantId = "{{ tempat_kuliner.id }}";
-  fetchReviews(restaurantId);
-  refreshMakanan(restaurantId);
+      const data = await response.json();
+
+      if (data.success) {
+        alert(data.message);
+        fetchReviews("{{ tempat_kuliner.id }}"); // Reload the reviews list
+      } else {
+        alert("Failed to delete review. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      alert("An error occurred. Please try again.");
+    }
+  }
+
+  // Function to show the edit review modal and pre-fill data
+  function showEditModal(reviewId, currentComment, currentRating) {
+    const editReviewModal = document.getElementById("editReviewModal");
+    const editComment = document.getElementById("editComment");
+
+    reviewIdToEdit = reviewId;
+    editComment.value = currentComment;
+    selectedRating = currentRating;
+    highlightStars(selectedRating);
+
+    document.getElementById(`edit-star${selectedRating}`).checked = true;
+    editReviewModal.classList.remove("hidden");
+  }
+
+  // Function to highlight stars in the rating
+  function highlightStars(rating) {
+    const stars = document.querySelectorAll("#edit-star-rating label");
+    stars.forEach(star => {
+      star.classList.toggle("text-yellow-500", star.dataset.value <= rating);
+      star.classList.toggle("text-gray-300", star.dataset.value > rating);
+    });
+  }
+
+  // Initialize variables
+  let selectedRating = 0;
+  let reviewIdToEdit = null;
+
+  // Event listener for DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", function() {
+    const restaurantId = "{{ tempat_kuliner.id }}";
+    fetchReviews(restaurantId);
+    refreshMakanan(restaurantId);
+
+    const reviewsContainer = document.getElementById("reviews-container");
+
+    // Event delegation for review buttons
+    reviewsContainer.addEventListener("click", function(event) {
+      if (event.target.classList.contains("delete-review-button")) {
+        const reviewId = event.target.getAttribute("data-review-id");
+        if (confirm("Are you sure that you want to delete this review?")) {
+          deleteReview(reviewId);
+        }
+      } else if (event.target.classList.contains("edit-review-button")) {
+        const reviewId = event.target.getAttribute("data-review-id");
+        const currentComment = event.target.getAttribute("data-comment");
+        const currentRating = event.target.getAttribute("data-rating");
+        showEditModal(reviewId, currentComment, currentRating);
+      }
+    });
+
+    // Close the edit modal
+    const closeEditModal = document.getElementById("closeEditModal");
+    if (closeEditModal) {
+      closeEditModal.addEventListener("click", function() {
+        const editReviewModal = document.getElementById("editReviewModal");
+        editReviewModal.classList.add("hidden");
+      });
+    }
+
+    // Star rating interactions
+    const stars = document.querySelectorAll("#edit-star-rating label");
+    stars.forEach(star => {
+      star.addEventListener("mouseover", function() {
+        highlightStars(star.dataset.value);
+      });
+
+      star.addEventListener("mouseout", function() {
+        highlightStars(selectedRating);
+      });
+
+      star.addEventListener("click", function() {
+        selectedRating = star.dataset.value;
+        document.getElementById(`edit-star${selectedRating}`).checked = true;
+        highlightStars(selectedRating);
+      });
+    });
+
+    // Hide modal when cancel button is clicked
+    const cancelModal = document.getElementById("cancelModal");
+    if (cancelModal) {
+      cancelModal.addEventListener("click", hideModal);
+    }
+
+    // Submit edited review
+    const editReviewForm = document.getElementById("editReviewForm");
+    if (editReviewForm) {
+      editReviewForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        try {
+          const editComment = document.getElementById("editComment").value;
+          const response = await fetch(`/review/edit/${reviewIdToEdit}/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{ csrf_token }}",
+              "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+              comment: editComment,
+              rating: selectedRating
+            })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            alert(data.message);
+            fetchReviews(restaurantId); // Reload the reviews list
+            const editReviewModal = document.getElementById("editReviewModal");
+            editReviewModal.classList.add("hidden");
+          } else {
+            alert("Failed to edit review. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error editing review:", error);
+          alert("An error occurred. Please try again.");
+        }
+      });
+      editReviewModal.addEventListener("click", function(event) {
+        if (event.target === editReviewModal) {
+          editReviewModal.classList.add("hidden");
+        }
+      });
+    }
   });
-
-
-document.getElementById("cancelModal").addEventListener("click", hideModal);
 </script>
+
 {% endblock content %}
 
 
