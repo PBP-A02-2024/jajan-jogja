@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "navbar.html"%}
+<div class="pb-64">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 lg:px-12 pt-52">
+    {% comment %} Left Side (Restaurant) {% endcomment %}
+    <div class="w-full space-y-4 border-4 border-darkPink rounded-[3rem] p-6 pb-28 shadow-lg">
+      <div class="w-full h-64 bg-[#D9D9D9] rounded-3xl flex justify-center items-center">Gambar</div>
+      <h1 class="font-bold text-lg text-darkOrange">Restoran 1</h1>
+      <p class="font-normal text-sm text-black">Alamat..................</p>
+      <p class="font-normal text-sm text-black">Description............</p>
+      <p class="font-normal text-sm text-black">08.00 - 18.00 WIB</p>
+
+      {% comment %} Reviews {% endcomment %}
+      <div class="flex justify-between items-center p-2 border-2 border-darkPink rounded-3xl">
+        <h1 class="px-2 font-semibold text-xl text-darkPink">Reviews</h1>
+        <div class="flex items-center gap-2 px-2">
+          <p class="font-bold text-xl text-darkPink">4.5/5</p>
+          <div class="w-5 h-5">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative p-8 space-y-4 border-2 border-darkPink rounded-xl">
+        {% comment %} Review Card {% endcomment %}
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p class="text-sm lg:text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-sm lg:text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey text-sm lg:text-base">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-sm lg:text-xl text-black">4.5/5</p>
+                <div class="w-4 h-4 lg:w-5 lg:h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p class="text-sm lg:text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-sm lg:text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey text-sm lg:text-base">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-sm lg:text-xl text-black">4.5/5</p>
+                <div class="w-4 h-4 lg:w-5 lg:h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p class="text-sm lg:text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-sm lg:text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey text-sm lg:text-base">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-sm lg:text-xl text-black">4.5/5</p>
+                <div class="w-4 h-4 lg:w-5 lg:h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-4 rounded-xl bg-lightPink/30">
+            <p class="text-sm lg:text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt quis laborum harum sit fugit id vero suscipit itaque dolore minima deleniti temporibus.</p>
+          </div>
+          <div class="flex justify-between">
+            <h3 class="font-semibold text-black text-sm lg:text-xl">Dummy User 1</h3>
+            <div>
+              <h3 class="font-normal text-grey text-sm lg:text-base">on 06 October 2024</h3>
+              <div class="flex justify-end items-center gap-2 px-2">
+                <p class="font-bold text-sm lg:text-xl text-black">4.5/5</p>
+                <div class="w-4 h-4 lg:w-5 lg:h-5">
+                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="add-review/"><button class="absolute -bottom-6 right-0 px-3 py-1 rounded-2xl bg-white border-2 border-lightPink text-darkPink text-lg font-semibold">Add Review</button></a>
+      </div>
+    </div>
+    {% comment %} Right Side (Foods) {% endcomment %}
+      {% comment %} Food Card {% endcomment %}
+      <div id="makanan_cards" onclick=showModal()></div>
+
+
+    </div>
+  </div>
+
+  {% comment %} MODAL {% endcomment %}
+    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+      <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 border-b rounded-t">
+          <h3 class="text-xl font-semibold text-3xl text-black">
+            Add to itineraries
+          </h3>
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="cancelModal">
+            <svg width="40" height="40" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.6777 19.0918L54.4473 55.8614" stroke="#7C1D05" stroke-width="10" stroke-linecap="round"/>
+              <path d="M18.3848 55.1543L55.1543 18.3847" stroke="#7C1D05" stroke-width="10" stroke-linecap="round"/>
+              </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="px-6 py-4 space-y-6">
+          <form id="productEntryForm">
+            <div class="mb-4 flex items-center gap-4">
+              <input type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-10 h-10 appearance-none border-2 border-black rounded-xl bg-transparent checked:bg-yellow  focus:outline-none focus:ring-2 focus:ring-darkPink">
+              <label for="" class="font-bold text-2xl text-black">Itinerary 1</label>
+            </div>
+          </form>
+        </div>
+        <!-- Modal footer -->
+        <div class="flex justify-end p-4 border-t">
+          <button
+            type="submit"
+            id="submitMoodEntry"
+            form="productEntryForm"
+            class="bg-yellow hover:bg-yellow/90 text-white text-lg font-semibold py-2 px-4 rounded-lg">
+            Save
+          </button>
+        </div>
+      </div>
+  </div>  
+</div>
+
+<script>
+  function showModal() {
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    modal.classList.remove('hidden'); 
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 50); 
+}
+
+  function hideModal() {
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 150); 
+}
+
+
+
+async function refreshMakanan() {
+  console.log('Test')
+  document.getElementById("makanan_cards").innerHTML = "";
+  document.getElementById("makanan_cards").className = "";
+  //const semua_makanan = await getMakanan();
+  const semua_makanan = [
+  {
+    "fields": {
+      "id": 1,
+      "nama": "Nasi Telur Dadar Rempah",
+      "description": "Nasi pulen, telur dadar rempah harum.",
+      "harga": "15500",
+      "foto": "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/0c2e0bbd-95ed-4c83-b356-cc83d5121504_d81de131-b121-46af-84bb-5ed0c367bfdf_file20190625-26370-1757jmu.jpeg?auto=format"
+    }
+  },
+  {
+    "fields": {
+      "id": 2,
+      "nama": "Nasi Ayam Rempah + Es Teh",
+      "description": "Nasi ayam rempah, segar, nikmat dengan es teh.",
+      "harga": "22500",
+      "foto": "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/80282ce9-3516-4bff-abdd-8f9ffcc16ee6_Go-Biz_20230707_212354.jpeg?auto=format"
+    }
+  },
+  {
+    "fields": {
+      "id": 3,
+      "nama": "Ayam Rempah Tanpa Nasi",
+      "description": "Ayam rempah juicy, penuh bumbu nikmat.",
+      "harga": "15500",
+      "foto": "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/eeed293b-dd29-496c-89e8-d19d1e419bbd_Go-Biz_20220411_132522.jpeg?auto=format"
+    }
+  },
+  {
+    "fields": {
+      "id": 4,
+      "nama": "Paket Barengan (2 Nasi Ayam Rempah)",
+      "description": "Paket hemat: 2 nasi ayam rempah lezat.",
+      "harga": "36000",
+      "foto": "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/f6429347-3b76-4323-8a5d-3cb65f1f3d81_Go-Biz_20230822_210431.jpeg?auto=format"
+    }
+  },
+  {
+    "fields": {
+      "id": 5,
+      "nama": "Nasi Ayam Penyet Lombok Ijo",
+      "description": "Nasi ayam penyet, sambal lombok ijo pedas segar.",
+      "harga": "18000",
+      "foto": "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/34b6c4bd-fbba-4678-9dde-d605a6c54add_Go-Biz_20230707_182844.jpeg?auto=format"
+    }
+  }
+];
+
+  let htmlString = "";
+  let classNameString = "";
+
+  classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
+  
+  semua_makanan.forEach((makanan) => {
+    htmlString += `
+    <div onclick=showModal() class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
+      <div>
+        <img src=${makanan.fields.foto} class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
+        <div>
+        </div>
+          <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
+          <p class="font-normal text-sm text-grey">${makanan.fields.description}</p>
+        </div>
+      <h3 class="font-semibold text-sm text-darkOrange">Rp${makanan.fields.harga}</h3>
+    </div>
+    `
+  })
+
+  document.getElementById("makanan_cards").className = classNameString;
+  document.getElementById("makanan_cards").innerHTML = htmlString;
+}
+
+refreshMakanan();
+
+
+document.getElementById("cancelModal").addEventListener("click", hideModal);
+</script>
+{% endblock content %}
+
+

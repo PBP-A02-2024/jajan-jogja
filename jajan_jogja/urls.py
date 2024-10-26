@@ -22,5 +22,6 @@ urlpatterns = [
     path('', include('zoya.urls')),
     path('search/', include('nabeel.urls')),
     path('auth/', include('main.urls')),
+    path('restaurant/', include('marco.urls')),
     path('food_plans/', include('reksa.urls'))
 ]
