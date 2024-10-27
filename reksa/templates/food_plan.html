@@ -7,7 +7,7 @@
         <span id="food-plan-title">{{ food_plan.nama }}</span>
         <input type="text" id="edit-food-plan-title" class="hidden border-darkYellow bg-transparent text-center" value="{{ food_plan.nama }}">
         <button id="checkmark-button" class="hidden text-darkYellow ml-2">
-            <svg width="50px" height="50px" viewBox="0 0 24 24" id="_24x24_On_Light_Edit" data-name="24x24/On Light/Edit" xmlns="http://www.w3.org/2000/svg">
+            <svg width="50px" height="50px" viewBox="0 0 24 24" id="_24x24_On_Light_Edit" data-name="24x24/On Light/Edit" xmlns="http://www.w3.org/2000/svg"></svg>
                 <rect id="view-box" width="24" height="24" fill="none"/>
                 <path id="Shape" d="M.75,17.5A.751.751,0,0,1,0,16.75V12.569a.755.755,0,0,1,.22-.53L11.461.8a2.72,2.72,0,0,1,3.848,0L16.7,2.191a2.72,2.72,0,0,1,0,3.848L5.462,17.28a.747.747,0,0,1-.531.22ZM1.5,12.879V16h3.12l7.91-7.91L9.41,4.97ZM13.591,7.03l2.051-2.051a1.223,1.223,0,0,0,0-1.727L14.249,1.858a1.222,1.222,0,0,0-1.727,0L10.47,3.91Z" transform="translate(3.25 3.25)" fill="#C98809"/>
             </svg>
@@ -17,17 +17,17 @@
         <button id="edit-button" class="bg-darkYellow text-white px-4 py-2 rounded-lg hover:bg-orange-500 shadow-lg">
             Edit
         </button>
-        <button id="delete-button" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 shadow-lg">
+        <button id="delete-plan-button" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 shadow-lg">
             Delete
         </button>
     </div>
 </div>
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-4" id="restaurants-container">
     {% if restaurants %}
         {% for restaurant in restaurants %}
-            <div class="bg-white p-4 rounded-xl shadow-2xl border-4 border-darkYellow w-10/12 mx-auto mb-4 relative">
+            <div class="bg-white p-4 rounded-xl shadow-2xl border-4 border-darkYellow w-10/12 mx-auto mb-4 relative" data-restaurant-id="{{ restaurant.restaurant.id }}">
                 <div id="delete-restaurant-{{ restaurant.restaurant.id }}" 
-                class="edit-icon absolute top-2 right-2 hidden delete-button" 
+                class="edit-icon absolute top-2 right-2 hidden delete-restaurant-button" 
                 data-type="restaurant" 
                 data-id="{{ restaurant.restaurant.id }}"
                 onclick="deleteFoodPlanRestaurant('{{ restaurant.restaurant.id }}')">
@@ -39,7 +39,7 @@
                         <rect x="25.7329" y="25.7607" width="2.97352" height="13.5295" rx="1.48676" fill="#7C1D05"/>
                         <rect x="18.6904" y="25.9082" width="2.97352" height="13.5295" rx="1.48676" transform="rotate(-3 18.6904 25.9082)" fill="#7C1D05"/>
                         <rect x="32.7207" y="25.7607" width="2.97352" height="13.5295" rx="1.48676" transform="rotate(3 32.7207 25.7607)" fill="#7C1D05"/>
-                      </svg>
+                    </svg>
                 </div>
                 <div class="mb-4">
                     <div class="text-xl sm:text-2xl font-semibold text-darkOrange">
@@ -54,7 +54,7 @@
                     <div class="flex flex-nowrap gap-4">
                         {% for food in restaurant.food_items %}
                         <div class="flex-shrink-0 w-48 sm:w-60 max-h-96 bg-white rounded-2xl shadow-xl p-4 flex flex-col justify-between items-center text-center border-4 border-darkYellow relative">
-                            <div id="delete-food-item-{{ food.id }}" class="edit-icon absolute top-2 right-2 hidden" onclick="deleteFoodPlanItem('{{ food.id }}')">
+                            <div id="delete-food-item-{{ food.id }}" class="edit-icon absolute top-2 right-2 hidden delete-food-item-button" onclick="deleteFoodPlanItem('{{ food.id }}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 55 55" fill="none">
                                     <circle cx="27.5" cy="27.5" r="27.5" fill="#7C1D05"/>
                                     <path d="M12 16.7898V13.9892C12 13.5514 12.3549 13.1965 12.7927 13.1965H22.9277V10.7927C22.9277 10.3549 23.2826 10 23.7204 10H27.2393H28.032H30.7582C31.196 10 31.5509 10.3549 31.5509 10.7927V13.1965H41.6859C42.1237 13.1965 42.4786 13.5514 42.4786 13.9892V16.7898C42.4786 17.2276 42.1237 17.5825 41.6859 17.5825H27.2393H12.7927C12.3549 17.5825 12 17.2276 12 16.7898Z" fill="#EBE9E1"/>
@@ -70,7 +70,6 @@
                                 <p class="sm:text-xl text-lg font-semibold text-darkOrange">{{ food.nama }}</p>
                                 <p class="text-sm sm:text-base text-gray-500 mt-2">{{ food.description }}</p>
                                 <p class="text-lg sm:text-xl font-bold text-darkOrange mt-2">Rp. {{ food.harga }}</p>
-                                <!-- <p class="text-sm sm:text-base text-gray-500 mt-2">ID = {{ food.id }}</p> -->
                             </div>
                         </div>
                         {% endfor %}
@@ -85,10 +84,10 @@
         <div class="relative flex flex-col items-center">
             <!-- Line -->
             <div class="h-40 border-l-8 border-dashed border-gray-400"></div> 
-            <div class="text-2xl absolute top-1/2 transform -translate-y-1/2 bg-white px-2 text-gray-600">
-                    <p>{{ restaurant.distance_to_next }}km</p>
-                </div>
-                </div>
+            <div class="text-2xl absolute top-1/2 transform -translate-y-1/2 bg-white px-2 text-gray-600" id="distance-{{ restaurant.restaurant.id }}">
+                <p class="bg-transparent">{{ restaurant.distance_to_next }}km</p>
+            </div>
+        </div>
                 <div class="w-8 h-8 bg-darkYellow rounded-full flex justify-center items-center">
                 </div>
     </div>
@@ -112,6 +111,37 @@
 </div>
 
 <script>
+
+    function attachDeleteEventListeners() {
+
+        document.querySelectorAll('.delete-restaurant-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent other click events
+                const restaurantId = this.getAttribute('data-id');
+                if (restaurantId) {
+                    deleteFoodPlanRestaurant(restaurantId);
+                } else {
+                    console.error('No restaurant ID found on delete button.');
+                }
+            });
+        });
+
+        // Event listener for deleting food items
+        document.querySelectorAll('.delete-food-item-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation(); 
+                const foodId = this.getAttribute('data-food-id') || this.id.replace('delete-food-item-', '');
+                if (foodId) {
+                    deleteFoodPlanItem(foodId);
+                } else {
+                    console.error('No food item ID found on delete button.');
+                }
+            });
+        });
+    }
+
+    attachDeleteEventListeners();
+
     document.getElementById('edit-button').addEventListener('click', function() {
         const titleSpan = document.getElementById('food-plan-title');
         const titleInput = document.getElementById('edit-food-plan-title');
@@ -127,16 +157,16 @@
         }
         else {
             // AJAX call to update the title
-        fetch('{% url "reksa:update_food_plan_title" food_plan.id %}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: JSON.stringify({ 'new_title': titleInput.value })
-        }).then(response => response.json()).then(data => {
-            if (data.success) {
-                titleSpan.textContent = titleInput.value;
+            fetch('{% url "reksa:update_food_plan_title" food_plan.id %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ 'new_title': titleInput.value })
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    titleSpan.textContent = titleInput.value;
                 }
                 titleSpan.classList.remove('hidden');
                 titleInput.classList.add('hidden');
@@ -171,52 +201,29 @@
         });
     });
 
-    document.querySelectorAll('.delete-food-item').forEach(button => {
-        button.addEventListener('click', function() {
-            const foodId = this.getAttribute('data-food-id');
-            const foodElement = this.closest('.flex-shrink-0');
-            // AJAX call to delete the food item
-            fetch('{% url "reksa:remove_food_plan_item" food_plan.id %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({ 'food_item_id': foodId })
-            }).then(response => response.json()).then(data => {
-                if (data.success) {
-                    foodElement.remove(); // Remove the food item from the DOM
-                }
-            });
-        });
-    });
-
-    // Get modal elements
+    // modal elements
     const deleteModal = document.getElementById('deleteModal');
-    const deleteButton = document.getElementById('delete-button');
+    const deletePlanButton = document.getElementById('delete-plan-button');
     const cancelDelete = document.getElementById('cancelDelete');
     const confirmDelete = document.getElementById('confirmDelete');
 
-    // Show modal when delete button is clicked
-    deleteButton.addEventListener('click', function() {
+    deletePlanButton.addEventListener('click', function() {
         deleteModal.classList.remove('hidden');
     });
 
-    // Hide modal when cancel button is clicked
     cancelDelete.addEventListener('click', function() {
         deleteModal.classList.add('hidden');
     });
 
-    // Hide modal when clicking outside the modal content
     deleteModal.addEventListener('click', function(event) {
         if (event.target === deleteModal) {
             deleteModal.classList.add('hidden');
         }
     });
 
-    // Handle confirm delete
+    // Handle confirm delete plan
     confirmDelete.addEventListener('click', function() {
-        // AJAX call to delete the food plan
+       
         fetch('{% url "reksa:remove_food_plan" food_plan.id %}', {
             method: 'DELETE',
             headers: {
@@ -228,47 +235,15 @@
                 // Redirect to food_plans_list
                 window.location.href = '{% url "reksa:food_plans_list" %}';
             } else {
-                alert('Failed to delete the food plan. Please try again.');
                 deleteModal.classList.add('hidden');
             }
         }).catch(error => {
             console.error('Error deleting food plan:', error);
-            alert('An error occurred. Please try again.');
             deleteModal.classList.add('hidden');
         });
     });
 
-    function deleteFoodPlan() {
-        fetch('{% url "reksa:remove_food_plan" food_plan.id %}', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            }
-        }).then(response => {
-            if (response.ok) {
-                document.querySelector('.flex.flex-col.mt-24.sm:mt-32').remove(); // Remove the food plan container
-                // Optionally, redirect to food_plans_list
-                window.location.href = '{% url "reksa:food_plans_list" %}';
-            }
-        });
-    }
-
     function deleteFoodPlanRestaurant(restaurantId) {
-
-        const deleteButton = document.getElementById(`delete-restaurant-${restaurantId}`);
-        if (!deleteButton) {
-            console.error(`Delete button for restaurant ID ${restaurantId} not found.`);
-            return;
-        }
-
-        const restaurantElement = deleteButton.closest('.bg-white');
-        if (!restaurantElement) {
-            console.error(`Restaurant element for ID ${restaurantId} not found.`);
-            return;
-        }
-
-        // AJAX call to delete the restaurant
         fetch('{% url "reksa:remove_food_plan_restaurant" food_plan.id %}', {
             method: 'DELETE',
             headers: {
@@ -283,43 +258,45 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                
-                restaurantElement.remove();
-                console.log(`Restaurant with ID ${restaurantId} removed from DOM.`);
-
-                const separatorElement = document.querySelector(`.separator-div[data-after-restaurant-id="${restaurantId}"]`);
-                if (separatorElement) {
-                    separatorElement.remove();
-                    console.log(`Separator associated with restaurant ID ${restaurantId} removed.`);
-                } else {
-                    console.warn(`No separator found for restaurant ID ${restaurantId}.`);
+                // Remove restaurant element 
+                const restaurantElement = document.querySelector(`[data-restaurant-id="${restaurantId}"]`);
+                if (restaurantElement) {
+                    restaurantElement.remove();
                 }
 
+                // Remove associated separators (before and after the restaurant)
+                const afterSeparator = document.querySelector(`.separator-div[data-after-restaurant-id="${restaurantId}"]`);
+                const beforeSeparator = document.querySelector(`.separator-div[data-before-restaurant-id="${restaurantId}"]`);
                 
+                if (afterSeparator) {
+                    afterSeparator.remove();
+                    console.log(`Separator after restaurant ID ${restaurantId} removed.`);
+                }
+                
+                if (beforeSeparator) {
+                    beforeSeparator.remove();
+                    console.log(`Separator before restaurant ID ${restaurantId} removed.`);
+                }
+                
+                if (!afterSeparator && !beforeSeparator) {
+                    console.warn(`No separators found for restaurant ID ${restaurantId}.`);
+                }
+
+                // Update distances based on updated_distances from the server
+                updateSeparators(data.updated_distances);
+
+                // Re-attach event listeners as DOM has changed
+                attachDeleteEventListeners();
             } else {
-                alert(`Failed to delete the restaurant: ${data.error}`);
                 console.error(`Deletion failed: ${data.error}`);
             }
         })
         .catch(error => {
             console.error('Error deleting restaurant:', error);
-            alert('An error occurred. Please try again.');
         });
     }
 
-    document.querySelectorAll('.delete-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const restaurantId = this.getAttribute('data-id');
-            if (restaurantId) {
-                deleteFoodPlanRestaurant(restaurantId);
-            } else {
-                console.error('No restaurant ID found on delete button.');
-            }
-        });
-    });
-
     function deleteFoodPlanItem(foodItemId) {
-        const foodItemElement = document.getElementById(`delete-food-item-${foodItemId}`).closest('.flex-shrink-0');
         fetch('{% url "reksa:remove_food_plan_item" food_plan.id %}', {
             method: 'DELETE',
             headers: {
@@ -329,7 +306,29 @@
             body: JSON.stringify({ 'food_item_id': foodItemId })
         }).then(response => response.json()).then(data => {
             if (data.success) {
-                foodItemElement.remove(); // Remove the food item from the DOM
+                // Remove food item element from DOM
+                const foodItemElement = document.getElementById(`delete-food-item-${foodItemId}`).closest('.flex-shrink-0');
+                if (foodItemElement) {
+                    foodItemElement.remove();
+                    console.log(`Food item with ID ${foodItemId} removed from DOM.`);
+                }
+            } else {
+                console.error(`Deletion failed: ${data.error}`);
+            }
+        }).catch(error => {
+            console.error('Error deleting food item:', error);
+        });
+    }
+
+    // Function to update separators based on updated distances
+    function updateSeparators(updatedDistances) {
+        updatedDistances.forEach(distanceInfo => {
+            const separator = document.querySelector(`.separator-div[data-after-restaurant-id="${distanceInfo.previous_id}"]`);
+            if (separator) {
+                const distanceElement = separator.querySelector('p');
+                if (distanceElement) {
+                    distanceElement.textContent = `${distanceInfo.distance}km`;
+                }
             }
         });
     }

@@ -5,7 +5,6 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from reksa.models import FoodPlan
-from zoya.models import TempatKuliner
 
 # Create your views here.
 @login_required(login_url='main:login')
