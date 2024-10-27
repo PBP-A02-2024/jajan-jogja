@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse
 from zoya.models import TempatKuliner, CommunityForum, Makanan, Variasi
 from zoya.forms import CommunityForumForm
 from .forms import TempatKulinerForm, MakananForm
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
@@ -85,6 +85,9 @@ def get_current_user_id(request):
 
 @require_POST
 def add_tempat_kuliner_ajax(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You do not have permission to perform this action.")
+    
     nama = strip_tags(request.POST.get("nama"))
     description = strip_tags(request.POST.get("description"))
     alamat = strip_tags(request.POST.get("alamat"))

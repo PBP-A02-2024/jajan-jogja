@@ -96,6 +96,7 @@
           <!-- Modal body -->
           <div class="px-6 py-4 space-y-6 form-style">
             <form id="addTempatKulinerForm">
+                {% csrf_token %}
                 <div class="mb-4">
                     <label for="nama" class="block text-sm font-medium text-[#7c1d04]">Nama</label>
                     <input type="text" id="nama" name="nama" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the name" required>
@@ -308,7 +309,7 @@
             `;
         }
         else {
-            classNameString = "py-3 gap-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
+            classNameString = "py-3 gap-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 relative"
             tempatKuliner.forEach((item) => {
                 // const nama = DOMPurify.sanitize(item.fields.nama);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
@@ -328,9 +329,8 @@
                         <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
                     </svg>
                     
-                    <!-- Tombol Edit dan Delete -->
                     {% if request.user.is_authenticated and request.user.is_superuser %}
-                    <div class="absolute bottom-4 right-4 flex space-x-2">
+                    <div class="absolute top-[305px] flex space-x-2 z-[800]">
                         <button type="button" onclick="editTempat(${item.pk})" class="bg-[#eaaa00] text-white rounded-full px-3 py-1 text-sm hover:bg-[#D19400]">Edit</button>
                         <button type="button" onclick="deleteTempat(${item.pk})" class="bg-red-500 text-white rounded-full px-3 py-1 text-sm hover:bg-red-600">Delete</button>
                     </div>
