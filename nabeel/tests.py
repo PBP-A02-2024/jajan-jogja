@@ -70,3 +70,27 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse('nabeel:show_tempat_kuliner_by_category', kwargs={'keyword': 'Resto', 'id': self.variasi.id}))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_search_by_keyword_post(self):
+        response = self.client.post(reverse('nabeel:search_by_keyword', kwargs={'keyword': 'Resto'}), {'content': 'New Search'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Search.objects.filter(content='New Search', user=self.user).exists())
+        
+    def test_search_by_keyword_no_results(self):
+        response = self.client.get(reverse('nabeel:search_by_keyword', kwargs={'keyword': 'Nonexistent'}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'search-page.html')
+        self.assertIn('list_resto', response.context)
+        self.assertEqual(len(response.context['list_resto']), 0)  # Expecting no results
+
+    def test_search_by_keyword_with_strip_tags(self):
+        response = self.client.post(reverse('nabeel:search_by_keyword', kwargs={'keyword': 'Resto'}), {'content': '<strong>Search with HTML</strong>'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Search.objects.filter(content='Search with HTML', user=self.user).exists())
+        
+    def test_search_string_representation(self):
+        # Membuat instance Search
+        search_instance = Search.objects.create(user=self.user, content='String Representation Test')
+        
+        # Memastikan representasi string dari instance adalah konten
+        self.assertEqual(str(search_instance), 'String Representation Test')
