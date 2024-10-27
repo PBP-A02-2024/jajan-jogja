@@ -10,12 +10,11 @@
         <div class="space-y-2 mb-12">
           <div>
             <label for="name" class="pl-2 text-darkOrange text-xl">Nama</label>
-            <input id="name" name="name" type="text" disabled required value={{ user.username }} class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 
-            border-darkOrange focus:outline-none focus:border-darkYellow sm:text-sm text-lg disabled:text-grey" placeholder="username">
+            <input id="name" name="name" type="text" disabled required value='{{ user.username }}' class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 border-darkOrange focus:outline-none focus:border-darkYellow sm:text-sm text-lg disabled:text-grey" placeholder="username">
           </div>
           <div>
             <label for="email" class="pl-2 text-darkOrange text-xl">Email</label>
-            <input id="email" name="email" type="email" disabled value={{ user.email }} class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 border-darkOrange focus:outline-none focus:border-darkYellow  sm:text-sm text-lg disabled:text-grey" placeholder="">
+            <input id="email" name="email" type="email" disabled value='{{ user.email }}' class="relative block w-full px-3 py-2 border-2 rounded-xl bg-white focus:border-2 border-darkOrange focus:outline-none focus:border-darkYellow sm:text-sm text-lg disabled:text-grey">
           </div>
         </div>
         <div id="editCard" class="flex justify-between items-center gap-4">

@@ -5,7 +5,7 @@
 {% comment %} Desktop Navbar  {% endcomment %}
 <nav class=" fixed top-0 invisible sm:visible w-full h-28 px-12 py-4 z-[999]">
     <div class="w-full h-full flex justify-between items-center bg-white rounded-full drop-shadow-[0px_4px_50px_rgba(15,4,1,0.20)] px-12 py-2">
-        <img src="{% static "images/logo.png" %}" alt="" class="mt-2 h-10 w-auto">
+        <a href="/"><img src="{% static "images/logo.png" %}" alt="" class="mt-2 h-10 w-auto"></a>
         {% if user.username %}
         <div class="relative w-40 h-full border-2 border-darkYellow rounded-full flex justify-around items-center px-5 py-1 shadow-md">
             <div class="w-9 h-7 justify-between flex flex-col cursor-pointer" onclick="menuSlide();">
@@ -103,7 +103,7 @@
     {% endif %}
 
     <div class="visible sm:invisible fixed top-0 w-full h-16 p-4 flex justify-center items-center bg-white drop-shadow-[0px_4px_50px_rgba(15,4,1,0.20)]">
-        <img src="{% static "images/logo.png" %}" alt="" class="h-full w-auto">
+        <a href="/"><img src="{% static "images/logo.png" %}" alt="" class="h-full w-auto"></a>
         {% if not user.username and not page == 'login' and not page == 'register' %}
         <a href="{% url "main:login_user" %}" class="absolute right-3">
             <svg width="35" height="35" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg" >
