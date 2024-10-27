@@ -42,7 +42,7 @@ def logout_user(request):
     logout(request)
     return response
 
-@login_required(login_url='main:login')
+@login_required(login_url='main:login_user')
 def profile(request):
     user = request.user
     

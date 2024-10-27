@@ -8,21 +8,51 @@
         <a href="/"><img src="{% static "images/logo.png" %}" alt="" class="mt-2 h-10 w-auto"></a>
         {% if user.username %}
         <div class="relative w-40 h-full border-2 border-darkYellow rounded-full flex justify-around items-center px-5 py-1 shadow-md">
-            <div class="w-9 h-7 justify-between flex flex-col cursor-pointer" onclick="menuSlide();">
-                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
-                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
-                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
+            <div class="relative w-9 h-7 justify-between flex flex-col cursor-pointer" onclick="menuSlide();">
+                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full" id="span-1"></span>
+                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full" id="span-2"></span>
+                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full" id="span-3"></span>
+                <svg width="36" height="28" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute hidden" id="close-button">
+                    <path d="M17 9L9 1L1 9" stroke="#c98809" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
             <a href="{% url "main:profile" %}">
-                <div class="h-11 w-11 rounded-full bg-darkOrange">
+                <div class="h-11 w-11 rounded-full bg-darkOrange overflow-hidden">
                     {% comment %} Profile User {% endcomment %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 66 66" fill="none">
+                        <ellipse cx="32.8166" cy="32.7986" rx="32.8166" ry="32.7986" fill="#7C1D05"/>
+                        <mask id="mask0_514_37" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="66" height="66">
+                          <ellipse cx="32.8166" cy="32.7986" rx="32.8166" ry="32.7986" fill="#C98809"/>
+                        </mask>
+                        <g mask="url(#mask0_514_37)">
+                          <ellipse cx="33.1543" cy="32.7986" rx="15.5625" ry="14.5396" fill="#EFB11D"/>
+                          <g filter="url(#filter0_d_514_37)">
+                            <ellipse cx="33.8161" cy="57.8059" rx="19.9606" ry="13.5252" fill="#EFB11D"/>
+                          </g>
+                        </g>
+                        <defs>
+                          <filter id="filter0_d_514_37" x="9.85547" y="44.2808" width="47.9209" height="35.0503" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="4"/>
+                            <feGaussianBlur stdDeviation="2"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_514_37"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_514_37" result="shape"/>
+                          </filter>
+                        </defs>
+                      </svg>
                 </div>
             </a>
-            <div class="hidden w-28 h-40 absolute top-0 translate-y-[4.5rem] overflow-hidden py-2" id="box-menu">
+            <div class="hidden w-28 h-50 absolute top-0 translate-y-[4.5rem] overflow-hidden py-2" id="box-menu">
                 <div class="w-full h-full flex flex-col justify-evenly items-center rounded-2xl border-2 border-darkYellow text-lg shadow-md bg-white hidden" id="menu">
                     <a href="{% url "zoya:show_main" %}">Home</a>
                     <a href="{% url "nabeel:search_page" %}">Search</a>
                     <a href="{% url "reksa:food_plans_list" %}">Food Plans</a>
+                    <a href="{% url "reviews:my_reviews" %}">My Reviews</a>
+                    <a href="{% url "main:profile" %}">Profile</a>
+                    <a href="{% url "main:logout" %}" class="text-orange">Log Out</a>
                 </div>
             </div>
         </div>
@@ -38,6 +68,10 @@
     <script>
         const menu = document.querySelector('#menu');
         const boxMenu = document.querySelector('#box-menu');
+        const span1 = document.querySelector('#span-1');
+        const span2 = document.querySelector('#span-2');
+        const span3 = document.querySelector('#span-3');
+        const closeButton = document.querySelector('#close-button');
         let open = false;
         function menuSlide(){
             if(!open){
@@ -45,11 +79,19 @@
                 menu.classList.remove('hidden');
                 boxMenu.classList.remove('hidden');
                 menu.classList.add('animate-slideDown');
-                setTimeout(()=>{menu.classList.remove('animate-slideDown')}, 1000);
+                setTimeout(()=>{menu.classList.remove('animate-slideDown')}, 500);
+                span1.classList.add('hidden');
+                span2.classList.add('hidden');
+                
+                span3 .classList.add('hidden');
+                closeButton.classList.remove('hidden');
             }else{
                 menu.classList.add('animate-slideUp');
-                
-                setTimeout(()=>{menu.classList.remove('animate-slideUp'); menu.classList.add('-translate-y-[110%]');boxMenu.classList.add('hidden');}, 1000);
+                setTimeout(()=>{menu.classList.remove('animate-slideUp'); menu.classList.add('-translate-y-[110%]');boxMenu.classList.add('hidden');}, 500);
+                span1.classList.remove('hidden');
+                span2.classList.remove('hidden');
+                span3 .classList.remove('hidden');
+                closeButton.classList.add('hidden');
             }
             open = !open;
         }
@@ -59,8 +101,8 @@
 {% comment %} Mobile Navbar {% endcomment %}
 <nav class="fixed w-full flex justify-evenly items-center z-[999]">
     {% if user.username %}
-    <div class="fixed bottom-0 visible sm:invisible w-full h-[5.5rem] bg-white flex justify-evenly items-center py-4 z-[999] drop-shadow-[0px_4px_15px_rgba(15,4,1,0.20)]">
-        <a href="{% url "zoya:show_main" %}"> 
+    <div class="fixed bottom-0 visible sm:invisible w-full h-[5.5rem] bg-white flex justify-between items-center py-4 px-4 z-[999] drop-shadow-[0px_4px_15px_rgba(15,4,1,0.20)]">
+        <a href="{% url "zoya:show_main" %}" class="flex-1"> 
             <div class="flex flex-col justify-center items-center text-grey">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="home-icon">
                     <path d="M9.75037 10.5001C11.9424 8.30808 14.3907 6.62859 16.0467 5.61142C17.2536 4.87009 18.7472 4.87009 19.9541 5.61142C21.6101 6.62859 24.0583 8.30808 26.2504 10.5001C31.0029 15.2527 30.7504 18.0001 30.7504 22.5001C30.7504 24.6148 30.5847 26.3983 30.4092 27.6948C30.2244 29.059 29.0346 30.0001 27.658 30.0001H25.5004C23.8435 30.0001 22.5004 28.657 22.5004 27.0001V24.0001C22.5004 22.8066 22.0263 21.662 21.1824 20.8181C20.3384 19.9742 19.1939 19.5001 18.0004 19.5001C16.8069 19.5001 15.6623 19.9742 14.8184 20.8181C13.9745 21.662 13.5004 22.8066 13.5004 24.0001V27.0001C13.5004 28.657 12.1572 30.0001 10.5004 30.0001H8.34271C6.9661 30.0001 5.77635 29.059 5.5916 27.6948C5.41601 26.3983 5.25038 24.6148 5.25038 22.5001C5.25038 18.0001 4.99778 15.2527 9.75037 10.5001Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -68,7 +110,7 @@
                 <p id="home-text">Home</p>       
             </div>
         </a>
-        <a href="{% url "nabeel:search_page" %}">
+        <a href="{% url "nabeel:search_page" %}" class="flex-1">
             <div class="flex flex-col justify-center items-center text-grey">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="search-icon">
                     <path d="M30 30L23.7049 23.705M27 15.75C27 9.5368 21.9632 4.5 15.75 4.5C9.5368 4.5 4.5 9.5368 4.5 15.75C4.5 21.9632 9.5368 27 15.75 27C21.9632 27 27 21.9632 27 15.75Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -76,7 +118,7 @@
                 <p id="search-text">Search</p>  
             </div>
         </a>
-        <a href="{% url "reksa:food_plans_list" %}">
+        <a href="{% url "reksa:food_plans_list" %}" class="flex-1">
             <div class="flex flex-col justify-center items-center text-grey">
                 <svg width="29" height="34" viewBox="0 0 29 34" fill="none" xmlns="http://www.w3.org/2000/svg" id="food-icon">
                     <path d="M7.4625 32.7501C6.77626 32.7501 6.1181 32.4775 5.63285 31.9922C5.1476 31.507 4.875 30.8488 4.875 30.1626L6 16.1001H9.0375L10.1625 30.1626C10.1628 30.5121 10.0924 30.858 9.95535 31.1795C9.81834 31.501 9.61762 31.7914 9.3653 32.0332C9.11299 32.275 8.8143 32.4632 8.48727 32.5864C8.16024 32.7096 7.81165 32.7653 7.4625 32.7501Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -90,7 +132,18 @@
                 <p id="food-text">Food Plans</p>            
             </div>
         </a>
-        <a href="{% url "main:profile" %}">
+        <a href="{% url "reviews:my_reviews" %}" class="flex-1">
+            <div class="flex flex-col justify-center items-center text-grey">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="reviews-icon">
+                    <path d="M4.5 10.5V27C4.5 28.2426 5.50736 29.25 6.75 29.25H25.65L33.75 36V29.25V10.5C33.75 9.25736 32.7426 8.25 31.5 8.25H6.75C5.50736 8.25 4.5 9.25736 4.5 10.5Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 12.75L16.6875 16.2L20.625 16.8L17.8125 19.5L18.5625 23.4L15 21.525L11.4375 23.4L12.1875 19.5L9.375 16.8L13.3125 16.2L15 12.75Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="24" y1="16.5" x2="29.25" y2="16.5" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="26.25" y1="21" x2="29.25" y2="21" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <p id="reviews-text">My Reviews</p>
+            </div>
+        </a>
+        <a href="{% url "main:profile" %}" class="flex-1">
             <div class="flex flex-col justify-center items-center text-grey">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="profile-icon">
                     <path d="M26.25 31.5002H9.75C7.67893 31.5002 6 29.8212 6 27.7502C6 21.629 15 21.7502 18 21.7502C21 21.7502 30 21.629 30 27.7502C30 29.8212 28.3211 31.5002 26.25 31.5002Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -110,11 +163,18 @@
                 <path d="M52.5 15L65.625 15C77.0915 15 76.875 30 76.875 45C76.875 60 77.0915 75 65.625 75H52.5M56.25 45L11.25 45M56.25 45L41.25 60M56.25 45L41.25 30" stroke="#7C1D05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>            
         </a>
+        {% else %}
+        <a href="{% url "main:login_user" %}" class="absolute right-3">
+            <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 4L17.5 4C20.5577 4 20.5 8 20.5 12C20.5 16 20.5577 20 17.5 20H14M3 12L15 12M3 12L7 8M3 12L7 16" stroke="#e43d12 " stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+                           
+        </a>
         {% endif %}
+
     </div>
     <script>
         let page = '{{ page }}';
-        console.log('{{ page }}')
         const homeIcon = document.querySelector('#home-icon');
         const homeStroke = homeIcon.querySelectorAll('path');
         const homeText = document.querySelector('#home-text');
@@ -127,6 +187,9 @@
         const profileIcon = document.querySelector('#profile-icon');
         const profileStroke = profileIcon.querySelectorAll('path');
         const profileText = document.querySelector('#profile-text');
+        const reviewsIcon = document.querySelector('#reviews-icon');
+        const reviewsStroke = reviewsIcon.querySelectorAll('path');
+        const reviewsText = document.querySelector('#reviews-text');
         initialState();
 
         function initialState(){
@@ -156,6 +219,13 @@
                     profileIcon.style.fill = '#C98809';
                     profileText.style.color = '#C98809';
                     profileStroke.forEach(path => {
+                        path.style.stroke =  '#C98809';
+                    });
+                    break;
+                case 'reviews':
+                    reviewsIcon.style.fill = '#C98809';
+                    reviewsText.style.color = '#C98809';
+                    reviewsStroke.forEach(path => {
                         path.style.stroke =  '#C98809';
                     });
                     break;
