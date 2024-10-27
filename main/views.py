@@ -47,13 +47,16 @@ def profile(request):
     
     if request.method == 'POST':
         username = request.POST.get('name')
+        email = request.POST.get('email')
         if username:
             if User.objects.filter(username=username).exclude(pk=user.pk).exists():
                 messages.error(request, "Username already taken.")
             else:
-                user.username = username
-                user.save()
-                return redirect('main:profile')
+                if email:
+                    user.username = username
+                    user.email = email
+                    user.save()
+                    return redirect('main:profile')
 
     context = {
         'user': user,
