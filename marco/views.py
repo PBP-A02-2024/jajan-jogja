@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 def get_restaurant(request, tempatKulinerId):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
-    has_reviewed = Review.objects.filter(user=request.user.id).exists()
+    has_reviewed = Review.objects.filter(user=request.user.id,tempat_kuliner=tempat_kuliner).exists()
     context = {'restoran':tempat_kuliner, 'username':request.user.username, 'restaurant_id':tempat_kuliner.id, 'has_reviewed':has_reviewed}
     return render(request, "restaurant/index.html", context)
 
