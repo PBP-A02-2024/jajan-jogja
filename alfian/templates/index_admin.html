@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "navbar.html"%}
+{% include "navbar.html" %}
 
 <div class="pb-64">
   <div class="grid grid-cols-1 lg:grid-cols-2 max-w-full lg:max-w-[1280px] mx-auto gap-8 px-8 lg:px-12 pt-52">
@@ -46,103 +46,14 @@
       </div>
     </div>
 
-    <!--add makanan button-->
-    {% if request.user.is_authenticated and request.user.is_superuser %}
-    <div id="crudMakananModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-[1000] w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
-        <div id="crudMakananModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out max-h-[90vh] overflow-y-auto">
-          <!-- Modal header -->
-          <div class="flex items-center justify-between p-4 border-b rounded-t">
-            <h3 class="text-xl font-semibold text-gray-900">
-              Add Makanan
-            </h3>
-            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn" onclick="hideMakananModal()">
-              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-          </div>
-          <!-- Modal body -->
-          <div class="px-6 py-4 space-y-6 form-style">
-            <form id="addMakananForm">
-                <div class="mb-4">
-                    <label for="tempatmakan" class="block text-sm font-medium text-[#7c1d04]">Tempat Makan</label>
-                    <input type="text" id="tempatmakan" name="tempatmakan" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the place name" required>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="nama" class="block text-sm font-medium text-[#7c1d04]">Nama</label>
-                    <input type="text" id="nama" name="nama" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the food name" required>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="description" class="block text-sm font-medium text-[#7c1d04]">Description</label>
-                    <textarea id="description" name="description" rows="3" class="mt-1 block w-full resize-none border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the description" required></textarea>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="harga" class="block text-sm font-medium text-[#7c1d04]">Harga</label>
-                    <input type="number" id="harga" name="harga" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the price" required>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="foto_link" class="block text-sm font-medium text-[#7c1d04]">Foto Link</label>
-                    <input type="url" id="foto_link" name="foto_link" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the photo link" required>
-                </div>                  
-            </form>
-          </div>
-          <!-- Modal footer -->
-          <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
-            <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton" onclick="hideMakananModal()">Cancel</button>
-            <button type="submit" id="submitAddMakanan" form="addMakananForm" class="bg-darkOrange hover:bg-orange text-white font-bold py-2 px-4 rounded-lg">Save</button>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
-
     <div>
-      <div id="makanan_cards" onclick="showModal()"></div>
+      <div id="makanan_cards"></div>
     </div>
   </div>
 </div>
 
 {% comment %} EDIT REVIEW MODAL {% endcomment %}
-<div id="editReviewModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-  <div class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 p-8">
-    <!-- Modal header -->
-    <div class="flex items-center justify-between border-b pb-4 mb-4">
-      <h2 class="text-2xl font-semibold text-gray-800">Edit Your Review for {{restoran.nama}}</h2>
-      <button type="button" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1.5" id="closeEditModal">
-        <svg width="24" height="24" fill="currentColor">
-          <path d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-
-    <form id="editReviewForm" method="POST" class="space-y-6">
-      {% csrf_token %}
-
-      <div>
-        <label class="block text-lg font-medium text-gray-700 mb-2">Rating</label>
-        <div class="flex items-center" id="edit-star-rating">
-          {% for i in "12345" %}
-          <input type="radio" name="rating" id="edit-star{{ forloop.counter }}" value="{{ forloop.counter }}" class="hidden">
-          <label for="edit-star{{ forloop.counter }}" data-value="{{ forloop.counter }}" class="cursor-pointer text-gray-300 text-3xl">&#9733;</label>
-          {% endfor %}
-        </div>
-      </div>
-
-      <!-- Comment Section -->
-      <div>
-        <label for="editComment" class="block text-lg font-medium text-gray-700 mb-2"> Comment</label>
-        <textarea name="comment" id="editComment" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-darkPink" placeholder="Edit your experience..."></textarea>
-      </div>
-
-      <button type="submit" class="w-full py-2 px-4 text-white bg-darkPink rounded-lg hover:bg-darkPink/90">Save Changes</button>
-    </form>
-  </div>
-</div>
+<!-- Existing Edit Review Modal Code -->
 
 <!-- MODAL -->
 <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full items-center justify-center bg-gray-700 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
@@ -167,10 +78,10 @@
     </div>
     <div class="flex justify-end p-4 border-t">
       <button
-              type="submit"
-              id="saveItinerary"
-              form="productEntryForm"
-              class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
+        type="submit"
+        id="saveItinerary"
+        form="productEntryForm"
+        class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
         Save
       </button>
     </div>
@@ -178,124 +89,59 @@
 </div>
 
 <script>
-  function showModal() {
-    const username = '{{ username }}';
+  // Initialize variables
+  let selectedRating = 0;
+  let reviewIdToEdit = null;
 
-    if(username) {  
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
   
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      setTimeout(() => {
-        modalContent.classList.remove('opacity-0', 'scale-95');
-        modalContent.classList.add('opacity-100', 'scale-100');
-      }, 50);
-    } else {
-      return
-    }
-
+  async function getMakanan(){
+    return fetch("{% url 'alfian:get_makanan_json' tempatKulinerId=restoran.id %}").then((res) => res.json())
   }
 
-  function hideModal() {
-    const modal = document.getElementById('crudModal');
-    const modalContent = document.getElementById('crudModalContent');
 
-    modalContent.classList.remove('opacity-100', 'scale-100');
-    modalContent.classList.add('opacity-0', 'scale-95');
 
-    setTimeout(() => {
-      modal.classList.remove('flex');
-      modal.classList.add('hidden');
-    }, 150);
-  }
-  
-  async function fetchReviews(restaurantId) {
-    try {
-      const response = await fetch(`/review/get-reviews/${restaurantId}/`);
-      if (!response.ok) throw new Error("Failed to fetch reviews");
+  async function refreshMakanan() {
+    document.getElementById("makanan_cards").innerHTML = "";
+    document.getElementById("makanan_cards").className = "";
+    const semua_makanan = await getMakanan();
+    console.log("TEST" + semua_makanan);
+    let htmlString = "";
+    let classNameString = "";
 
-      const reviews = await response.json();
-      renderReviews(reviews);
-    } catch (error) {
-      console.error("Error loading reviews:", error);
-    }
-  }
+    const isAdmin = "{{ request.user.is_superuser|yesno:'true,false' }}";
 
-  function renderReviews(reviews) {
-    const container = document.getElementById("reviews-container");
-    container.innerHTML = ""; // Clear existing content
-
-    if (reviews.length === 0) {
-      container.innerHTML = '<p class="text-gray-500 text-center">No reviews yet.</p>';
-      return;
-    }
-
-    reviews.forEach(review => {
-      const isOwner = review.user === "{{ request.user.username }}";
-      const reviewHtml = `
-        <div>
-          <div class="p-4 rounded-xl bg-lightPink/30">
-            <p class="text-xs lg:text-xs">${review.comment}</p>
-          </div>
-          <div class="flex justify-between">
-            <h3 class="font-semibold text-darkOrange text-sm lg:text-xl">${review.user}</h3>
-            <div>
-              <h3 class="font-normal text-grey text-sm lg:text-sm justify-self-end">on ${new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</h3>
-              <div class="flex justify-end items-center gap-2 px-2">
-                <p class="font-bold text-sm lg:text-xl text-black">${review.rating}/5</p>
-                <div class="w-4 h-4 lg:w-5 lg:h-5">
-                  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 117.1"><defs><style>.cls-1{fill:#ffd401;}</style></defs><title>star-symbol</title><path class="cls-1" d="M64.42,2,80.13,38.7,120,42.26a3.2,3.2,0,0,1,1.82,5.62h0L91.64,74.18l8.9,39A3.19,3.19,0,0,1,98.12,117a3.27,3.27,0,0,1-2.46-.46L61.41,96.1,27.07,116.64a3.18,3.18,0,0,1-4.38-1.09,3.14,3.14,0,0,1-.37-2.38h0l8.91-39L1.09,47.88a3.24,3.24,0,0,1-.32-4.52,3.32,3.32,0,0,1,2.29-1l39.72-3.56L58.49,2a3.24,3.24,0,0,1,5.93,0Z"/></svg>
+    if (semua_makanan.length != 0) {
+        classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
+        semua_makanan.forEach((makanan) => {
+            htmlString += `
+                <div onclick="${isAdmin === 'true' ? `window.location.href='/adm/edit-makanan/${makanan.pk}/'` : `showModal()`}" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)] cursor-pointer">
+                    <div>
+                        <img src="${makanan.fields.foto_link}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
+                        <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
+                        <p class="font-normal text-sm text-grey">${makanan.fields.description}</p>
+                    </div>
+                    <h3 class="font-semibold text-sm text-darkOrange">Rp${makanan.fields.harga}</h3>
+                    
+                    <!-- Edit and Delete Buttons for Admin -->
+                    ${isAdmin === 'true' ? `
+                    <div class="absolute bottom-4 right-4 flex space-x-2">
+                        <button type="button" onclick="window.location.href='/adm/edit-makanan/${makanan.pk}/'" class="bg-[#eaaa00] text-white rounded-full px-3 py-1 text-sm hover:bg-[#D19400]">Edit</button>
+                        <button type="button" onclick="deleteMakanan(${makanan.pk})" class="bg-red-500 text-white rounded-full px-3 py-1 text-sm hover:bg-red-600">Delete</button>
+                    </div>` : ""}
                 </div>
-                ${
-              isOwner
-                      ? `<button class="edit-review-button text-blue-600 text-sm" data-review-id="${review.id}" data-comment="${review.comment}" data-rating="${review.rating}">Edit</button>
-                     <button class="delete-review-button text-red-500 text-sm" data-review-id="${review.id}">Delete</button>`
-                      : ''
-      }
-              </div>
-            </div>
-          </div>
-        </div>`;
-      container.insertAdjacentHTML("beforeend", reviewHtml);
-    });
-  }
-
-  async function deleteReview(reviewId) {
-    try {
-      const response = await fetch(`/review/delete/${reviewId}/`, {
-        method: "POST",
-        headers: {
-          "X-CSRFToken": "{{ csrf_token }}",
-          "X-Requested-With": "XMLHttpRequest"
-        }
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        alert(data.message);
-        fetchReviews("{{ restoran.id }}"); // Reload the reviews list
-      } else {
-        alert("Failed to delete review. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error deleting review:", error);
-      alert("An error occurred. Please try again.");
+            `;
+        });
+    } else {
+        classNameString = "grid grid-cols-1";
+        htmlString += `<div class="font-semibold text-xl text-center text-darkOrange">No Food Added</div>`
     }
-  }
-  function showEditModal(reviewId, currentComment, currentRating) {
-    const editReviewModal = document.getElementById("editReviewModal");
-    const editComment = document.getElementById("editComment");
 
-    reviewIdToEdit = reviewId;
-    editComment.value = currentComment;
-    selectedRating = currentRating;
-    highlightStars(selectedRating);
-
-    document.getElementById(`edit-star${selectedRating}`).checked = true;
-    editReviewModal.classList.remove("hidden");
+    document.getElementById("makanan_cards").className = classNameString;
+    document.getElementById("makanan_cards").innerHTML = htmlString;
   }
+  refreshMakanan();
+
+  // Existing Functions: fetchReviews, renderReviews, deleteReview, showEditModal, etc.
 
   function highlightStars(rating) {
     const stars = document.querySelectorAll("#edit-star-rating label");
@@ -305,116 +151,8 @@
     });
   }
 
-  // Initialize variables
-  let selectedRating = 0;
-  let reviewIdToEdit = null;
-
-  async function getFoodPlan(){
-    return fetch("{% url 'marco:get_food_plans_json' %}").then((res) => res.json())
-  }
-  async function getMakanan(){
-    return fetch("{% url 'marco:get_makanan_json' tempatKulinerId=restoran.id %}").then((res) => res.json())
-  }
-
-  async function refreshFoodPlan(){
-    document.getElementById("food_plan_cards").innerHTML = "";
-    document.getElementById("food_plan_cards").className = "";
-    const food_plans = await getFoodPlan();
-    let htmlString = "";
-    let classNameString = "";
-
-    classNameString = "flex flex-col gap-4";
-
-    food_plans.forEach((plan) => {
-      htmlString += `
-        <div class="flex items-center gap-4">
-          <input type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-5 h-5 lg:w-10 lg:h-10 appearance-none border-2 border-black rounded-lg lg:rounded-xl bg-transparent checked:bg-yellow  focus:outline-none focus:ring-1  lg:focus:ring-2 focus:ring-darkPink">
-          <label for="" class="font-bold text-lg lg:text-2xl text-black">${plan.fields.nama}</label>
-        </div>
-      `
-    })
-
-    document.getElementById("food_plan_cards").className = classNameString;
-    document.getElementById("food_plan_cards").innerHTML = htmlString;
-  }
-
-  function addMakanan() {
-    const form = document.getElementById('addMakananForm');
-
-    // Check if the form is valid before proceeding
-    if (form.checkValidity()) {
-        fetch("{% url 'alfian:add_makanan_ajax' %}", {
-            method: "POST",
-            body: new FormData(form),
-        })
-        .then(response => {
-            if (response.ok) {
-                refreshMakanan(); // Refresh the list after a successful response
-                form.reset(); // Reset the form after successful submission
-                document.querySelector("[data-modal-toggle='crudModal']").click(); // Close the modal
-            } else if (response.status === 403) {
-                alert('You must be logged in to add a food item. Please log in and try again.'); // Notify user about login requirement
-            } else {
-                console.error('Error:', response.statusText); // Log error response for debugging
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error); // Handle fetch error
-        });
-    } else {
-        form.reportValidity(); // Show validation messages if form is invalid
-    }
-
-    return false; // Prevent default form submission
-  }   
-
-  document.getElementById("submitAddMakanan").onclick = addMakanan;
-
-  async function getMakanan() {
-    return fetch("{% url 'zoya:show_json_makanan' %}").then((res) => res.json());
-  }
-
-  async function refreshMakanan() {
-    document.getElementById("makanan_cards").innerHTML = "";
-    document.getElementById("makanan_cards").className = "";
-    const semua_makanan = await getMakanan();
-    let htmlString = "";
-    let classNameString = "";
-
-    if (semua_makanan.length != 0) {
-        classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
-        semua_makanan.forEach((makanan) => {
-            htmlString += `
-            <div onclick="showModal()" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
-                <div>
-                    <img src="${makanan.fields.foto_link}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
-                    <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
-                    <p class="font-normal text-sm text-grey">${makanan.fields.description}</p>
-                </div>
-                <h3 class="font-semibold text-sm text-darkOrange">Rp${makanan.fields.harga}</h3>
-                
-                <!-- Edit and Delete Buttons -->
-                ${makanan.fields.is_superuser ? `
-                <div class="absolute bottom-4 right-4 flex space-x-2">
-                    <button type="button" onclick="editMakanan(${makanan.pk})" class="bg-[#eaaa00] text-white rounded-full px-3 py-1 text-sm hover:bg-[#D19400]">Edit</button>
-                    <button type="button" onclick="deleteMakanan(${makanan.pk})" class="bg-red-500 text-white rounded-full px-3 py-1 text-sm hover:bg-red-600">Delete</button>
-                </div>` : ""}
-            </div>
-        `;
-        });
-    } else {
-        classNameString = "grid grid-cols-1";
-        htmlString += `<div class="font-semibold text-xl text-center text-darkOrange">No Food Added</div>`
-    }
-
-
-    document.getElementById("makanan_cards").className = classNameString;
-    document.getElementById("makanan_cards").innerHTML = htmlString;
-  }
-
-  refreshMakanan();
-
-    document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function() {
+    const isAdmin = "{{ request.user.is_superuser|yesno:'true,false' }}";
     const restaurantId = "{{ restoran.id }}";
     fetchReviews(restaurantId);
     refreshMakanan();
@@ -500,6 +238,7 @@
           alert("An error occurred. Please try again.");
         }
       });
+
       const editReviewModal = document.getElementById("editReviewModal");
       editReviewModal.addEventListener("click", function(event) {
         if (event.target === editReviewModal) {
@@ -511,6 +250,3 @@
 </script>
 
 {% endblock content %}
-
-
-

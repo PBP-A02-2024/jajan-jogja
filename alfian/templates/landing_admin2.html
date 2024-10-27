@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-{% include 'navbar.html' with page="home"  %}
+{% include 'navbar.html' %}
 
 <style>
     @keyframes pulse {
@@ -25,8 +25,8 @@
 
 <div class="flex flex-col justify-center items-center my-28 w-screen">
     <!-- Carousel -->
-    <div id="default-carousel" class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[525px] relative mx-auto" data-carousel="slide">
-        <div class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[481px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow px-4">
+    <div id="default-carousel" class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[525px] relative" data-carousel="slide">
+        <div class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[481px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
             {% if makanan.count == 0 %}
             <p class="text-center">No images available</p>
             {% elif makanan.count == 1 %}
@@ -47,7 +47,7 @@
                 {% endfor %}
             {% endif %}
 
-            <img src="{% static 'images/elemen_jogja.png' %}" class="absolute object-cover top-0 w-full h-full z-[998]" style="pointer-events: none;">
+            <img src="{% static 'images/elemen_jogja.png' %}" class="absolute object-cover top-0 w-full h-full" style="pointer-events: none;">
         </div>
 
         {% if makanan.count > 1 %}
@@ -70,8 +70,14 @@
 
     <div class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
 
+    <!-- Open Modal Button -->
+    <button type="button" class="pulsating w-[200px] h-[65px] bg-[#c98809] rounded-[158px] text-white hover:shadow-lg hover:scale-105" onclick="showModal()">
+        <div class="text-center text-[34px] font-normal font-['Jockey One'] leading-[69.25px]">Add Tempat Kuliner</div>
+    </button>
+
     <!-- Cards Tempat -->
     <div id="tempat_kuliner_cards"></div>
+
 
     <!-- Community Forum -->
     <div class="my-28 w-screen flex flex-col items-center">
@@ -145,10 +151,45 @@
         }
     }
 
+    
+    function addTempatKuliner() {
+        const form = document.getElementById('addTempatKulinerForm');
+
+        // Check if the form is valid before proceeding
+        if (form.checkValidity()) {
+            fetch("{% url 'alfian:add_tempat_kuliner_ajax' %}", {
+                method: "POST",
+                body: new FormData(form),
+            })
+            .then(response => {
+                if (response.ok) {
+                    refreshTempatKuliner(); // Refresh the list after a successful response
+                    form.reset(); // Reset the form after successful submission
+                    document.querySelector("[data-modal-toggle='crudModal']").click(); // Close the modal
+                } else if (response.status === 403) {
+                    alert('You must be logged in to add a place. Please log in and try again.'); // Notify user about login requirement
+                } else {
+                    console.error('Error:', response.statusText); // Log error response for debugging
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error); // Handle fetch error
+            });
+        } else {
+            form.reportValidity(); // Show validation messages if form is invalid
+        }
+
+        return false; // Prevent default form submission
+    }
+
+    document.getElementById("submitAddTempatKuliner").onclick = addTempatKuliner;
+    
     async function getTempatKuliner(){
         return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
     }
-
+    
+    
+    
     async function refreshTempatKuliner() {
         document.getElementById("tempat_kuliner_cards").innerHTML = "";
         document.getElementById("tempat_kuliner_cards").className = "";
@@ -166,7 +207,7 @@
             `;
         }
         else {
-            classNameString = "py-3 gap-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2"
+            classNameString = "py-3 gap-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 relative"
             tempatKuliner.forEach((item) => {
                 // const nama = DOMPurify.sanitize(item.fields.nama);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
@@ -178,15 +219,19 @@
 
                 htmlString += `
                 <a href="/restaurant/${item.pk}" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
-                    <img src="${item.fields.foto_link}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px] object-cover"/>
-                    <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10 overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.nama}</div>
-                    <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis text-red"><p class="text-grey text-ellipsis overflow-hidden">${item.fields.alamat}</p></div>
+                    <img src="${item.fields.foto_link}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
+                    <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
+                    <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.alamat}</div>
                     <div class="w-[83.14px] left-[55px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${currentRating}/5</div>
-                    <svg class="left-[30px] top-[259px] absolute" width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
-                    </svg>
+                    
+                    {% if request.user.is_authenticated and request.user.is_superuser %}
+                    <div class="absolute top-[305px] flex space-x-2 z-[800]">
+                        <span onclick="editTempat(${item.pk})" class="edit-btn bg-[#eaaa00] text-white rounded-full px-3 py-1 text-sm hover:bg-[#D19400] cursor-pointer">Edit</span>
+                        <span onclick="deleteTempat(${item.pk})" class="delete-btn bg-red-500 text-white rounded-full px-3 py-1 text-sm hover:bg-red-600 cursor-pointer">Delete</span>
+                    </div>
+                    {% endif %}
                 </a>
-                `;
+            `;
             });
         }
         document.getElementById("tempat_kuliner_cards").className = classNameString;
@@ -194,6 +239,83 @@
     }
 
     refreshTempatKuliner();
+
+    document.getElementById("editTempat").onclick = editTempat;
+    document.getElementById("deleteTempat").onclick = deleteTempat;
+
+    async function deleteTempat(tempatId) {
+        event.stopPropagation();
+        const response = await fetch(`/delete-tempat/${tempatId}/`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            refreshTempatKuliner();
+        } else {
+            alert("Failed to delete the place.");
+        }
+    }
+
+    async function editTempat(tempatId) {
+    try {
+        // Ambil data tempat kuliner yang ingin diedit
+        const response = await fetch(`/get-tempat/${tempatId}/`);
+        const tempatData = await response.json();
+
+        // Menampilkan form edit dan mengisi data tempat
+        document.getElementById("edit_tempat_kuliner").classList.remove("hidden"); // Tampilkan form edit
+        document.getElementById("edit-name").value = tempatData.fields.nama;
+        document.getElementById("edit-description").value = tempatData.fields.description;
+        document.getElementById("edit-alamat").value = tempatData.fields.alamat;
+        document.getElementById("edit-longitude").value = tempatData.fields.longitude;
+        document.getElementById("edit-latitude").value = tempatData.fields.latitude;
+        document.getElementById("edit-jamBuka").value = tempatData.fields.jamBuka;
+        document.getElementById("edit-jamTutup").value = tempatData.fields.jamTutup;
+        document.getElementById("edit-rating").value = tempatData.fields.rating || 0;
+        document.getElementById("edit-foto_link").value = tempatData.fields.foto_link;
+
+        // Hubungkan tombol Save dengan fungsi saveEdit
+        document.getElementById("save-button").onclick = async function () {
+            await saveEdit(tempatId);
+        };
+    } catch (error) {
+        console.error("Gagal memuat data tempat:", error);
+        alert("Gagal memuat data tempat untuk diedit.");
+    }
+}
+
+// Fungsi untuk menyimpan data edit
+async function saveEdit(tempatId) {
+    // Ambil nilai dari input form
+    const editedData = {
+        nama: document.getElementById("edit-name").value,
+        description: document.getElementById("edit-description").value,
+        alamat: document.getElementById("edit-alamat").value,
+        longitude: document.getElementById("edit-longitude").value,
+        latitude: document.getElementById("edit-latitude").value,
+        jamBuka: document.getElementById("edit-jamBuka").value,
+        jamTutup: document.getElementById("edit-jamTutup").value,
+        rating: document.getElementById("edit-rating").value,
+        foto_link: document.getElementById("edit-foto_link").value,
+    };
+
+    // Kirim data ke server untuk menyimpan perubahan
+    const response = await fetch(`/edit-tempat/${tempatId}/`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedData),
+    });
+
+    if (response.ok) {
+        document.getElementById("edit_tempat_kuliner").classList.add("hidden"); // Sembunyikan form
+        await refreshTempatKuliner(); // Perbarui tampilan daftar tempat kuliner
+    } else {
+        alert("Gagal menyimpan perubahan.");
+    }
+}
+
 
     async function getUserById(userId) {
         const response = await fetch(`/get-user/${userId}/`);
@@ -263,3 +385,6 @@
 </script>
 
 {% endblock content %}
+
+
+
