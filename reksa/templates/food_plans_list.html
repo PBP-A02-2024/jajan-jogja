@@ -15,7 +15,7 @@
                 <a href="{% url "reksa:food_plan_detail_view" food_plan.id %}" class="w-48 h-48 sm:w-72 sm:h-72 bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center text-center border-4 border-darkYellow">
                     <p class="sm:text-3xl text-lg font-semibold text-darkOrange">{{ food_plan.nama }}</p>
                     <p class="sm:text-xl text-lg text-gray-500 mt-2 flex items-center">{{ food_plan.jarak }}km</p>
-                    <p class="sm:text-xl text-lg text-gray-500 mt-2 flex items-center">{{ food_plan.id }}</p>
+                    <!-- <p class="sm:text-xl text-lg text-gray-500 mt-2 flex items-center">{{ food_plan.id }}</p> -->
                 </a>
             {% endfor %}
         {% else %}
