@@ -27,6 +27,7 @@ def load_tempat_kuliner(csv_path):
                     'jamBuka': parse_time(row['Jam Buka']),
                     'jamTutup': parse_time(row['Jam tutup']),
                     'rating': Decimal(row['Rating Toko']) if row['Rating Toko'] else None,
+                    'foto_link': row['Foto Link']
                 }
             )
 

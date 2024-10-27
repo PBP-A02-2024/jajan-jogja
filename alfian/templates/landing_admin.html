@@ -77,8 +77,10 @@
 
     <!-- Cards Tempat -->
     <div id="tempat_kuliner_cards"></div>
-    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-[995] w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
-        <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-[1000] w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+        <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out max-h-[90vh] overflow-y-auto">
           <!-- Modal header -->
           <div class="flex items-center justify-between p-4 border-b rounded-t">
             <h3 class="text-xl font-semibold text-gray-900">
@@ -147,6 +149,7 @@
           </div>
         </div>
       </div>
+    {% endif %}
 
     <!-- Community Forum -->
     <div class="my-28 w-screen flex flex-col items-center">
@@ -222,17 +225,36 @@
 
     
     function addTempatKuliner() {
-        fetch("{% url 'alfian:add_tempat_kuliner_ajax' %}", {
-            method: "POST",
-            body: new FormData(document.querySelector('#addTempatKulinerForm')),
-        })
-        .then(response => refreshTempatKuliner())
-        
-        document.getElementById("addTempatKulinerForm").reset();
-        document.querySelector("[data-modal-toggle='crudModal']").click();
-        
-        return false;
+        const form = document.getElementById('addTempatKulinerForm');
+
+        // Check if the form is valid before proceeding
+        if (form.checkValidity()) {
+            fetch("{% url 'alfian:add_tempat_kuliner_ajax' %}", {
+                method: "POST",
+                body: new FormData(form),
+            })
+            .then(response => {
+                if (response.ok) {
+                    refreshTempatKuliner(); // Refresh the list after a successful response
+                    form.reset(); // Reset the form after successful submission
+                    document.querySelector("[data-modal-toggle='crudModal']").click(); // Close the modal
+                } else if (response.status === 403) {
+                    alert('You must be logged in to add a place. Please log in and try again.'); // Notify user about login requirement
+                } else {
+                    console.error('Error:', response.statusText); // Log error response for debugging
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error); // Handle fetch error
+            });
+        } else {
+            form.reportValidity(); // Show validation messages if form is invalid
+        }
+
+        return false; // Prevent default form submission
     }
+
+    document.getElementById("submitAddTempatKuliner").onclick = addTempatKuliner;
     
     async function getTempatKuliner(){
         return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
@@ -307,10 +329,12 @@
                     </svg>
                     
                     <!-- Tombol Edit dan Delete -->
+                    {% if request.user.is_authenticated and request.user.is_superuser %}
                     <div class="absolute bottom-4 right-4 flex space-x-2">
                         <button type="button" onclick="editTempat(${item.pk})" class="bg-[#eaaa00] text-white rounded-full px-3 py-1 text-sm hover:bg-[#D19400]">Edit</button>
                         <button type="button" onclick="deleteTempat(${item.pk})" class="bg-red-500 text-white rounded-full px-3 py-1 text-sm hover:bg-red-600">Delete</button>
                     </div>
+                    {% endif %}
                 </a>
                 `;
             });
