@@ -3,7 +3,8 @@
 {% include "navbar.html" with page="home"%}
 
 <div class="pb-64">
-  <div class="grid grid-cols-1 lg:grid-cols-2 max-w-full lg:max-w-[1280px] mx-auto gap-8 px-8 lg:px-12 pt-52">
+  <div class="grid grid-cols-1 lg:grid-cols-2 max-w-full lg:max-w-[1280px] mx-auto gap-8 px-8 lg:px-12 pt-24 lg:pt-48">
+    {% comment %} Restaurant Section {% endcomment %}
     <div class="space-y-4">
       <div class="w-full border-4 border-darkPink rounded-[3rem] p-6 pb-28 shadow-lg">
         {% if restoran.foto_link %}
@@ -11,7 +12,7 @@
         {% else %}
         <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image Available" class="object-cover h-128 w-128 rounded-3xl"/>
         {% endif %}
-        <h1 class="font-bold text-4xl text-darkOrange mb-4">{{ restoran.nama }}</h1>
+        <h1 class="font-bold text-2xl lg:text-4xl text-darkOrange mb-4">{{ restoran.nama }}</h1>
         <p class="font-normal text-sm text-black">{{ restoran.alamat }}</p>
         <p class="font-normal text-sm text-black">{{ restoran.description }}</p>
         <p class="font-normal text-sm text-black mb-4">Open: {{ restoran.jamBuka|date:"H:i" }} - {{ restoran.jamTutup|date:"H:i" }} WIB</p>
@@ -46,9 +47,8 @@
       </div>
     </div>
 
-    <div>
-      <div id="makanan_cards">
-      </div>
+    {% comment %} Foods Section{% endcomment %}
+    <div id="makanan_cards">
     </div>
   </div>
 </div>
@@ -319,7 +319,7 @@ function showModal(makananId) {
     let classNameString = "";
 
     if (semua_makanan.length != 0) {
-      classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
+      classNameString = "grid grid-cols-1 lg:grid-cols-2 h-full gap-6";
       semua_makanan.forEach((makanan) => {
         htmlString += `
         <div onclick="showModal('${makanan.pk}')" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
