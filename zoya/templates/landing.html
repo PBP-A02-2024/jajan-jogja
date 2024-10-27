@@ -179,7 +179,7 @@
                 htmlString += `
                 <a href="/restaurant/${item.pk}" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
                     <img src="${item.fields.foto_link}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
-                    <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
+                    <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10 overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.nama}</div>
                     <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.alamat}</div>
                     <div class="w-[83.14px] left-[55px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${currentRating}/5</div>
                     <svg class="left-[30px] top-[259px] absolute" width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
