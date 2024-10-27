@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.shortcuts import render, get_object_or_404
 from zoya.models import Makanan, TempatKuliner
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 def get_restaurant(request, tempatKulinerId):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
-    has_reviewed = Review.objects.filter(user=request.user).exists()
+    has_reviewed = Review.objects.filter(user=request.user.id).exists()
     context = {'restoran':tempat_kuliner, 'username':request.user.username, 'restaurant_id':tempat_kuliner.id, 'has_reviewed':has_reviewed}
     return render(request, "restaurant/index.html", context)
 

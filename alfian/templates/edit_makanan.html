@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="flex flex-col min-h-screen bg-white">
+    <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+        <h1 class="py-5 text-3xl font-bold text-center text-darkOrange">Edit Makanan</h1>
+
+        <div class="bg-white rounded-[40px] p-6 form-style border-4 border-darkOrange">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Nama -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_nama" class="font-semibold text-darkOrange text-2xl">Nama</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.nama|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.nama.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.nama.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.nama.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_description" class="font-semibold text-darkOrange text-2xl">Deskripsi</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.description|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.description.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.description.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.description.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Harga -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_harga" class="font-semibold text-darkOrange text-2xl">Harga</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.harga|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.harga.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.harga.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.harga.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Link Foto -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_foto_link" class="font-semibold text-darkOrange text-2xl">Link Foto</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.foto_link|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.foto_link.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.foto_link.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.foto_link.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Tombol Cancel dan Save -->
+                <div class="flex flex-row space-x-4">
+                    <a href="{% url 'zoya:show_main' %}" class="bg-orange text-white text-[18px] py-2 rounded-[10px] hover:bg-darkOrange w-1/2 text-center">Cancel</a>
+                    <button type="submit" class="bg-yellow text-white text-[18px] py-2 rounded-[10px] hover:bg-darkYellow w-1/2">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

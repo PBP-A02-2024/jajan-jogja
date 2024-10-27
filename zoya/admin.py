@@ -5,4 +5,4 @@ from .models import CommunityForum, TempatKuliner, Makanan, Variasi
 admin.site.register(CommunityForum)
 admin.site.register(TempatKuliner)
 admin.site.register(Makanan)
-admin.site.register(Variasi)
+admin.site.register(Variasi) 
