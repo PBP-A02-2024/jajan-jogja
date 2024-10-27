@@ -1,6 +1,9 @@
+import json
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_POST, require_http_methods
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from reksa.models import FoodPlan
 from zoya.models import TempatKuliner
 
@@ -51,4 +54,56 @@ def food_plan_detail_view(request, food_plan_id):
 def food_plan_create(request):
     new_food_plan = FoodPlan.objects.create(nama="Food Plan", user=request.user)
     return redirect('reksa:food_plan_detail_view', food_plan_id=new_food_plan.id)
+
+
+def food_plan_json(request):
+    food_plans = FoodPlan.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", food_plans), content_type="application/json")
+
+def add_food_plan_item(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    food_plan.makanan.add(request.POST.get('food_item_id'))
+    return redirect('reksa:food_plan_detail_view', food_plan_id=food_plan.id)
+
+def remove_food_plan_item(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    food_plan.makanan.remove(request.POST.get('food_item_id'))
+    return redirect('reksa:food_plan_detail_view', food_plan_id=food_plan.id)
+
+@require_POST
+def update_food_plan_title(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    data = json.loads(request.body)
+    new_title = data.get('new_title', '')
+    if new_title:
+        food_plan.nama = new_title
+        food_plan.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@require_http_methods(["DELETE"])
+def remove_food_plan_item(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    data = json.loads(request.body)
+    food_item_id = data.get('food_item_id')
+    if food_item_id:
+        food_plan.makanan.remove(food_item_id)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@require_http_methods(["DELETE"])
+def remove_food_plan_restaurant(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    data = json.loads(request.body)
+    restaurant_id = data.get('restaurant_id')
+    if restaurant_id:
+        food_plan.tempat_kuliner.remove(restaurant_id)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+@require_http_methods(["DELETE"])
+def remove_food_plan(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    food_plan.delete()
+    return JsonResponse({'success': True})
 
