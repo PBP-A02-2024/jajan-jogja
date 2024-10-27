@@ -12,7 +12,7 @@ from nabeel.models import Search
 # import dari punya marco
 
 # Create your views here.
-@login_required(login_url='/login')
+@login_required(login_url='main:login_user')
 @csrf_exempt
 def search_page(request):
     context = {
@@ -29,6 +29,7 @@ def search_page(request):
     return render(request, 'search-page.html', context)
 
 @csrf_exempt
+@login_required(login_url='main:login_user')
 def search_by_keyword(request, keyword):
     list_resto = TempatKuliner.objects.filter(nama__contains=keyword) #filter lebih general
     list_variasi = Variasi.objects.all()
