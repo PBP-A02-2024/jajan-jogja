@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 def get_restaurant(request, tempatKulinerId):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
-    has_reviewed = Review.objects.filter(user=request.user.id).exists()
+    has_reviewed = Review.objects.filter(user=request.user.id,tempat_kuliner=tempat_kuliner).exists()
     context = {'restoran':tempat_kuliner, 'username':request.user.username, 'restaurant_id':tempat_kuliner.id, 'has_reviewed':has_reviewed}
     return render(request, "restaurant/index.html", context)
 
@@ -18,7 +18,7 @@ def get_makanan_json(request, tempatKulinerId):
     semua_makanan = tempat_kuliner.makanan.all()
     return HttpResponse(serializers.serialize("json", semua_makanan), content_type="application/json")
 
-@login_required(login_url='main:login')
+@login_required(login_url='main:login_user')
 def get_food_plans_json(request):
     data = FoodPlan.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
