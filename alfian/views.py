@@ -10,7 +10,10 @@ from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 
+@staff_member_required
+@login_required(login_url='main:login_user')
 def show_main(request):
     makanan = Makanan.objects.all()[:15]
     variasi = Variasi.objects.all()
@@ -38,6 +41,8 @@ def show_json_forum_by_id(request, id):
 
 @csrf_exempt
 @require_http_methods(["DELETE"])
+@login_required(login_url='main:login_user')
+@staff_member_required
 def delete_forum_entry(request, id):
     if request.user.is_authenticated:
         try:
@@ -48,6 +53,8 @@ def delete_forum_entry(request, id):
             return HttpResponse(status=404)
     return HttpResponse(status=403)
 
+@login_required(login_url='main:login_user')
+@staff_member_required
 def edit_forum_entry(request, id):
     mood = CommunityForum.objects.get(pk=id)
     form = CommunityForumForm(request.POST or None, instance=mood)
@@ -61,6 +68,8 @@ def edit_forum_entry(request, id):
 
 @csrf_exempt
 @require_POST
+@login_required(login_url='main:login_user')
+@staff_member_required
 def add_forum_entry_ajax(request):
     comment = strip_tags(request.POST.get("comment"))
     user = request.user
@@ -73,6 +82,8 @@ def add_forum_entry_ajax(request):
 
     return HttpResponse(b"CREATED", status=201)
 
+@login_required(login_url='main:login_user')
+@staff_member_required
 def get_user_by_id(request, user_id):
     user = User.objects.get(pk=user_id)
     data = {
@@ -80,6 +91,8 @@ def get_user_by_id(request, user_id):
     }
     return JsonResponse(data)
 
+@login_required(login_url='main:login_user')
+@staff_member_required
 def get_current_user_id(request):
     if request.user.is_authenticated:
         return JsonResponse({'user_id': request.user.id})
@@ -87,6 +100,8 @@ def get_current_user_id(request):
         return JsonResponse({'user_id': None})
 
 @require_POST
+@login_required(login_url='main:login_user')
+@staff_member_required
 def add_tempat_kuliner_ajax(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden("You do not have permission to perform this action.")
@@ -118,6 +133,8 @@ def add_tempat_kuliner_ajax(request):
 
 
 @staff_member_required
+@login_required(login_url='main:login_user')
+@staff_member_required
 def edit_tempat_kuliner(request, id):
     tempat = get_object_or_404(TempatKuliner, pk=id)
     form = TempatKulinerForm(request.POST or None, instance=tempat)
@@ -135,6 +152,8 @@ def edit_tempat_kuliner(request, id):
     return render(request, "edit_tempat_kuliner.html", context)
 
 @require_http_methods(["DELETE"])
+@login_required(login_url='main:login_user')
+@staff_member_required
 def delete_tempat_kuliner(request, id):
     try:
         tempat = TempatKuliner.objects.get(pk=id)
@@ -148,6 +167,8 @@ def delete_tempat_kuliner(request, id):
         return HttpResponse(status=404)
     
 @require_POST
+@login_required(login_url='main:login_user')
+@staff_member_required
 def add_makanan_ajax(request):
     tempat_kuliner = strip_tags(request.POST.get("tempat_kuliner")) 
     nama = strip_tags(request.POST.get("nama"))
@@ -165,6 +186,8 @@ def add_makanan_ajax(request):
     new_makanan.save()
     return HttpResponse(b"CREATED", status=201)
 
+@login_required(login_url='main:login_user')
+@staff_member_required
 def edit_makanan(request, id):
     makanan = get_object_or_404(Makanan, pk=id)
     form = MakananForm(request.POST or None, instance=makanan)
@@ -183,25 +206,22 @@ def edit_makanan(request, id):
                }
     return render(request, "edit_makanan.html", context)
 
-@require_http_methods(["DELETE"])
+
+@login_required(login_url='main:login_user')
+@staff_member_required
 def delete_makanan(request, id):
-    try:
-        makanan = Makanan.objects.get(pk=id)
-
-        if not (request.user.is_staff or request.user.is_superuser) :
-            return HttpResponse(status=403)
-        
-        makanan.delete()
-        return HttpResponse(status=204)
-    except TempatKuliner.DoesNotExist:
-        return HttpResponse(status=404)
+    makanan = get_object_or_404(Makanan, pk=id)
+    makanan.delete()
+    return redirect('alfian:show_main')
     
-
+@login_required(login_url='main:login_user')
+@staff_member_required
 def view_tempat_makanan_admin(request, id):
     tempat = get_object_or_404(TempatKuliner, pk=id)
     return render(request, 'index_admin.html', {'restoran': tempat})
 
-
+@login_required(login_url='main:login_user')
+@staff_member_required
 def get_restaurant(request, tempatKulinerId):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
     has_reviewed = Review.objects.filter(user=request.user.id,tempat_kuliner=tempat_kuliner).exists()
@@ -209,8 +229,12 @@ def get_restaurant(request, tempatKulinerId):
     return render(request, "restaurant/index.html", context)
 
 
-
+@login_required(login_url='main:login_user')
+@staff_member_required
 def get_makanan_json(request, tempatKulinerId):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
     semua_makanan = Makanan.objects.filter(tempat_kuliner=tempat_kuliner)
     return HttpResponse(serializers.serialize("json", semua_makanan), content_type="application/json")
+
+
+
