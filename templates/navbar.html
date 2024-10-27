@@ -13,7 +13,7 @@
                 <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
                 <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
             </div>
-            <a href="{% url "zoya:show_main" %}">
+            <a href="{% url "main:profile" %}">
                 <div class="h-11 w-11 rounded-full bg-darkOrange">
                     {% comment %} Profile User {% endcomment %}
                 </div>
@@ -90,7 +90,7 @@
                 <p id="food-text">Food Plans</p>            
             </div>
         </a>
-        <a href="#">
+        <a href="{% url "main:profile" %}">
             <div class="flex flex-col justify-center items-center text-grey">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" id="profile-icon">
                     <path d="M26.25 31.5002H9.75C7.67893 31.5002 6 29.8212 6 27.7502C6 21.629 15 21.7502 18 21.7502C21 21.7502 30 21.629 30 27.7502C30 29.8212 28.3211 31.5002 26.25 31.5002Z" stroke="#7A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -114,6 +114,7 @@
     </div>
     <script>
         let page = '{{ page }}';
+        console.log('{{ page }}')
         const homeIcon = document.querySelector('#home-icon');
         const homeStroke = homeIcon.querySelectorAll('path');
         const homeText = document.querySelector('#home-text');
