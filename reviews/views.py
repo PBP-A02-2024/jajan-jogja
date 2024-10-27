@@ -9,17 +9,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core import serializers
 
-@login_required
+@login_required(login_url='main:login_user')
 def user_owned_reviews(request):
     reviews = Review.objects.filter(user=request.user).order_by('-created_at')
     return render(request, "user_owned_reviews.html", {"reviews": reviews})
 
 @csrf_protect
-@login_required
+@login_required(login_url='main:login_user')
 def create_review(request, id):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=id)
-    print(tempat_kuliner.id)
-
     # Check if the user has already submitted a review for this TempatKuliner
     existing_review = Review.objects.filter(user=request.user, tempat_kuliner=tempat_kuliner).first()
     if existing_review:
@@ -62,7 +60,7 @@ def create_review(request, id):
     return render(request, "review-page.html", {"tempat_kuliner": tempat_kuliner})
 
 @csrf_protect
-@login_required
+@login_required(login_url='main:login_user')
 def get_reviews(request, id):
     tempat_kuliner = get_object_or_404(TempatKuliner, pk=id)
     reviews = Review.objects.filter(tempat_kuliner=tempat_kuliner).order_by('-created_at')
@@ -82,24 +80,21 @@ def get_reviews(request, id):
 
     return JsonResponse(review_data, safe=False)
 
+@login_required(login_url='main:login_user')
 def get_review_by_id(request, id):
     review = get_object_or_404(Review, pk=id)
-    review_data = [
-        {
-            "user": review.user.username,  # Retrieve the username
-            "rating": review.rating,
-            "comment": review.comment,
-            "created_at": review.created_at,
-            "id": review.id,
-            "pk" : review.pk
-        }
-        for review in reviews
-    ]
-
-    return JsonResponse(review_data, safe=False)
+    review_data = {
+        "user": review.user.username,
+        "rating": review.rating,
+        "comment": review.comment,
+        "created_at": review.created_at,
+        "id": review.id,
+        "pk": review.pk
+    }
+    return JsonResponse(review_data)
 
 @csrf_protect
-@login_required
+@login_required(login_url='main:login_user')
 def delete_review(request, id):
     review = get_object_or_404(Review, pk=id, user=request.user)
     tempat_kuliner = review.tempat_kuliner
@@ -113,13 +108,13 @@ def delete_review(request, id):
             review.delete()
             tempat_kuliner.update_rating()
             messages.success(request, "Your review has been deleted successfully.")
-            return redirect("marco:get_restaurant", id=tempat_kuliner.id)
+            return redirect("marco:get_restaurant", tempatKulinerId=tempat_kuliner.id)
 
     # Handle any disallowed methods or get requests
     return HttpResponseForbidden("Invalid request method.")
 
 @csrf_protect
-@login_required
+@login_required(login_url='main:login_user')
 def edit_review(request, id):
     review = get_object_or_404(Review, pk=id, user=request.user)
 
