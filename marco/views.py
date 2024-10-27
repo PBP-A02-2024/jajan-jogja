@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.core import serializers
 from django.shortcuts import redirect, render, get_object_or_404
 from zoya.models import Makanan, TempatKuliner
@@ -14,8 +14,6 @@ def get_restaurant(request, tempatKulinerId):
     context = {'restoran':tempat_kuliner, 'username':request.user.username, 'restaurant_id':tempat_kuliner.id, 'has_reviewed':has_reviewed}
     return render(request, "restaurant/index.html", context)
 
-
-
 def get_makanan_json(request, tempatKulinerId):
     tempat_kuliner = TempatKuliner.objects.get(id=tempatKulinerId)
     semua_makanan = tempat_kuliner.makanan.all()
@@ -28,7 +26,6 @@ def get_food_plans_json(request):
 
 @login_required(login_url='main:login')
 def save_food_plan(request):
-    print(request.get_full_path)
     if request.method == 'POST':
         current_resto = request.POST.get('currentResto')
         resto_obj = TempatKuliner.objects.get(id=current_resto)
