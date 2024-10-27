@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from zoya.views import show_main
+from django.contrib.auth.models import User
 # Create your views here.
 
 def login_user(request):
@@ -39,3 +40,23 @@ def logout_user(request):
     response.delete_cookie('last_login')
     logout(request)
     return response
+
+@login_required(login_url='main:login')
+def profile(request):
+    user = request.user
+    
+    if request.method == 'POST':
+        username = request.POST.get('name')
+        if username:
+            if User.objects.filter(username=username).exclude(pk=user.pk).exists():
+                messages.error(request, "Username already taken.")
+            else:
+                user.username = username
+                user.save()
+                return redirect('main:profile')
+
+    context = {
+        'user': user,
+    }
+    return render(request, 'profile.html', context)
+

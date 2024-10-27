@@ -2,16 +2,16 @@
 {% load static %}
 {% block content %}
 
-{% include 'navbar.html' %}
+{% include 'navbar.html' with page="home"  %}
 
 <style>
     @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.04);
-    }
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.04);
+        }
     }
 
     .pulsating {
@@ -28,10 +28,10 @@
     <div id="default-carousel" class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[525px] relative" data-carousel="slide">
         <div class="lg:w-[70vw] xl:w-[60vw] w-[95vw] h-[481px] left-0 top-0 absolute overflow-hidden rounded-[50px] border-4 border-darkYellow">
             {% if makanan.count == 0 %}
-                <p class="text-center">No images available</p>
+            <p class="text-center">No images available</p>
             {% elif makanan.count == 1 %}
                 {% for item in makanan %}
-                    <a href="#">
+                    <a href="restaurant/{{ item.tempat_kuliner.pk }}">
                         <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
                         <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
                         <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
@@ -39,7 +39,7 @@
                 {% endfor %}
             {% else %}
                 {% for item in makanan %}
-                    <a href="#" class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <a href="restaurant/{{ item.tempat_kuliner.pk }}" class="hidden duration-700 ease-in-out" data-carousel-item>
                         <img src="{{ item.foto_link }}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="{{item.nama}}">
                         <div class="left-[50px] top-[307px] lg:top-[287px] absolute text-[#c98809] text-[32px] lg:text-6xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.nama}}</div>
                         <div class="left-[53px] top-[343px] absolute text-[#7c1d04] text-[27px] lg:text-4xl font-normal font-['Jockey One'] leading-tight" style="text-shadow: 2px 2px 4px rgba(56, 7, 7, 0.7);">{{item.tempat_kuliner.nama}}</div>
@@ -47,26 +47,26 @@
                 {% endfor %}
             {% endif %}
 
-            <img src="{% static 'images/elemen_jogja.png' %}" class="absolute object-cover top-0 w-full h-full">
+            <img src="{% static 'images/elemen_jogja.png' %}" class="absolute object-cover top-0 w-full h-full" style="pointer-events: none;">
         </div>
 
         {% if makanan.count > 1 %}
-            <!-- right arrow -->
-            <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[214px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
-                <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
-            </button>    
+        <!-- right arrow -->
+        <button class="w-[41px] h-[60px] z-[801] right-[15px] lg:-right-[60px] top-[214px] absolute text-darkYellow leading-[79.25px]" data-carousel-next>
+            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" />  <polyline points="12 5 19 12 12 19" /></svg>
+        </button>
 
-            <!-- left arrow -->
-            <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[214px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
-                <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
-            </button>
+        <!-- left arrow -->
+        <button class="w-[41px] h-[60px] z-[801] left-[15px] lg:-left-[60px] top-[214px] absolute text-darkYellow leading-[79.25px]" data-carousel-prev>
+            <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="19" y1="12" x2="5" y2="12" />  <polyline points="12 19 5 12 12 5" /></svg>
+        </button>
         {% endif %}
     </div>
-    
+
     <!-- See More Button -->
     <a href="#seemore" id="seemore" class="w-[200px] h-[65px] z-[800] bg-[#ebe9e1] rounded-[158px] -translate-y-[80px] border-l-8 border-r-8 border-[#c98809] hover:shadow-lg hover:scale-105">
         <div class="text-center text-[#7c1d04] text-[34px] lg:text-[px] font-normal font-['Jockey One'] leading-[69.25px]">See More!</div>
-    </a>    
+    </a>
 
     <div class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One']">Looking for places to eat in Jogja?</div>
 
@@ -77,7 +77,7 @@
     <div class="my-28 w-screen flex flex-col items-center">
         <div class="w-[80vw] lg:w-[55vw] xl:w-[45vw]">
             <h2 class="text-darkYellow text-[25px] md:text-[36px] font-['Jockey One'] text-center mb-8">Community Forum</h2>
-            
+
             <!-- New Post Form -->
             <div class="bg-[#ebe9e1] border-4 border-[#c88709] rounded-[20px] p-6 mb-6">
                 <h3 class="text-[#7c1d04] text-[20px] lg:text-[24px] font-['Jockey One'] mb-4">Share Your Experience</h3>
@@ -101,9 +101,9 @@
 <script>
     function addForum() {
         const form = document.getElementById('new_post_forum');
-        
+
         // Check if the form is valid before proceeding
-        if (form.checkValidity()) { 
+        if (form.checkValidity()) {
             fetch("{% url 'zoya:add_forum_entry_ajax' %}", {
                 method: "POST",
                 body: new FormData(form),
@@ -113,6 +113,8 @@
                     refreshCommunityForum(); // Refresh the forum posts after a successful response
                     form.reset(); // Reset the form after successful submission
                     document.querySelector("[data-modal-toggle='crudModal']").click();
+                } else if (response.status === 403) {
+                    alert('You must be logged in to add a forum entry. Please log in and try again.'); // Provide feedback to the user
                 } else {
                     // Handle error response if needed
                     console.error('Error:', response.statusText);
@@ -125,7 +127,7 @@
             // Trigger validation messages
             form.reportValidity(); // This shows the browser's validation messages
         }
-        
+
         return false; // Prevent default form submission
     }
 
@@ -142,7 +144,7 @@
             alert("Failed to delete the comment.");
         }
     }
-    
+
     async function getTempatKuliner(){
         return fetch("{% url 'zoya:show_json_tempat' %}").then((res) => res.json())
     }
@@ -168,14 +170,18 @@
             tempatKuliner.forEach((item) => {
                 // const nama = DOMPurify.sanitize(item.fields.nama);
                 // const alamat = DOMPurify.sanitize(item.fields.alamat);
-                
-                // a href blom disambung
+                let currentRating = item.fields.rating;
+
+                if (currentRating === null || currentRating === undefined) {
+                    currentRating = "Unrated";
+                }
+
                 htmlString += `
-                <a href="#" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
+                <a href="/restaurant/${item.pk}" class="w-[300px] h-[300px] relative bg-[#EBE9E1] border-4 border-[#c88709] rounded-[50px] p-3 hover:shadow-2xl hover:scale-105">
                     <img src="${item.fields.foto_link}" alt="${item.fields.nama}" class="w-[235px] h-[162px] left-[35px] top-[35px] absolute rounded-[40px]"/>
                     <div class="w-[255px] left-[30px] top-[199px] absolute text-[#7c1d04] text-3xl font-['Jockey One'] leading-10">${item.fields.nama}</div>
                     <div class="w-[173px] h-[58px] left-[30px] top-[232px] absolute text-[#7c1d04] text-xl font-['Jockey One'] leading-tight overflow-hidden whitespace-nowrap text-ellipsis">${item.fields.alamat}</div>
-                    <div class="w-[83.14px] left-[55px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${item.fields.rating}/5</div>
+                    <div class="w-[83.14px] left-[55px] top-[251px] absolute text-left text-[#7c1d04] text-xl font-['Jockey One'] leading-loose">${currentRating}/5</div>
                     <svg class="left-[30px] top-[259px] absolute" width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
                     </svg>
@@ -187,7 +193,7 @@
         document.getElementById("tempat_kuliner_cards").innerHTML = htmlString;
     }
 
-refreshTempatKuliner();
+    refreshTempatKuliner();
 
     async function getUserById(userId) {
         const response = await fetch(`/get-user/${userId}/`);
@@ -253,7 +259,7 @@ refreshTempatKuliner();
         document.getElementById("forum_posts").innerHTML = htmlString;
     }
 
-refreshCommunityForum();
+    refreshCommunityForum();
 </script>
 
 {% endblock content %}
