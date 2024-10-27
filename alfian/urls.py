@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import show_main, show_json_tempat, show_json_forum, add_forum_entry_ajax, get_user_by_id, get_current_user_id, delete_forum_entry, edit_forum_entry, add_tempat_kuliner_ajax, edit_tempat_kuliner, delete_tempat_kuliner
-from .views import add_makanan_ajax, edit_makanan, delete_makanan
-
+from .views import add_makanan_ajax, edit_makanan, delete_makanan, view_tempat_makanan_admin, get_makanan_json, get_restaurant
 app_name = 'alfian'
 
 urlpatterns = [
@@ -19,4 +18,7 @@ urlpatterns = [
     path('add-makanan-ajax/', add_makanan_ajax, name='add_makanan_ajax'),
     path('edit-makanan/<uuid:id>/', edit_makanan, name='edit_makanan'),
     path('delete-makanan/<uuid:id>/', delete_makanan, name='delete_makanan'),
+    path('view-tempat-makanan-admin/<uuid:id>/', view_tempat_makanan_admin, name='view_tempat_makanan_admin'),
+    path('get-restaurant/<uuid:tempatKulinerId>/', get_restaurant, name='get_restaurant'),
+    path('get-makanan-json/<uuid:tempatKulinerId>/', get_makanan_json, name='get_makanan_json'),
 ]
