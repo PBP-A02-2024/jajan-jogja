@@ -17,8 +17,32 @@
                 </svg>
             </div>
             <a href="{% url "main:profile" %}">
-                <div class="h-11 w-11 rounded-full bg-darkOrange">
+                <div class="h-11 w-11 rounded-full bg-darkOrange overflow-hidden">
                     {% comment %} Profile User {% endcomment %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 66 66" fill="none">
+                        <ellipse cx="32.8166" cy="32.7986" rx="32.8166" ry="32.7986" fill="#7C1D05"/>
+                        <mask id="mask0_514_37" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="66" height="66">
+                          <ellipse cx="32.8166" cy="32.7986" rx="32.8166" ry="32.7986" fill="#C98809"/>
+                        </mask>
+                        <g mask="url(#mask0_514_37)">
+                          <ellipse cx="33.1543" cy="32.7986" rx="15.5625" ry="14.5396" fill="#EFB11D"/>
+                          <g filter="url(#filter0_d_514_37)">
+                            <ellipse cx="33.8161" cy="57.8059" rx="19.9606" ry="13.5252" fill="#EFB11D"/>
+                          </g>
+                        </g>
+                        <defs>
+                          <filter id="filter0_d_514_37" x="9.85547" y="44.2808" width="47.9209" height="35.0503" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="4"/>
+                            <feGaussianBlur stdDeviation="2"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_514_37"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_514_37" result="shape"/>
+                          </filter>
+                        </defs>
+                      </svg>
                 </div>
             </a>
             <div class="hidden w-28 h-40 absolute top-0 translate-y-[4.5rem] overflow-hidden py-2" id="box-menu">
