@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="flex flex-col min-h-screen bg-white">
+    <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+        <h1 class="py-5 text-3xl font-bold text-center text-darkOrange">Edit Tempat Kuliner</h1>
+
+        <div class="bg-white rounded-[40px] p-6 form-style border-4 border-darkOrange">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Nama -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_nama" class="font-semibold text-darkOrange text-2xl">Nama</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.nama|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.nama.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.nama.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.nama.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_description" class="font-semibold text-darkOrange text-2xl">Deskripsi</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.description|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.description.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.description.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.description.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Alamat -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_alamat" class="font-semibold text-darkOrange text-2xl">Alamat</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.alamat|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.alamat.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.alamat.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.alamat.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Longitude -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_longitude" class="font-semibold text-darkOrange text-2xl">Longitude</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.longitude|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.longitude.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.longitude.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.longitude.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Latitude -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_latitude" class="font-semibold text-darkOrange text-2xl">Latitude</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.latitude|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.latitude.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.latitude.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.latitude.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Jam Buka -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_jamBuka" class="font-semibold text-darkOrange text-2xl">Jam Buka</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.jamBuka|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.jamBuka.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.jamBuka.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.jamBuka.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Jam Tutup -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_jamTutup" class="font-semibold text-darkOrange text-2xl">Jam Tutup</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.jamTutup|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.jamTutup.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.jamTutup.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.jamTutup.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Rating -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_rating" class="font-semibold text-darkOrange text-2xl">Rating</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.rating|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.rating.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.rating.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.rating.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Link Foto -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_foto_link" class="font-semibold text-darkOrange text-2xl">Link Foto</label>
+                    <div class="w-full flex flex-col py-3">
+                        {{ form.foto_link|add_class:"placeholder-gray-500" }}
+                    </div>
+                    {% if form.foto_link.help_text %}
+                        <p class="mt-1 text-sm text-grey">{{ form.foto_link.help_text }}</p>
+                    {% endif %}
+                    {% for error in form.foto_link.errors %}
+                        <p class="mt-1 text-sm text-orange">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Tombol Cancel dan Save -->
+                <div class="flex flex-row space-x-4">
+                    <a href="{% url 'zoya:show_main' %}" class="bg-orange text-white text-[18px] py-2 rounded-[10px] hover:bg-darkOrange w-1/2 text-center">Cancel</a>
+                    <button type="submit" class="bg-yellow text-white text-[18px] py-2 rounded-[10px] hover:bg-darkYellow w-1/2">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
