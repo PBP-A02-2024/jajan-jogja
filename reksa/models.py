@@ -30,4 +30,25 @@ class FoodPlan(models.Model):
 
             return round(distance, 2)
         return None
+    
+    @property
+    def jarak(self):
+        """Calculate the total distance by summing distances between consecutive restaurants."""
+        restoran = self.tempat_kuliner.all()
+        if not restoran.exists():
+            return 0
+
+        restoran_list = list(restoran)
+        total_distance = 0
+
+        # Ensure the restaurants are ordered. You might need to add an ordering field.
+        # For this example, we'll order them by their name. Adjust as needed.
+        restoran_list.sort(key=lambda x: x.nama)
+
+        for i in range(len(restoran_list) - 1):
+            distance = self.calculate_distance(restoran_list[i], restoran_list[i + 1])
+            if distance:
+                total_distance += distance
+
+        return total_distance
 
