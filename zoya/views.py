@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 
 def show_main(request):
-    makanan = Makanan.objects.all()
+    makanan = Makanan.objects.all()[:15]
     variasi = Variasi.objects.all()
 
     context = {

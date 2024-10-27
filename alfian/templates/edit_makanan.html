@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block content %}
 {% include 'navbar.html' %}
@@ -9,14 +10,14 @@
         <h1 class="py-5 text-3xl font-bold text-center text-darkOrange">Edit Makanan</h1>
 
         <div class="bg-white rounded-[40px] p-6 form-style border-4 border-darkOrange">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'alfian:edit_makanan' makanan.id %}">
                 {% csrf_token %}
 
                 <!-- Nama -->
                 <div class="flex flex-col mb-4">
                     <label for="id_nama" class="font-semibold text-darkOrange text-2xl">Nama</label>
                     <div class="w-full flex flex-col py-3">
-                        {{ form.nama|add_class:"placeholder-gray-500" }}
+                        {{ form.nama|add_class:"placeholder-white-500 bg-white border-darkYellow border-4 rounded-lg px-2" }}
                     </div>
                     {% if form.nama.help_text %}
                         <p class="mt-1 text-sm text-grey">{{ form.nama.help_text }}</p>
@@ -30,7 +31,7 @@
                 <div class="flex flex-col mb-4">
                     <label for="id_description" class="font-semibold text-darkOrange text-2xl">Deskripsi</label>
                     <div class="w-full flex flex-col py-3">
-                        {{ form.description|add_class:"placeholder-gray-500" }}
+                        {{ form.description|add_class:"placeholder-white-500 bg-white border-darkYellow border-4 rounded-lg px-2" }}
                     </div>
                     {% if form.description.help_text %}
                         <p class="mt-1 text-sm text-grey">{{ form.description.help_text }}</p>
@@ -44,7 +45,7 @@
                 <div class="flex flex-col mb-4">
                     <label for="id_harga" class="font-semibold text-darkOrange text-2xl">Harga</label>
                     <div class="w-full flex flex-col py-3">
-                        {{ form.harga|add_class:"placeholder-gray-500" }}
+                        {{ form.harga|add_class:"placeholder-white-500 bg-white border-darkYellow border-4 rounded-lg px-2" }}
                     </div>
                     {% if form.harga.help_text %}
                         <p class="mt-1 text-sm text-grey">{{ form.harga.help_text }}</p>
@@ -58,7 +59,7 @@
                 <div class="flex flex-col mb-4">
                     <label for="id_foto_link" class="font-semibold text-darkOrange text-2xl">Link Foto</label>
                     <div class="w-full flex flex-col py-3">
-                        {{ form.foto_link|add_class:"placeholder-gray-500" }}
+                        {{ form.foto_link|add_class:"placeholder-white-500 bg-white border-darkYellow border-4 rounded-lg px-2" }}
                     </div>
                     {% if form.foto_link.help_text %}
                         <p class="mt-1 text-sm text-grey">{{ form.foto_link.help_text }}</p>
@@ -68,9 +69,15 @@
                     {% endfor %}
                 </div>
 
+                <!-- Tempat Kulier -->
+                <div class="flex flex-col mb-4">
+                    <label for="id_tempat_kuliner" class="font-semibold text-darkOrange text-2xl">Tempat Kuliner</label>
+                    {{ form.tempat_kuliner }}
+                </div>
+
                 <!-- Tombol Cancel dan Save -->
                 <div class="flex flex-row space-x-4">
-                    <a href="{% url 'zoya:show_main' %}" class="bg-orange text-white text-[18px] py-2 rounded-[10px] hover:bg-darkOrange w-1/2 text-center">Cancel</a>
+                    <a href="{% url 'alfian:show_main' %}" class="bg-orange text-white text-[18px] py-2 rounded-[10px] hover:bg-darkOrange w-1/2 text-center">Cancel</a>
                     <button type="submit" class="bg-yellow text-white text-[18px] py-2 rounded-[10px] hover:bg-darkYellow w-1/2">Save</button>
                 </div>
             </form>

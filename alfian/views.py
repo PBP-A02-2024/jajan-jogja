@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from zoya.models import TempatKuliner, CommunityForum, Makanan, Variasi
 from zoya.forms import CommunityForumForm
 from .forms import TempatKulinerForm, MakananForm
@@ -9,9 +9,10 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.contrib.admin.views.decorators import staff_member_required
 
 def show_main(request):
-    makanan = Makanan.objects.all()
+    makanan = Makanan.objects.all()[:15]
     variasi = Variasi.objects.all()
 
     context = {
@@ -20,6 +21,8 @@ def show_main(request):
     }
 
     return render(request, 'landing_admin.html', context)
+
+
 
 def show_json_tempat(request):
     data = TempatKuliner.objects.all()
@@ -51,7 +54,7 @@ def edit_forum_entry(request, id):
 
     if form.is_valid() and request.method == "POST":
         form.save()
-        return HttpResponseRedirect(reverse('zoya:show_main'))
+        return HttpResponseRedirect(reverse('alfian:show_main'))
 
     context = {'form': form}
     return render(request, "edit_forum.html", context)
@@ -113,15 +116,22 @@ def add_tempat_kuliner_ajax(request):
 
     return HttpResponse(b"CREATED", status=201)
 
+
+@staff_member_required
 def edit_tempat_kuliner(request, id):
-    tempat = TempatKuliner.objects.get(pk=id)
+    tempat = get_object_or_404(TempatKuliner, pk=id)
     form = TempatKulinerForm(request.POST or None, instance=tempat)
 
-    if form.is_valid() and request.method == "POST":
+    if request.method == "POST" and form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse('zoya:show_main'))
-
-    context = {'form': form}
+        return redirect('alfian:show_main')
+    else:
+        print("Form is not valid")
+        print(form.errors)
+    context = {
+        'form': form,  # Ensure this is a form object
+        'tempat_kuliner': tempat,
+    }
     return render(request, "edit_tempat_kuliner.html", context)
 
 @require_http_methods(["DELETE"])
@@ -156,14 +166,21 @@ def add_makanan_ajax(request):
     return HttpResponse(b"CREATED", status=201)
 
 def edit_makanan(request, id):
-    makanan = Makanan.objects.get(pk=id)
+    makanan = get_object_or_404(Makanan, pk=id)
     form = MakananForm(request.POST or None, instance=makanan)
+
 
     if form.is_valid() and request.method == "POST":
         form.save()
-        return HttpResponseRedirect(reverse('zoya:show_main'))
+        return HttpResponseRedirect(reverse('alfian:show_main'))
+    
+    else:
+        print("Form is not valid")
+        print(form.errors)
 
-    context = {'form': form}
+    context = {'form': form,
+               'makanan': makanan,
+               }
     return render(request, "edit_makanan.html", context)
 
 @require_http_methods(["DELETE"])
@@ -178,3 +195,22 @@ def delete_makanan(request, id):
         return HttpResponse(status=204)
     except TempatKuliner.DoesNotExist:
         return HttpResponse(status=404)
+    
+
+def view_tempat_makanan_admin(request, id):
+    tempat = get_object_or_404(TempatKuliner, pk=id)
+    return render(request, 'index_admin.html', {'restoran': tempat})
+
+
+def get_restaurant(request, tempatKulinerId):
+    tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
+    has_reviewed = Review.objects.filter(user=request.user.id,tempat_kuliner=tempat_kuliner).exists()
+    context = {'restoran':tempat_kuliner, 'username':request.user.username, 'restaurant_id':tempat_kuliner.id, 'has_reviewed':has_reviewed}
+    return render(request, "restaurant/index.html", context)
+
+
+
+def get_makanan_json(request, tempatKulinerId):
+    tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
+    semua_makanan = Makanan.objects.filter(tempat_kuliner=tempat_kuliner)
+    return HttpResponse(serializers.serialize("json", semua_makanan), content_type="application/json")
