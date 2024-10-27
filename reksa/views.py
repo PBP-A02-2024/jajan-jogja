@@ -7,7 +7,7 @@ from django.core import serializers
 from reksa.models import FoodPlan
 
 # Create your views here.
-@login_required(login_url='main:login')
+@login_required(login_url='main:login_user')
 def food_plans_list(request):
     food_plans = FoodPlan.objects.filter(user=request.user)
     for food_plan in food_plans:
@@ -17,16 +17,8 @@ def food_plans_list(request):
     }
     return render(request, 'food_plans_list.html', context)
 
-@login_required(login_url='main:login')
-def food_plan(request):
-    context = {
-        'food_items': range(10),
-        'restaurants': range(3),
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.'
-    }
-    return render(request, 'food_plan.html', context)
 
-@login_required(login_url='main:login')
+@login_required(login_url='main:login_user')
 def food_plan_detail_view(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
     restaurants = list(food_plan.tempat_kuliner.all())
@@ -49,26 +41,29 @@ def food_plan_detail_view(request, food_plan_id):
 
     return render(request, 'food_plan.html', context)
 
-@login_required(login_url='main:login')
+@login_required(login_url='main:login_user')
 def food_plan_create(request):
     new_food_plan = FoodPlan.objects.create(nama="Food Plan", user=request.user)
     return redirect('reksa:food_plan_detail_view', food_plan_id=new_food_plan.id)
 
-
+@login_required(login_url='main:login_user')
 def food_plan_json(request):
     food_plans = FoodPlan.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", food_plans), content_type="application/json")
 
+@login_required(login_url='main:login_user')
 def add_food_plan_item(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
     food_plan.makanan.add(request.POST.get('food_item_id'))
     return redirect('reksa:food_plan_detail_view', food_plan_id=food_plan.id)
 
+@login_required(login_url='main:login_user')
 def remove_food_plan_item(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
     food_plan.makanan.remove(request.POST.get('food_item_id'))
     return redirect('reksa:food_plan_detail_view', food_plan_id=food_plan.id)
 
+@login_required(login_url='main:login_user')
 @require_POST
 def update_food_plan_title(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
@@ -80,6 +75,7 @@ def update_food_plan_title(request, food_plan_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+@login_required(login_url='main:login_user')
 @require_http_methods(["DELETE"])
 def remove_food_plan_item(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
@@ -90,6 +86,7 @@ def remove_food_plan_item(request, food_plan_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+@login_required(login_url='main:login_user')
 @require_http_methods(["DELETE"])
 def remove_food_plan_restaurant(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
@@ -100,6 +97,7 @@ def remove_food_plan_restaurant(request, food_plan_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+@login_required(login_url='main:login_user')
 @require_http_methods(["DELETE"])
 def remove_food_plan(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
