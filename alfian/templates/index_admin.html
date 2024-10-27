@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "navbar.html" with page="home"%}
+{% include "navbar.html"%}
 
 <div class="pb-64">
   <div class="grid grid-cols-1 lg:grid-cols-2 max-w-full lg:max-w-[1280px] mx-auto gap-8 px-8 lg:px-12 pt-52">
@@ -46,9 +46,63 @@
       </div>
     </div>
 
-    <div>
-      <div id="makanan_cards">
+    <!--add makanan button-->
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <div id="crudMakananModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-[1000] w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+        <div id="crudMakananModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out max-h-[90vh] overflow-y-auto">
+          <!-- Modal header -->
+          <div class="flex items-center justify-between p-4 border-b rounded-t">
+            <h3 class="text-xl font-semibold text-gray-900">
+              Add Makanan
+            </h3>
+            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn" onclick="hideMakananModal()">
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="px-6 py-4 space-y-6 form-style">
+            <form id="addMakananForm">
+                <div class="mb-4">
+                    <label for="tempatmakan" class="block text-sm font-medium text-[#7c1d04]">Tempat Makan</label>
+                    <input type="text" id="tempatmakan" name="tempatmakan" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the place name" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="nama" class="block text-sm font-medium text-[#7c1d04]">Nama</label>
+                    <input type="text" id="nama" name="nama" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the food name" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="description" class="block text-sm font-medium text-[#7c1d04]">Description</label>
+                    <textarea id="description" name="description" rows="3" class="mt-1 block w-full resize-none border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the description" required></textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="harga" class="block text-sm font-medium text-[#7c1d04]">Harga</label>
+                    <input type="number" id="harga" name="harga" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the price" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="foto_link" class="block text-sm font-medium text-[#7c1d04]">Foto Link</label>
+                    <input type="url" id="foto_link" name="foto_link" class="mt-1 block w-full border-2 border-[#c88709] rounded-md p-2 hover:border-[#c88709] bg-[#f3f3f3]" placeholder="Enter the photo link" required>
+                </div>                  
+            </form>
+          </div>
+          <!-- Modal footer -->
+          <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+            <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton" onclick="hideMakananModal()">Cancel</button>
+            <button type="submit" id="submitAddMakanan" form="addMakananForm" class="bg-darkOrange hover:bg-orange text-white font-bold py-2 px-4 rounded-lg">Save</button>
+          </div>
+        </div>
       </div>
+    {% endif %}
+
+
+    <div>
+      <div id="makanan_cards" onclick="showModal()"></div>
     </div>
   </div>
 </div>
@@ -107,20 +161,16 @@
       </button>
     </div>
     <div class="px-6 py-4 space-y-6">
-      <form id="saveFoodPlan" method="POST" action="{% url 'marco:save_food_plan' %}">
-        {% csrf_token %}
-        <input type="hidden" id="currentResto" name="currentResto" value="{{ restaurant_id }}">
-        <input type="hidden" id="foodPlansData" name="foodPlansData" value="[]">
-        <input type="hidden" id="makananId" name="makanan_id">
+      <form id="productEntryForm">
         <div id="food_plan_cards"></div>
       </form>
     </div>
     <div class="flex justify-end p-4 border-t">
       <button
-        type="submit"
-        id="saveFoodPlan"
-        form="saveFoodPlan"
-        class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
+              type="submit"
+              id="saveItinerary"
+              form="productEntryForm"
+              class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
         Save
       </button>
     </div>
@@ -128,23 +178,15 @@
 </div>
 
 <script>
-
-function showModal(makananId) {
-    refreshFoodPlan(makananId);
-    
+  function showModal() {
     const username = '{{ username }}';
-    const restaurant_id = '{{ restaurant_id}}'
 
     if(username) {  
       const modal = document.getElementById('crudModal');
       const modalContent = document.getElementById('crudModalContent');
-      const makananIdInput = document.getElementById("makananId")
-
-      makananIdInput.value = makananId;
+  
       modal.classList.remove('hidden');
       modal.classList.add('flex');
-
-
       setTimeout(() => {
         modalContent.classList.remove('opacity-0', 'scale-95');
         modalContent.classList.add('opacity-100', 'scale-100');
@@ -152,6 +194,7 @@ function showModal(makananId) {
     } else {
       return
     }
+
   }
 
   function hideModal() {
@@ -273,22 +316,7 @@ function showModal(makananId) {
     return fetch("{% url 'marco:get_makanan_json' tempatKulinerId=restoran.id %}").then((res) => res.json())
   }
 
-  function updateFoodPlansData() {
-    const foodPlansData = [];
-    const checkboxes = document.querySelectorAll("input[name='foodplan[]']");
-  
-    checkboxes.forEach(checkbox => {
-      foodPlansData.push({
-        id: checkbox.value,         
-        checked: checkbox.checked   
-      });
-    });
-  
-    document.getElementById("foodPlansData").value = JSON.stringify(foodPlansData);
-  }
-  
-
-  async function refreshFoodPlan(makananId){
+  async function refreshFoodPlan(){
     document.getElementById("food_plan_cards").innerHTML = "";
     document.getElementById("food_plan_cards").className = "";
     const food_plans = await getFoodPlan();
@@ -298,17 +326,52 @@ function showModal(makananId) {
     classNameString = "flex flex-col gap-4";
 
     food_plans.forEach((plan) => {
-      const isChecked = plan.fields.makanan.includes(makananId);
       htmlString += `
         <div class="flex items-center gap-4">
-          <input onchange="updateFoodPlansData()" id="foodplan_${plan.pk}" value=${plan.pk} name="foodplan[]" type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-5 h-5 lg:w-10 lg:h-10 appearance-none border-2 border-black rounded-lg lg:rounded-xl bg-transparent checked:bg-yellow checked:border-none focus:outline-none focus:ring-1 lg:focus:ring-2 focus:ring-darkPink" ${isChecked ? "checked" : ""}>
-          <label for="foodplan_${plan.pk}" class="font-bold text-lg lg:text-2xl text-black">${plan.fields.nama}</label>
+          <input type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-5 h-5 lg:w-10 lg:h-10 appearance-none border-2 border-black rounded-lg lg:rounded-xl bg-transparent checked:bg-yellow  focus:outline-none focus:ring-1  lg:focus:ring-2 focus:ring-darkPink">
+          <label for="" class="font-bold text-lg lg:text-2xl text-black">${plan.fields.nama}</label>
         </div>
       `
     })
 
     document.getElementById("food_plan_cards").className = classNameString;
     document.getElementById("food_plan_cards").innerHTML = htmlString;
+  }
+
+  function addMakanan() {
+    const form = document.getElementById('addMakananForm');
+
+    // Check if the form is valid before proceeding
+    if (form.checkValidity()) {
+        fetch("{% url 'alfian:add_makanan_ajax' %}", {
+            method: "POST",
+            body: new FormData(form),
+        })
+        .then(response => {
+            if (response.ok) {
+                refreshMakanan(); // Refresh the list after a successful response
+                form.reset(); // Reset the form after successful submission
+                document.querySelector("[data-modal-toggle='crudModal']").click(); // Close the modal
+            } else if (response.status === 403) {
+                alert('You must be logged in to add a food item. Please log in and try again.'); // Notify user about login requirement
+            } else {
+                console.error('Error:', response.statusText); // Log error response for debugging
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); // Handle fetch error
+        });
+    } else {
+        form.reportValidity(); // Show validation messages if form is invalid
+    }
+
+    return false; // Prevent default form submission
+  }   
+
+  document.getElementById("submitAddMakanan").onclick = addMakanan;
+
+  async function getMakanan() {
+    return fetch("{% url 'zoya:show_json_makanan' %}").then((res) => res.json());
   }
 
   async function refreshMakanan() {
@@ -319,30 +382,39 @@ function showModal(makananId) {
     let classNameString = "";
 
     if (semua_makanan.length != 0) {
-      classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
-      semua_makanan.forEach((makanan) => {
-        htmlString += `
-        <div onclick="showModal('${makanan.pk}')" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
-          <div>
-            <img src="${makanan.fields.foto_link}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
-            <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
-            <p class="font-normal text-sm text-grey">${makanan.fields.description}</p>
-          </div>
-          <h3 class="font-semibold text-sm text-darkOrange">Rp${makanan.fields.harga}</h3>
-        </div>
-        `
-      })
+        classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
+        semua_makanan.forEach((makanan) => {
+            htmlString += `
+            <div onclick="showModal()" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
+                <div>
+                    <img src="${makanan.fields.foto_link}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
+                    <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
+                    <p class="font-normal text-sm text-grey">${makanan.fields.description}</p>
+                </div>
+                <h3 class="font-semibold text-sm text-darkOrange">Rp${makanan.fields.harga}</h3>
+                
+                <!-- Edit and Delete Buttons -->
+                ${makanan.fields.is_superuser ? `
+                <div class="absolute bottom-4 right-4 flex space-x-2">
+                    <button type="button" onclick="editMakanan(${makanan.pk})" class="bg-[#eaaa00] text-white rounded-full px-3 py-1 text-sm hover:bg-[#D19400]">Edit</button>
+                    <button type="button" onclick="deleteMakanan(${makanan.pk})" class="bg-red-500 text-white rounded-full px-3 py-1 text-sm hover:bg-red-600">Delete</button>
+                </div>` : ""}
+            </div>
+        `;
+        });
     } else {
-      classNameString = "grid grid-cols-1";
-      htmlString += `<div class="font-semibold text-xl text-center text-darkOrange">No Food Added</div>`
+        classNameString = "grid grid-cols-1";
+        htmlString += `<div class="font-semibold text-xl text-center text-darkOrange">No Food Added</div>`
     }
-    
+
 
     document.getElementById("makanan_cards").className = classNameString;
     document.getElementById("makanan_cards").innerHTML = htmlString;
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
+  refreshMakanan();
+
+    document.addEventListener("DOMContentLoaded", function() {
     const restaurantId = "{{ restoran.id }}";
     fetchReviews(restaurantId);
     refreshMakanan();

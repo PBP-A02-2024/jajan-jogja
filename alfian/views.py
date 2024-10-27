@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse
 from zoya.models import TempatKuliner, CommunityForum, Makanan, Variasi
 from zoya.forms import CommunityForumForm
 from .forms import TempatKulinerForm, MakananForm
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
@@ -85,6 +85,9 @@ def get_current_user_id(request):
 
 @require_POST
 def add_tempat_kuliner_ajax(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You do not have permission to perform this action.")
+    
     nama = strip_tags(request.POST.get("nama"))
     description = strip_tags(request.POST.get("description"))
     alamat = strip_tags(request.POST.get("alamat"))
@@ -130,6 +133,48 @@ def delete_tempat_kuliner(request, id):
             return HttpResponse(status=403)
         
         tempat.delete()
+        return HttpResponse(status=204)
+    except TempatKuliner.DoesNotExist:
+        return HttpResponse(status=404)
+    
+@require_POST
+def add_makanan_ajax(request):
+    tempat_kuliner = strip_tags(request.POST.get("tempat_kuliner")) 
+    nama = strip_tags(request.POST.get("nama"))
+    description = strip_tags(request.POST.get("description"))
+    harga = request.POST.get("harga")
+    foto_link = request.POST.get("foto_link")
+
+    new_makanan = Makanan (
+        tempat_kuliner=tempat_kuliner,
+        nama=nama,
+        description=description,
+        harga=harga,
+        foto_link=foto_link
+    )
+    new_makanan.save()
+    return HttpResponse(b"CREATED", status=201)
+
+def edit_makanan(request, id):
+    makanan = Makanan.objects.get(pk=id)
+    form = MakananForm(request.POST or None, instance=makanan)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('zoya:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_makanan.html", context)
+
+@require_http_methods(["DELETE"])
+def delete_makanan(request, id):
+    try:
+        makanan = Makanan.objects.get(pk=id)
+
+        if not (request.user.is_staff or request.user.is_superuser) :
+            return HttpResponse(status=403)
+        
+        makanan.delete()
         return HttpResponse(status=204)
     except TempatKuliner.DoesNotExist:
         return HttpResponse(status=404)
