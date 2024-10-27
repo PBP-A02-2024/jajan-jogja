@@ -10,6 +10,7 @@ from zoya.views import show_main
 from django.contrib.auth.models import User
 # Create your views here.
 
+
 def login_user(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
