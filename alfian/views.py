@@ -88,12 +88,12 @@ def add_tempat_kuliner_ajax(request):
     nama = strip_tags(request.POST.get("nama"))
     description = strip_tags(request.POST.get("description"))
     alamat = strip_tags(request.POST.get("alamat"))
-    longitude = strip_tags(request.POST.get("longitude"))
-    latitude = strip_tags(request.POST.get("latitude"))
-    jamBuka = strip_tags(request.POST.get("jamBuka"))
-    jamTutup = strip_tags(request.POST.get("jamTutup"))
-    rating = strip_tags(request.POST.get("rating"))
-    foto_link = strip_tags(request.POST.get("foto_link"))
+    longitude = request.POST.get("longitude")
+    latitude = request.POST.get("latitude")
+    jamBuka = request.POST.get("jamBuka")
+    jamTutup = request.POST.get("jamTutup")
+    rating = request.POST.get("rating")
+    foto_link = request.POST.get("foto_link")
 
     new_tempat_kuliner = TempatKuliner(
         nama=nama,
@@ -126,7 +126,7 @@ def delete_tempat_kuliner(request, id):
     try:
         tempat = TempatKuliner.objects.get(pk=id)
 
-        if not request.user.is_staff:
+        if not (request.user.is_staff or request.user.is_superuser) :
             return HttpResponse(status=403)
         
         tempat.delete()
