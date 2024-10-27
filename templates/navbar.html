@@ -8,10 +8,13 @@
         <a href="/"><img src="{% static "images/logo.png" %}" alt="" class="mt-2 h-10 w-auto"></a>
         {% if user.username %}
         <div class="relative w-40 h-full border-2 border-darkYellow rounded-full flex justify-around items-center px-5 py-1 shadow-md">
-            <div class="w-9 h-7 justify-between flex flex-col cursor-pointer" onclick="menuSlide();">
-                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
-                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
-                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full"></span>
+            <div class="relative w-9 h-7 justify-between flex flex-col cursor-pointer" onclick="menuSlide();">
+                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full" id="span-1"></span>
+                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full" id="span-2"></span>
+                <span class="w-full h-[0.3125rem] bg-darkYellow backdrop-blur-[8px] rounded-full" id="span-3"></span>
+                <svg width="36" height="28" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute hidden" id="close-button">
+                    <path d="M17 9L9 1L1 9" stroke="#c98809" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
             <a href="{% url "main:profile" %}">
                 <div class="h-11 w-11 rounded-full bg-darkOrange">
@@ -23,6 +26,7 @@
                     <a href="{% url "zoya:show_main" %}">Home</a>
                     <a href="{% url "nabeel:search_page" %}">Search</a>
                     <a href="{% url "reksa:food_plans_list" %}">Food Plans</a>
+                    <a href="{% url "main:logout" %}" class="text-orange">Log Out</a>
                 </div>
             </div>
         </div>
@@ -38,6 +42,10 @@
     <script>
         const menu = document.querySelector('#menu');
         const boxMenu = document.querySelector('#box-menu');
+        const span1 = document.querySelector('#span-1');
+        const span2 = document.querySelector('#span-2');
+        const span3 = document.querySelector('#span-3');
+        const closeButton = document.querySelector('#close-button');
         let open = false;
         function menuSlide(){
             if(!open){
@@ -45,11 +53,19 @@
                 menu.classList.remove('hidden');
                 boxMenu.classList.remove('hidden');
                 menu.classList.add('animate-slideDown');
-                setTimeout(()=>{menu.classList.remove('animate-slideDown')}, 1000);
+                setTimeout(()=>{menu.classList.remove('animate-slideDown')}, 500);
+                span1.classList.add('hidden');
+                span2.classList.add('hidden');
+                
+                span3 .classList.add('hidden');
+                closeButton.classList.remove('hidden');
             }else{
                 menu.classList.add('animate-slideUp');
-                
-                setTimeout(()=>{menu.classList.remove('animate-slideUp'); menu.classList.add('-translate-y-[110%]');boxMenu.classList.add('hidden');}, 1000);
+                setTimeout(()=>{menu.classList.remove('animate-slideUp'); menu.classList.add('-translate-y-[110%]');boxMenu.classList.add('hidden');}, 500);
+                span1.classList.remove('hidden');
+                span2.classList.remove('hidden');
+                span3 .classList.remove('hidden');
+                closeButton.classList.add('hidden');
             }
             open = !open;
         }
@@ -110,11 +126,18 @@
                 <path d="M52.5 15L65.625 15C77.0915 15 76.875 30 76.875 45C76.875 60 77.0915 75 65.625 75H52.5M56.25 45L11.25 45M56.25 45L41.25 60M56.25 45L41.25 30" stroke="#7C1D05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>            
         </a>
+        {% else %}
+        <a href="{% url "main:login_user" %}" class="absolute right-3">
+            <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 4L17.5 4C20.5577 4 20.5 8 20.5 12C20.5 16 20.5577 20 17.5 20H14M3 12L15 12M3 12L7 8M3 12L7 16" stroke="#e43d12 " stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+                           
+        </a>
         {% endif %}
+
     </div>
     <script>
         let page = '{{ page }}';
-        console.log('{{ page }}')
         const homeIcon = document.querySelector('#home-icon');
         const homeStroke = homeIcon.querySelectorAll('path');
         const homeText = document.querySelector('#home-text');
