@@ -54,6 +54,13 @@
     </div>
     <section class="relative mt-[12rem] w-full grid px-5 grid-cols-[repeat(2,1fr)] gap-5 overflow-scroll sm:px-12 sm:grid-cols-[repeat(3,1fr)] md:grid-cols-[repeat(5,1fr)] min-h-96 py-3 transition-all" id="tempat-makan">
         {% comment %} looping makanan (AJAX) {% endcomment %}
+        {% if not list_resto %}
+        <div class="fixed w-full h-96 flex justify-center items-center">
+            <div class="text-2xl text-center">
+                No food places found matching your criteria.
+            </div>
+        </div>
+        {% else %}
         {% for resto in list_resto %}
         <a class="relative w-auto h-48 rounded-3xl bg-white border-2 border-darkPink flex flex-col p-3 gap-2 sm:h-52 md:h-60 shadow-md hover:scale-105 transition-all duration-300 ease-in-out" href="{% url "marco:get_restaurant" tempatKulinerId=resto.pk %}">
             <div class="w-full h-24 bg-[#D9D9D9] rounded-2xl relative sm:h-28 md:h-36">
@@ -73,10 +80,18 @@
             </div> 
         </a>        
         {% endfor %}
+        {% endif %}
     </section>
     {% else %}
     <section class="relative mt-[8rem] w-full grid px-5 grid-cols-[repeat(2,1fr)] gap-5 overflow-scroll sm:px-12 sm:grid-cols-[repeat(3,1fr)] md:grid-cols-[repeat(5,1fr)] min-h-96 py-3 transition-all" id="tempat-makan">
         {% comment %} looping makanan (AJAX) {% endcomment %}
+        {% if not list_resto %}
+        <div class="fixed w-full h-96 flex justify-center items-center">
+            <div class="text-2xl text-center">
+                No food places registered.
+            </div>
+        </div>
+        {% else %}
         {% for resto in list_resto %}
         <a class="relative w-auto h-48 rounded-3xl bg-white border-2 border-darkPink flex flex-col p-3 gap-2 sm:h-52 md:h-60 shadow-md hover:scale-105 transition-all duration-300 ease-in-out" href="{% url "marco:get_restaurant" tempatKulinerId=resto.pk %}">
             <div class="w-full h-24 bg-[#D9D9D9] rounded-2xl relative sm:h-28 md:h-36">
@@ -96,6 +111,7 @@
             </div> 
         </a>        
         {% endfor %}
+        {% endif %}
     </section>
     {% endif %}
     
@@ -117,7 +133,6 @@
                 <div class="absolute -bottom-14 right-0 flex justify-center items-center gap-2">
                     <div class="p-1 px-3 sm:px-5 border-2 border-orange rounded-xl text-lg sm:text-xl bg-orange text-white cursor-pointer" onclick="document.querySelector('#editModal').classList.add('hidden')">Back</div>
                     <button type="submit" class="p-1 px-3 sm:px-5 border-2 border-yellow rounded-xl text-lg sm:text-xl bg-yellow text-white">Save</button>
-                    
                 </div>
             </form>
         </div>
@@ -255,25 +270,35 @@
             const data = await getTempatKulinerByCategory(keyword, id);
             document.querySelector('#tempat-makan').innerHTML = "";
             let htmlString = ''
-            data.forEach((item)=>{
-                htmlString += `<a class="relative w-auto h-48 rounded-3xl bg-white border-2 border-darkPink flex flex-col p-3 gap-2 sm:h-52 md:h-60 shadow-md hover:scale-105 transition-all duration-300 ease-in-out" href="/restaurant/${item.pk}">
-            <div class="w-full h-24 bg-[#D9D9D9] rounded-2xl relative sm:h-28 md:h-36">
-                <div class="rounded-2xl bg-[url('${item.fields.foto_link}')] h-full w-full bg-cover"></div>
-                <div class="absolute bottom-1 right-2 flex gap-1">
-                    <div class="flex gap-1 bg-white p-1 px-2 rounded-lg">
-                        <p>${item.fields.rating}</p>
-                        <svg width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
-                        </svg>
+            if (data.length == 0){
+                htmlString=`
+                    <div class="fixed w-full h-96 flex justify-center items-center">
+            <div class="text-2xl text-center">
+                No food places found matching your criteria.
+            </div>
+            </div>
+                `
+            }else{
+                data.forEach((item)=>{
+                    htmlString += `<a class="relative w-auto h-48 rounded-3xl bg-white border-2 border-darkPink flex flex-col p-3 gap-2 sm:h-52 md:h-60 shadow-md hover:scale-105 transition-all duration-300 ease-in-out" href="/restaurant/${item.pk}">
+                <div class="w-full h-24 bg-[#D9D9D9] rounded-2xl relative sm:h-28 md:h-36">
+                    <div class="rounded-2xl bg-[url('${item.fields.foto_link}')] h-full w-full bg-cover"></div>
+                    <div class="absolute bottom-1 right-2 flex gap-1">
+                        <div class="flex gap-1 bg-white p-1 px-2 rounded-lg">
+                            <p>${item.fields.rating}</p>
+                            <svg width="20" height="21" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.9335 2.03628C14.5587 0.11203 17.281 0.112035 17.9062 2.03628L20.2183 9.15205C20.4979 10.0126 21.2998 10.5952 22.2047 10.5952H29.6866C31.7099 10.5952 32.5511 13.1843 30.9143 14.3735L24.8612 18.7713C24.1292 19.3032 23.8229 20.2459 24.1025 21.1064L26.4146 28.2222C27.0398 30.1465 24.8374 31.7466 23.2005 30.5573L17.1475 26.1595C16.4155 25.6277 15.4242 25.6277 14.6922 26.1595L8.63918 30.5573C7.00232 31.7466 4.79993 30.1465 5.42516 28.2222L7.73721 21.1064C8.01682 20.2459 7.71051 19.3032 6.97849 18.7713L0.92545 14.3735C-0.711411 13.1843 0.129825 10.5952 2.1531 10.5952H9.63506C10.5399 10.5952 11.3418 10.0126 11.6214 9.15205L13.9335 2.03628Z" fill="#EFB11D"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-col px-1 w-[8.5rem] sm:w-52">
-                <h1 class="text-darkOrange text-lg truncate">${item.fields.nama}</h1>
-                <p class="text-grey w-2/3 truncate">${item.fields.alamat}</p>
-            </div> 
-        </a>`
-            });
+                <div class="flex flex-col px-1 w-[8.5rem] sm:w-52">
+                    <h1 class="text-darkOrange text-lg truncate">${item.fields.nama}</h1>
+                    <p class="text-grey w-2/3 truncate">${item.fields.alamat}</p>
+                </div> 
+            </a>`
+                });
+            }
             document.querySelector('#tempat-makan').innerHTML = htmlString;
         }
         showSearchHistory();
