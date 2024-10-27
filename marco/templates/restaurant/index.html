@@ -47,7 +47,7 @@
     </div>
 
     <div>
-      <div id="makanan_cards" onclick="showModal()">
+      <div id="makanan_cards">
       </div>
     </div>
   </div>
@@ -107,16 +107,20 @@
       </button>
     </div>
     <div class="px-6 py-4 space-y-6">
-      <form id="productEntryForm">
+      <form id="saveFoodPlan" method="POST" action="{% url 'marco:save_food_plan' %}">
+        {% csrf_token %}
+        <input type="hidden" id="currentResto" name="currentResto" value="{{ restaurant_id }}">
+        <input type="hidden" id="foodPlansData" name="foodPlansData" value="[]">
+        <input type="hidden" id="makananId" name="makanan_id">
         <div id="food_plan_cards"></div>
       </form>
     </div>
     <div class="flex justify-end p-4 border-t">
       <button
-              type="submit"
-              id="saveItinerary"
-              form="productEntryForm"
-              class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
+        type="submit"
+        id="saveFoodPlan"
+        form="saveFoodPlan"
+        class="bg-yellow hover:bg-yellow/90 text-white text-base lg:text-lg font-semibold py-2 px-4 rounded-lg">
         Save
       </button>
     </div>
@@ -124,15 +128,23 @@
 </div>
 
 <script>
-  function showModal() {
+
+function showModal(makananId) {
+    refreshFoodPlan(makananId);
+    
     const username = '{{ username }}';
+    const restaurant_id = '{{ restaurant_id}}'
 
     if(username) {  
       const modal = document.getElementById('crudModal');
       const modalContent = document.getElementById('crudModalContent');
-  
+      const makananIdInput = document.getElementById("makananId")
+
+      makananIdInput.value = makananId;
       modal.classList.remove('hidden');
       modal.classList.add('flex');
+
+
       setTimeout(() => {
         modalContent.classList.remove('opacity-0', 'scale-95');
         modalContent.classList.add('opacity-100', 'scale-100');
@@ -140,7 +152,6 @@
     } else {
       return
     }
-
   }
 
   function hideModal() {
@@ -262,7 +273,22 @@
     return fetch("{% url 'marco:get_makanan_json' tempatKulinerId=restoran.id %}").then((res) => res.json())
   }
 
-  async function refreshFoodPlan(){
+  function updateFoodPlansData() {
+    const foodPlansData = [];
+    const checkboxes = document.querySelectorAll("input[name='foodplan[]']");
+  
+    checkboxes.forEach(checkbox => {
+      foodPlansData.push({
+        id: checkbox.value,         
+        checked: checkbox.checked   
+      });
+    });
+  
+    document.getElementById("foodPlansData").value = JSON.stringify(foodPlansData);
+  }
+  
+
+  async function refreshFoodPlan(makananId){
     document.getElementById("food_plan_cards").innerHTML = "";
     document.getElementById("food_plan_cards").className = "";
     const food_plans = await getFoodPlan();
@@ -272,10 +298,11 @@
     classNameString = "flex flex-col gap-4";
 
     food_plans.forEach((plan) => {
+      const isChecked = plan.fields.makanan.includes(makananId);
       htmlString += `
         <div class="flex items-center gap-4">
-          <input type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-5 h-5 lg:w-10 lg:h-10 appearance-none border-2 border-black rounded-lg lg:rounded-xl bg-transparent checked:bg-yellow  focus:outline-none focus:ring-1  lg:focus:ring-2 focus:ring-darkPink">
-          <label for="" class="font-bold text-lg lg:text-2xl text-black">${plan.fields.nama}</label>
+          <input onchange="updateFoodPlansData()" id="foodplan_${plan.pk}" value=${plan.pk} name="foodplan[]" type="checkbox" class="checked:[clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)] w-5 h-5 lg:w-10 lg:h-10 appearance-none border-2 border-black rounded-lg lg:rounded-xl bg-transparent checked:bg-yellow checked:border-none focus:outline-none focus:ring-1 lg:focus:ring-2 focus:ring-darkPink" ${isChecked ? "checked" : ""}>
+          <label for="foodplan_${plan.pk}" class="font-bold text-lg lg:text-2xl text-black">${plan.fields.nama}</label>
         </div>
       `
     })
@@ -295,7 +322,7 @@
       classNameString = "grid grid-cols-1 lg:grid-cols-2 h-80 gap-6";
       semua_makanan.forEach((makanan) => {
         htmlString += `
-        <div onclick="showModal()" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
+        <div onclick="showModal('${makanan.pk}')" class="relative flex flex-col gap-6 justify-between w-full h-full border-4 border-darkYellow rounded-[3rem] p-6 shadow-lg group hover:shadow-[0_0_20px_rgb(124,_29,_5,_0.5)]">
           <div>
             <img src="${makanan.fields.foto_link}" class="w-full h-32 object-cover bg-[#D9D9D9] rounded-3xl flex justify-center items-center"/>
             <h1 class="font-bold text-lg text-darkOrange">${makanan.fields.nama}</h1>
