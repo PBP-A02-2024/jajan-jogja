@@ -113,10 +113,9 @@
 <script>
 
     function attachDeleteEventListeners() {
-
         document.querySelectorAll('.delete-restaurant-button').forEach(button => {
             button.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent other click events
+                event.stopPropagation(); // Stop default
                 const restaurantId = this.getAttribute('data-id');
                 if (restaurantId) {
                     deleteFoodPlanRestaurant(restaurantId);
@@ -127,7 +126,7 @@
         });
 
         // Event listener for deleting food items
-        document.querySelectorAll('.delete-food-item-button').forEach(button => {
+        document.querySelectorAll('.delete-food-item-button').forEach(button => {   
             button.addEventListener('click', function(event) {
                 event.stopPropagation(); 
                 const foodId = this.getAttribute('data-food-id') || this.id.replace('delete-food-item-', '');
@@ -243,7 +242,7 @@
         });
     });
 
-    function deleteFoodPlanRestaurant(restaurantId) {
+    function deleteFoodPlanRestaurant(restaurantId) { // Delete 
         fetch('{% url "reksa:remove_food_plan_restaurant" food_plan.id %}', {
             method: 'DELETE',
             headers: {
@@ -263,8 +262,6 @@
                 if (restaurantElement) {
                     restaurantElement.remove();
                 }
-
-                // Remove associated separators (before and after the restaurant)
                 const afterSeparator = document.querySelector(`.separator-div[data-after-restaurant-id="${restaurantId}"]`);
                 const beforeSeparator = document.querySelector(`.separator-div[data-before-restaurant-id="${restaurantId}"]`);
                 
@@ -282,10 +279,10 @@
                     console.warn(`No separators found for restaurant ID ${restaurantId}.`);
                 }
 
-                // Update distances based on updated_distances from the server
+                // Update distance
                 updateSeparators(data.updated_distances);
 
-                // Re-attach event listeners as DOM has changed
+                // Re-attach event listeners
                 attachDeleteEventListeners();
             } else {
                 console.error(`Deletion failed: ${data.error}`);

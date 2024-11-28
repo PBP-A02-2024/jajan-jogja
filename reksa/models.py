@@ -22,7 +22,7 @@ class FoodPlan(models.Model):
             dlon = lon2 - lon1
             dlat = lat2 - lat1
 
-            # Haversine formula
+            # Rumus ngitung jarak pake latitude dan longitude
             a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
             c = 2 * atan2(sqrt(a), sqrt(1-a))
             radius_of_earth_km = 6371  # Radius bumi
@@ -33,7 +33,6 @@ class FoodPlan(models.Model):
     
     @property
     def jarak(self):
-        """Calculate the total distance by summing distances between consecutive restaurants."""
         restoran = self.tempat_kuliner.all()
         if not restoran.exists():
             return 0

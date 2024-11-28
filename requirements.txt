@@ -6,3 +6,4 @@ requests
 urllib3
 pillow
 coverage
+django-cors-headers

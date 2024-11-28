@@ -26,4 +26,5 @@ urlpatterns = [
     path('restaurant/', include('marco.urls')),
     path('food_plans/', include('reksa.urls')),
     path('adm/', include('alfian.urls')),
+    path('auth_api/', include('authentication.urls')),
 ]
