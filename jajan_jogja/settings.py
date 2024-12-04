@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-xt449b=#kg#5=0bb+4r%ds(rj@8has_+9vlpj0dru^=kk5!0(-
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ['farrel-reksa-jajanjogja.pbp.cs.ui.ac.id', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['farrel-reksa-jajanjogja.pbp.cs.ui.ac.id', 'localhost', '127.0.0.1', '10.0.2.2']
 
 
 # Application definition
