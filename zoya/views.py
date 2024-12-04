@@ -25,6 +25,12 @@ def show_json_tempat(request):
     data = TempatKuliner.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+def show_json_makanan(request):
+    # data = TempatKuliner.objects.filter(user=request.user)
+    data = Makanan.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+
 def show_json_forum(request):
     data = CommunityForum.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
