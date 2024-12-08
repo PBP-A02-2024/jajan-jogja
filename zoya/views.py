@@ -22,12 +22,10 @@ def show_main(request):
     return render(request, 'landing.html', context)
 
 def show_json_tempat(request):
-    # data = TempatKuliner.objects.filter(user=request.user)
     data = TempatKuliner.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_json_makanan(request):
-    # data = TempatKuliner.objects.filter(user=request.user)
     data = Makanan.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
@@ -44,13 +42,12 @@ def show_json_forum_by_id(request, id):
 def delete_forum_entry(request, id):
     if request.user.is_authenticated:
         try:
-            # Ensure that only the owner can delete the entry
             forum_entry = CommunityForum.objects.get(pk=id, user=request.user)
             forum_entry.delete()
-            return HttpResponse(status=204)  # No content
+            return HttpResponse(status=204)
         except CommunityForum.DoesNotExist:
-            return HttpResponse(status=404)  # Not found
-    return HttpResponse(status=403)  # Forbidden
+            return HttpResponse(status=404)
+    return HttpResponse(status=403)
 
 def edit_forum_entry(request, id):
     mood = CommunityForum.objects.get(pk = id)
@@ -70,7 +67,7 @@ def add_forum_entry_ajax(request):
     comment = strip_tags(request.POST.get("comment"))
     user = request.user
     if not user.is_authenticated:
-        return JsonResponse({'error': 'User not authenticated'}, status=403)  # Forbidden
+        return JsonResponse({'error': 'User not authenticated'}, status=403)
 
     new_forum = CommunityForum(
         comment=comment,
@@ -84,7 +81,6 @@ def get_user_by_id(request, user_id):
     user = User.objects.get(pk=user_id)
     data = {
         "username": user.username,
-        # Add other fields if needed, such as first_name, last_name, etc.
     }
     return JsonResponse(data)
 
@@ -93,6 +89,17 @@ def get_current_user_id(request):
         return JsonResponse({'user_id': request.user.id})
     else:
         return JsonResponse({'user_id': None})
+
+def show_json_user_by_id(request, user_id, json=True):
+    user = User.objects.get(pk=user_id)
+    user_json = {
+        "id": user_id,
+        "username": user.username,
+    }
+
+    if json:
+        return JsonResponse(user_json, safe=False, status=200)
+    return user_json
 
 @csrf_exempt
 def create_forum_flutter(request):
