@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, reverse
 from zoya.models import TempatKuliner, CommunityForum, Makanan, Variasi
 from zoya.forms import CommunityForumForm
@@ -29,7 +30,6 @@ def show_json_makanan(request):
     # data = TempatKuliner.objects.filter(user=request.user)
     data = Makanan.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
-
 
 def show_json_forum(request):
     data = CommunityForum.objects.all()
@@ -93,3 +93,68 @@ def get_current_user_id(request):
         return JsonResponse({'user_id': request.user.id})
     else:
         return JsonResponse({'user_id': None})
+
+@csrf_exempt
+def create_forum_flutter(request):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
+
+        data = json.loads(request.body)
+        user=request.user
+        comment=data["comment"]
+
+        if not comment or comment == "":
+            return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
+
+        new_forum = CommunityForum.objects.create(
+            user=user,
+            comment=comment
+        )
+
+        new_forum.save()
+
+        return JsonResponse({"status": "success", "message": "Comment successfully created."}, status=201)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+    
+@csrf_exempt
+def edit_forum_flutter(request, forum_id):
+    if request.method == "PUT":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
+
+        data = json.loads(request.body)
+        comment=data["comment"]
+
+        if not comment or comment == "":
+            return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
+
+        community_forum = CommunityForum.objects.get(id=forum_id)
+
+        if community_forum.user != request.user:
+            return JsonResponse({"status": "error", "message": "You are not authorized to edit this comment."}, status=403)
+        
+        community_forum.comment = comment
+        community_forum.save()
+
+        return JsonResponse({"status": "success", "message": "Comment successfully edited."}, status=200)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+
+@csrf_exempt
+def delete_forum_flutter(request, forum_id):
+    if request.method == "DELETE":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
+
+        community_forum = CommunityForum.objects.get(id=forum_id)
+
+        if community_forum.user != request.user:
+            return JsonResponse({"status": "error", "message": "You are not authorized to delete this comment."}, status=403)
+
+        community_forum.delete()
+
+        return JsonResponse({"status": "success", "message": "Comment successfully deleted."}, status=200)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
