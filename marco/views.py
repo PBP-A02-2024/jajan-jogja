@@ -14,6 +14,11 @@ def get_restaurant(request, tempatKulinerId):
     context = {'restoran':tempat_kuliner, 'username':request.user.username, 'restaurant_id':tempat_kuliner.id, 'has_reviewed':has_reviewed}
     return render(request, "restaurant/index.html", context)
 
+
+def get_restoran_json(request, tempatKulinerId):
+    tempat_kuliner = TempatKuliner.objects.filter(id=tempatKulinerId)
+    return HttpResponse(serializers.serialize("json", tempat_kuliner), content_type="application/json")
+
 def get_makanan_json(request, tempatKulinerId):
     tempat_kuliner = TempatKuliner.objects.get(id=tempatKulinerId)
     semua_makanan = tempat_kuliner.makanan.all()
