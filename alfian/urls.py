@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import show_main, show_json_tempat, show_json_forum, add_forum_entry_ajax, get_user_by_id, get_current_user_id, delete_forum_entry, edit_forum_entry, add_tempat_kuliner_ajax, edit_tempat_kuliner, delete_tempat_kuliner
 from .views import add_makanan_ajax, edit_makanan, delete_makanan, view_tempat_makanan_admin, get_makanan_json, get_restaurant
+from .views import create_resto_flutter, edit_resto_flutter, delete_resto_flutter
 app_name = 'alfian'
 
 urlpatterns = [
@@ -21,4 +22,7 @@ urlpatterns = [
     path('view-tempat-makanan-admin/<uuid:id>/', view_tempat_makanan_admin, name='view_tempat_makanan_admin'),
     path('get-restaurant/<uuid:tempatKulinerId>/', get_restaurant, name='get_restaurant'),
     path('get-makanan-json/<uuid:tempatKulinerId>/', get_makanan_json, name='get_makanan_json'),
+    path('create-resto-flutter/', create_resto_flutter, name='create_resto_flutter'),
+    path('edit-resto-flutter/<uuid:id>/', edit_resto_flutter, name='edit_resto_flutter'),
+    path('delete-resto-flutter/<uuid:id>/', delete_resto_flutter, name='delete_resto_flutter'),
 ]

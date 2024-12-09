@@ -236,5 +236,71 @@ def get_makanan_json(request, tempatKulinerId):
     semua_makanan = Makanan.objects.filter(tempat_kuliner=tempat_kuliner)
     return HttpResponse(serializers.serialize("json", semua_makanan), content_type="application/json")
 
+@csrf_exempt
+def create_resto_flutter(request):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to create a resto."}, status=403)
+        if not request.user.is_superuser:
+            return JsonResponse({"status": "error", "message": "You must be an admin to create a resto."}, status=403)
 
+        data = json.loads(request.body)
+        user=request.user
+        comment=data["comment"]
 
+        if not comment or comment == "":
+            return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
+
+        new_resto = TempatKuliner.objects.create(
+            user=user,
+            comment=comment
+        )
+
+        new_resto.save()
+
+        return JsonResponse({"status": "success", "message": "Resto successfully created."}, status=201)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+    
+@csrf_exempt
+def edit_resto_flutter(request, forum_id):
+    if request.method == "PUT":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to edit a resto."}, status=403)
+        if not request.user.is_superuser:
+            return JsonResponse({"status": "error", "message": "You must be an admin to edit a resto."}, status=403)
+
+        data = json.loads(request.body)
+        comment=data["comment"]
+
+        if not comment or comment == "":
+            return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
+
+        resto = TempatKuliner.objects.get(id=forum_id)
+
+        if resto.user != request.user:
+            return JsonResponse({"status": "error", "message": "You are not authorized to edit this resto."}, status=403)
+        
+        resto.comment = comment
+        resto.save()
+
+        return JsonResponse({"status": "success", "message": "Resto successfully edited."}, status=200)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+
+@csrf_exempt
+def delete_resto_flutter(request, forum_id):
+    if request.method == "DELETE":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
+
+        resto = TempatKuliner.objects.get(id=forum_id)
+
+        if resto.user != request.user:
+            return JsonResponse({"status": "error", "message": "You are not authorized to delete this resto."}, status=403)
+
+        resto.delete()
+
+        return JsonResponse({"status": "success", "message": "Resto successfully deleted."}, status=200)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
