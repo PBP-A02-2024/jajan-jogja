@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from reksa.models import FoodPlan
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @login_required(login_url='main:login_user')
@@ -47,9 +48,20 @@ def food_plan_create(request):
     return redirect('reksa:food_plan_detail_view', food_plan_id=new_food_plan.id)
 
 @login_required(login_url='main:login_user')
+@csrf_exempt
+def food_plan_create_json(request):
+    new_food_plan = FoodPlan.objects.create(nama="Food Plan", user=request.user)
+    return JsonResponse({'food_plan_id': new_food_plan.id})
+
+@login_required(login_url='main:login_user')
 def food_plan_json(request):
     food_plans = FoodPlan.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", food_plans), content_type="application/json")
+
+@login_required(login_url='main:login_user')
+def food_plan_detail_json(request, food_plan_id):
+    food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    return HttpResponse(serializers.serialize("json", [food_plan]), content_type="application/json")
 
 @login_required(login_url='main:login_user')
 def add_food_plan_item(request, food_plan_id):
@@ -65,15 +77,18 @@ def remove_food_plan_item(request, food_plan_id):
 
 @login_required(login_url='main:login_user')
 @require_POST
+@csrf_exempt
 def update_food_plan_title(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
+    print("REQUEST BODY")
+    print(request.body)
     data = json.loads(request.body)
     new_title = data.get('new_title', '')
     if new_title:
         food_plan.nama = new_title
         food_plan.save()
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
+        return JsonResponse({'success': "True"})
+    return JsonResponse({'success': "False"})
 
 @login_required(login_url='main:login_user')
 @require_http_methods(["DELETE"])
@@ -83,8 +98,8 @@ def remove_food_plan_item(request, food_plan_id):
     food_item_id = data.get('food_item_id')
     if food_item_id:
         food_plan.makanan.remove(food_item_id)
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
+        return JsonResponse({'success': "True"})
+    return JsonResponse({'success': "False"})
 
 @login_required(login_url='main:login_user')
 @require_http_methods(["DELETE"])
