@@ -127,8 +127,9 @@ def remove_food_plan_restaurant(request, food_plan_id):
 
 @login_required(login_url='main:login_user')
 @require_http_methods(["POST", "DELETE"])
+@csrf_exempt
 def remove_food_plan(request, food_plan_id):
     food_plan = get_object_or_404(FoodPlan, pk=food_plan_id)
     food_plan.delete()
-    return JsonResponse({'success': True})
+    return JsonResponse({'success': "True"})
 
