@@ -34,8 +34,11 @@ def show_json_forum(request):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_json_forum_by_id(request, id):
-    data = CommunityForum.objects.filter(pk=id)
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    try:
+        forum = CommunityForum.objects.get(pk=id)
+        return JsonResponse({"comment": forum.comment})
+    except CommunityForum.DoesNotExist:
+        return JsonResponse({"error": "Forum not found"}, status=404)
 
 @csrf_exempt
 @require_http_methods(["DELETE"])
@@ -101,6 +104,20 @@ def show_json_user_by_id(request, user_id, json=True):
         return JsonResponse(user_json, safe=False, status=200)
     return user_json
 
+def show_json_current_user(request, json=True):
+    if request.user.is_authenticated:
+        user_json = {
+            "id": request.user.id,
+            "username": request.user.username,
+            "is_admin": request.user.is_staff or request.user.is_superuser
+        }
+
+        if json:
+            return JsonResponse(user_json, safe=False, status=200)
+        return user_json
+    else:
+        return JsonResponse({'id': None})
+
 @csrf_exempt
 def create_forum_flutter(request):
     if request.method == 'POST':
@@ -127,12 +144,13 @@ def create_forum_flutter(request):
     
 @csrf_exempt
 def edit_forum_flutter(request, forum_id):
-    if request.method == "PUT":
+    if request.method == "POST":
         if not request.user.is_authenticated:
             return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
 
         data = json.loads(request.body)
         comment=data["comment"]
+        print(comment)
 
         if not comment or comment == "":
             return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
@@ -151,7 +169,7 @@ def edit_forum_flutter(request, forum_id):
 
 @csrf_exempt
 def delete_forum_flutter(request, forum_id):
-    if request.method == "DELETE":
+    if request.method == "GET":
         if not request.user.is_authenticated:
             return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
 
