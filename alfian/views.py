@@ -1,4 +1,6 @@
+import json
 from django.shortcuts import get_object_or_404, redirect, render, reverse
+from reviews.models import Review
 from zoya.models import TempatKuliner, CommunityForum, Makanan, Variasi
 from zoya.forms import CommunityForumForm
 from .forms import TempatKulinerForm, MakananForm
@@ -237,6 +239,32 @@ def get_makanan_json(request, tempatKulinerId):
     return HttpResponse(serializers.serialize("json", semua_makanan), content_type="application/json")
 
 @csrf_exempt
+def get_restaurant_detail(request, tempatKulinerId):
+    try:
+        # Ambil data restoran berdasarkan UUID
+        tempat_kuliner = get_object_or_404(TempatKuliner, pk=tempatKulinerId)
+        
+        data = {
+            "id": str(tempat_kuliner.id),
+            "nama": tempat_kuliner.nama,
+            "description": tempat_kuliner.description,
+            "alamat": tempat_kuliner.alamat,
+            "longitude": tempat_kuliner.longitude,
+            "latitude": tempat_kuliner.latitude,
+            "jamBuka": tempat_kuliner.jamBuka.strftime("%H:%M"),
+            "jamTutup": tempat_kuliner.jamTutup.strftime("%H:%M"),
+            "rating": str(tempat_kuliner.rating) if tempat_kuliner.rating else None,
+            "foto_link": tempat_kuliner.foto_link,
+            "variasi": [{"id": variasi.id, "nama": variasi.nama} for variasi in tempat_kuliner.variasi.all()],
+        }
+        return JsonResponse({"status": "success", "data": data}, status=200)
+    except ValueError:
+        return JsonResponse({"status": "error", "message": "Invalid ID format"}, status=400)
+    except TempatKuliner.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Data not found"}, status=404)
+
+
+@csrf_exempt
 def create_resto_flutter(request):
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -263,47 +291,50 @@ def create_resto_flutter(request):
         return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
     
 @csrf_exempt
-def edit_resto_flutter(request, forum_id):
-    if request.method == "PUT":
+def edit_resto_flutter(request, resto_id):
+    if request.method == "POST":
         if not request.user.is_authenticated:
             return JsonResponse({"status": "error", "message": "You must be logged in to edit a resto."}, status=403)
         if not request.user.is_superuser:
             return JsonResponse({"status": "error", "message": "You must be an admin to edit a resto."}, status=403)
 
+        try:
+            resto = TempatKuliner.objects.get(pk=resto_id)
+        except TempatKuliner.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Resto not found."}, status=404)
+
+        # Parse JSON data from request
         data = json.loads(request.body)
-        comment=data["comment"]
 
-        if not comment or comment == "":
-            return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
+        # Gunakan TempatKulinerForm untuk validasi dan update
+        form = TempatKulinerForm(data, instance=resto)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({"status": "success", "message": "Resto successfully edited."}, status=200)
+        else:
+            # Return errors jika form tidak valid
+            return JsonResponse({"status": "error", "message": "Invalid data", "errors": form.errors}, status=400)
 
-        resto = TempatKuliner.objects.get(id=forum_id)
-
-        if resto.user != request.user:
-            return JsonResponse({"status": "error", "message": "You are not authorized to edit this resto."}, status=403)
-        
-        resto.comment = comment
-        resto.save()
-
-        return JsonResponse({"status": "success", "message": "Resto successfully edited."}, status=200)
-    else:
-        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
 
 @csrf_exempt
-def delete_resto_flutter(request, forum_id):
-    if request.method == "DELETE":
+def delete_resto_flutter(request, id):
+    if request.method == "POST":
         if not request.user.is_authenticated:
-            return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
+            return JsonResponse({"status": "error", "message": "User not authenticated."}, status=403)
 
-        resto = TempatKuliner.objects.get(id=forum_id)
+        try:
+            resto = TempatKuliner.objects.get(pk=id)
+            resto.delete()
+            return JsonResponse({"status": "success", "message": "Resto successfully deleted."}, status=200)
 
-        if resto.user != request.user:
-            return JsonResponse({"status": "error", "message": "You are not authorized to delete this resto."}, status=403)
+        except TempatKuliner.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Resto not found."}, status=404)
 
-        resto.delete()
+        except ValueError:
+            return JsonResponse({"status": "error", "message": "Invalid ID format."}, status=400)
 
-        return JsonResponse({"status": "success", "message": "Resto successfully deleted."}, status=200)
-    else:
-        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
     
 def show_json_variasi(request):
     data = Variasi.objects.all()
