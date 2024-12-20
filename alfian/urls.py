@@ -1,13 +1,14 @@
 from django.urls import path
 from .views import show_main, show_json_tempat, show_json_forum, add_forum_entry_ajax, get_user_by_id, get_current_user_id, delete_forum_entry, edit_forum_entry, add_tempat_kuliner_ajax, edit_tempat_kuliner, delete_tempat_kuliner
 from .views import add_makanan_ajax, edit_makanan, delete_makanan, view_tempat_makanan_admin, get_makanan_json, get_restaurant
-from .views import create_resto_flutter, edit_resto_flutter, delete_resto_flutter
+from .views import create_resto_flutter, edit_resto_flutter, delete_resto_flutter, show_json_variasi
 app_name = 'alfian'
 
 urlpatterns = [
     path('', show_main, name='show_main'),
     path('json-tempat/', show_json_tempat, name='show_json_tempat'),
     path('json-forum/', show_json_forum, name='show_json_forum'),
+    path('json-variasi/', show_json_variasi, name='show_json_variasi'),
     path('edit-forum/<uuid:id>/', edit_forum_entry, name='edit_forum_entry'),
     path('delete-forum/<uuid:id>/', delete_forum_entry, name='delete_forum_entry'),
     path('create-forum-entry-ajax', add_forum_entry_ajax, name='add_forum_entry_ajax'),

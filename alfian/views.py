@@ -304,3 +304,7 @@ def delete_resto_flutter(request, forum_id):
         return JsonResponse({"status": "success", "message": "Resto successfully deleted."}, status=200)
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+    
+def show_json_variasi(request):
+    data = Variasi.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
