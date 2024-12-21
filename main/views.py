@@ -1,5 +1,6 @@
 import datetime
-from django.http import HttpResponseRedirect
+import json
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -8,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from zoya.views import show_main
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -64,3 +66,29 @@ def profile(request):
     }
     return render(request, 'profile.html', context)
 
+@csrf_exempt
+def edit_profile_flutter(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "You must be logged in to create a forum."}, status=403)
+
+        data = json.loads(request.body)
+        username=data["username"]
+        email=data["email"]
+
+        if not username or username == "" or not email or email == "":
+            return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
+
+        user = request.user
+
+        if username:
+            if User.objects.filter(username=username).exclude(pk=user.pk).exists():
+                return JsonResponse({"status": "error", "message": "Username already taken."}, status=402)
+            else:
+                if email:
+                    user.username = username
+                    user.email = email
+                    user.save()
+                    return JsonResponse({"status": "success", "message": "Comment successfully edited."}, status=200)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)

@@ -109,7 +109,8 @@ def show_json_current_user(request, json=True):
         user_json = {
             "id": request.user.id,
             "username": request.user.username,
-            "is_admin": request.user.is_staff or request.user.is_superuser
+            "is_admin": request.user.is_staff or request.user.is_superuser,
+            "email": request.user.email
         }
 
         if json:
@@ -150,7 +151,6 @@ def edit_forum_flutter(request, forum_id):
 
         data = json.loads(request.body)
         comment=data["comment"]
-        print(comment)
 
         if not comment or comment == "":
             return JsonResponse({"status": "error", "message": "All fields must be filled."}, status=400)
